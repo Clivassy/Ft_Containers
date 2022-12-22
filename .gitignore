@@ -1,0 +1,13 @@
+# Prerequisites
+*.d
+
+# Object files
+*.o
+
+# Other
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.DS_Store
+*.out
