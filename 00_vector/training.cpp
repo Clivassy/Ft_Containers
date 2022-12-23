@@ -41,6 +41,19 @@ class Vector {
     return elements_[--size_];
   }
 
+  void reserve(std::size_t newCapacity) {
+    if (newCapacity > capacity_) {
+      // Allocate a new block of memory and copy the existing elements to it
+      capacity_ = newCapacity;
+      T* newElements = new T[capacity_];
+      for (std::size_t i = 0; i < size_; i++) {
+        newElements[i] = elements_[i];
+      }
+      delete[] elements_;
+      elements_ = newElements;
+    }
+  }
+
   // Other vector functions...
 
 //private:

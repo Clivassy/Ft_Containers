@@ -19,7 +19,8 @@ namespace ft
             typedef Allocator                                       allocator_type;
             typedef typename allocator_type::size_type              size_type;
             typedef T										        value_type;
-
+	        typedef typename Allocator::reference			        reference;
+	        typedef typename Allocator::const_reference		        const_reference;
         // MEMBERS FUNCTIONS    
         // ( 1 ) Constructors  
 
@@ -42,8 +43,8 @@ namespace ft
                 _end = NULL;
                 // check here if N > max-size : reject exception if it is the case
                 _start = _alloc.allocate( n ); 
-                _end_capacity = _start + n;
                 _end = _start;
+                _end_capacity = _start + n;
                 while (n--)
 				{
 					_alloc.construct(_end, val); //constructs a type T object in the allocated storage pointed by _end
@@ -94,39 +95,65 @@ namespace ft
 				return (this->begin());
 			return (_end);
 		}*/
+	    bool	empty()const{
 
+				return (this->_start == this->_end);
+			}
         // ( 5 ) Capacity  
         size_type capacity() const{ // returns current capacity of the vector
             return size_type(_end_capacity - _start); 
         }
-
-        void        reserve (size_type n)
-		{
-            // for increasing the capacity of the vector
-		}
+	    void reserve(size_type n)
+	    {
+	    	//if (n > max_size())
+	    	//	throw std::length_error("vector::reserve");
+	    	if (n > capacity())
+	    	{   
+	    		pointer newStart = _alloc.allocate(n);
+	    		pointer newFinish = newStart;
+                for (pointer ptr = _start; ptr !=  _end; ++ptr)
+                {
+	    			_alloc.construct(newFinish, *ptr);
+	    			newFinish++;
+	    		}
+	    		_alloc.destroy(--_end);
+	    		_alloc.deallocate(_start, capacity());
+	    		_start = newStart;
+	    		_end = newFinish;
+	    		_end_capacity = _start + n;
+	    	}
+	    }
 
         // ( 6 ) Element access    
         size_type size() const{ // returns current size of the vector
             return size_type(_end - _start);
         }
 
+	    reference 
+	    back()
+	    { 
+            //std::cout << *_end << std::endl;
+            return *(_end - 1); 
+        }
 
+	    const_reference
+	    back()
+	    const
+	    { return *(_end - 1); }
         // ( 7 ) Modifiers 
 
         void    clear()
         {
             // remove all elements from the vector
         }
-
+        
         void        pop_back() // remove the last element from the vector
         {
             /* Step 1) : check is the vector is empty : we can throw an exception here
              or return a default
             Step 2 ) decrement the size of the vector by one and return the last element
             */
-            if (size() == 0)
-                return(-1);
-            return (_end[])
+           _alloc.destroy(--_end);
         }
 
         void push_back (const value_type& val) 
@@ -136,12 +163,15 @@ namespace ft
             which causes an automatic reallocation of the allocated storage space 
             if -and only if- the new vector size surpasses the current vector capacity */
         {
+            if (_end >= _end_capacity)
+			    reserve(size() > 0 ? size() * 2 : 1);
             _alloc.construct(_end, val);
             _end++;
+            std::cout << *_end << std::endl;
         }
         // ( 8 ) Allocator     
 
-        //private:
+        //protected:
             allocator_type _alloc; 
             pointer _start; // pointer to the first element of my vector
             pointer _end; 
