@@ -16,11 +16,20 @@ namespace ft
     {
         public:
             typedef typename Allocator::pointer 			        pointer;
+            typedef typename Allocator::const_pointer		        const_pointer;
             typedef Allocator                                       allocator_type;
+            typedef std::ptrdiff_t							        difference_type;
             typedef typename allocator_type::size_type              size_type;
             typedef T										        value_type;
 	        typedef typename Allocator::reference			        reference;
 	        typedef typename Allocator::const_reference		        const_reference;
+        
+        // ITERATORS
+        /* typedef ft::random_access_iterator<T>			iterator;
+	    typedef ft::random_access_iterator<const T> 	const_iterator;
+        typedef ft::reverse_iterator<iterator>			reverse_iterator;
+	    typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;*/
+        
         // MEMBERS FUNCTIONS    
         // ( 1 ) Constructors  
 
@@ -29,18 +38,16 @@ namespace ft
             // call of std::allocator : construct an allocator object. 
             explicit vector( const allocator_type& alloc = allocator_type()): 
             _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL)
-            {
-               // std::cout << "constructor by default called" << std::endl;
-            }
+            { }
 
             // fill constructor : construct a T vector object allocating memory for N elements
             explicit vector(size_type n, const T &val = T(), const allocator_type& alloc = allocator_type())
             {   
                 // don't know if it is necessary
-                _alloc = alloc;
+             /*   _alloc = alloc;
                 _start = NULL;
                 _end_capacity = NULL;
-                _end = NULL;
+                _end = NULL;*/
                 // check here if N > max-size : reject exception if it is the case
                 _start = _alloc.allocate( n ); 
                 _end = _start;
@@ -53,7 +60,7 @@ namespace ft
             }
 
             // constructor par copie
-           /* vector (const vector& x)
+            /* vector (const vector& x)
             {
                 // initialize values to null
                 // allocate memory with allocator
@@ -65,17 +72,27 @@ namespace ft
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = u_nullptr)
                     : _alloc(alloc)
-            {
+            { }*/
 
-            }*/
-        // ( 2 ) Destructor    
+        // ( 2 ) DESTRUCTOR 
         ~vector() // destruct all element in the vector + liberate memory
 	    {
-		    // clear();
-		    // allocator.deallocate(_start, capacity());
+		    clear();
+		    _alloc.deallocate(_start, capacity());
 	    }
 
-       // ( 3 ) Overload operator=    
+       // ( 3 ) Overload operator= 
+       // Need iterators
+      /* vector<T, Allocator> &operator=(const vector<T, Allocator> &rhs)
+	    {
+		    if (*this != rhs)
+		    {
+		    	clear();
+		    	this->reserve(rhs.size());
+		    	insert(begin(), rhs.begin(), rhs.end());
+		    }
+		    return *this;
+	    }*/
 
        // ( 4 ) Iterators 
        /* iterator begin() { return (_start); };
@@ -95,67 +112,123 @@ namespace ft
 				return (this->begin());
 			return (_end);
 		}*/
-	    bool	empty()const{
 
-				return (this->_start == this->_end);
-			}
-        // ( 5 ) Capacity  
-        size_type capacity() const{ // returns current capacity of the vector
-            return size_type(_end_capacity - _start); 
-        }
-	    void reserve(size_type n)
-	    {
-	    	//if (n > max_size())
-	    	//	throw std::length_error("vector::reserve");
-	    	if (n > capacity())
-	    	{   
-	    		pointer newStart = _alloc.allocate(n);
-	    		pointer newFinish = newStart;
-                for (pointer ptr = _start; ptr !=  _end; ++ptr)
-                {
-	    			_alloc.construct(newFinish, *ptr);
-	    			newFinish++;
-	    		}
-	    		_alloc.destroy(--_end);
-	    		_alloc.deallocate(_start, capacity());
-	    		_start = newStart;
-	    		_end = newFinish;
-	    		_end_capacity = _start + n;
-	    	}
-	    }
-
-        // ( 6 ) Element access    
+        // ( 5 ) CAPACITY
         size_type size() const{ // returns current size of the vector
             return size_type(_end - _start);
         }
 
-	    reference 
-	    back()
-	    { 
-            //std::cout << *_end << std::endl;
-            return *(_end - 1); 
+        // max size : Return maximum size of the vector
+        size_type max_size() const {
+            return (_alloc.max_size());
         }
 
-	    const_reference
-	    back()
-	    const
-	    { return *(_end - 1); }
-        // ( 7 ) Modifiers 
-
-        void    clear()
+        void resize(size_type n, T val = T()) // resize : change sie of the vector 
         {
-            // remove all elements from the vector
+		    if (n > max_size())
+		    	throw (std::length_error("vector::resize")); 
+                // belong to std::class lenght error
+                // https://en.cppreference.com/w/cpp/error/length_error 
+            else if (n < size())
+            {
+                // content is reduce to its first n element
+                // removing those beyond by destroying them.
+              while (size() > n) 
+		        {
+		    	    _end--;
+		    	    _alloc.destroy(_end);
+		        }
+            }
+           // else
+                // content is expandes by inserting at the end as many element
+                // as needed to reach size of n. 
+                // if val is specified, the new element are initialized as copies of val
+		       // insert(end(), n - size(), val);
+	    }
+
+        size_type capacity() const{ // returns current capacity of the vector
+            return size_type(_end_capacity - _start); 
         }
+
+        bool	empty()const{
+			return (this->_start == this->_end);
+		}
+
+	    void reserve(size_type n)
+	    {
+	    	if (n > max_size())
+	    		throw std::length_error("vector::reserve");
+                // belong to std::class lenght error
+                // https://en.cppreference.com/w/cpp/error/length_error 
+			else if (n > this->capacity())
+			{
+				pointer prev_start = _start;
+				pointer prev_end = _end;
+				size_type prev_size = size();
+				size_type prev_capacity = capacity();
+				
+				_start = _alloc.allocate( n );
+				_end_capacity = _start + n;
+				_end = _start;
+				while (prev_start != prev_end)
+				{
+					_alloc.construct(_end, *prev_start);
+					_end++;
+					prev_start++;
+				}
+				_alloc.deallocate(prev_start - prev_size, prev_capacity);
+	        }
+        }
+        // shrink to fit
+
+        // ( 6 ) ELEMENT ACCESS   
+
+	    reference back(){ return *(_end - 1); }
+	    const_reference back() const{ return *(_end - 1); }
         
-        void        pop_back() // remove the last element from the vector
+        // operator[]
+        reference operator[](size_type n) { return *(_start + n); }
+        const_reference operator[](size_type n) const
+        { return *(_start + n); }
+        
+        // at
+        // Pourquoi faire une fct à part checkRange ? 
+        void checkRange(size_type n) const
         {
-            /* Step 1) : check is the vector is empty : we can throw an exception here
-             or return a default
-            Step 2 ) decrement the size of the vector by one and return the last element
-            */
-           _alloc.destroy(--_end);
+            if (n >= this->size())
+            {
+                throw std::out_of_range("vector:: checkRange: n "
+				"(which is " + ft::toStr(n)
+				+ " >= this->size() (which is "
+				+ ft::toStr(size()) + ")");
+            }
         }
 
+        reference at (size_type n)
+        { 
+            checkRange(n);
+            return ((*this)[n]);
+        }
+
+        const reference at (size_type n) const
+        {
+            checkRange(n);
+            return ((*this)[n]);
+        }
+
+        // front
+        reference front(){ return *_start; }
+        const_reference front() const { return *_start; }
+
+        // data 
+        // Do we have to do it?
+
+        // ( 7 ) MODIFIERS
+        
+        // assign 
+
+
+        // push back()
         void push_back (const value_type& val) 
         /* add an element at the end of the vector, after its current last element
             the content of val is copied to the new element. 
@@ -163,15 +236,63 @@ namespace ft
             which causes an automatic reallocation of the allocated storage space 
             if -and only if- the new vector size surpasses the current vector capacity */
         {
-            if (_end >= _end_capacity)
-			    reserve(size() > 0 ? size() * 2 : 1);
+        if (this->_end != this->_end_capacity)
+        {
+            _alloc.construct(_end++, val);
+		}
+		else
+        {
+          //  insert(end(), x);
+		} 
+           /* if (_end <= _end_capacity)
+			{
+				int next_capacity = (this->size() > 0) ? (int)(this->size() * 2) : 1;
+				this->reserve(next_capacity);
+			}
             _alloc.construct(_end, val);
-            _end++;
-            std::cout << *_end << std::endl;
+            _end++;*/
         }
-        // ( 8 ) Allocator     
 
-        //protected:
+        // pop back
+        void        pop_back() // remove the last element from the vector
+        {
+        // Decrement the size of the vector by one
+        // If vector is empty : undefined behavior
+           _alloc.destroy(--_end);
+        }
+
+        // insert
+
+        // erase 
+
+        // swap 
+        void	swap(vector &x)
+        {
+			ft::swap(this->_start, x._start);
+			ft::swap(this->_end, x._end);
+			ft::swap(this->_end_capacity, x._end_capacity);
+			ft::swap(this->_alloc, x._alloc);
+		}
+
+        // clear
+        void    clear()
+        {
+		    while (_end > _start)
+		    {
+		    	_end--;
+		    	_alloc.destroy(_end);
+		    }
+        }
+
+        // emplace 
+        // emplace back 
+        
+        // ( 8 ) ALLOCATOR     
+        allocator_type get_allocator()const { 
+
+            return allocator_type(_alloc); 
+        }
+        protected:
             allocator_type _alloc; 
             pointer _start; // pointer to the first element of my vector
             pointer _end; 
