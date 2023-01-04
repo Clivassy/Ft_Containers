@@ -1,21 +1,21 @@
 #ifndef REVERSE_IterATOR_HPP
 # define REVERSE_IterATOR_HPP
 
-# include "Iterator_traits.hpp"
+# include "iterator_traits.hpp"
 
 namespace ft
 {
     template <typename Iterator>
-    struct reverse_Iterator : public ft::Iterator<typename ft::Iterator_traits<Iterator>::Iterator_category,
-	    typename ft::Iterator_traits<Iterator>::value_type,
-	    typename ft::Iterator_traits<Iterator>::difference_type,
-	    typename ft::Iterator_traits<Iterator>::pointer,
-	    typename ft::Iterator_traits<Iterator>::reference>
+    struct reverse_Iterator : public ft::iterator<typename ft::iterator_traits<Iterator>::Iterator_category,
+	    typename ft::iterator_traits<Iterator>::value_type,
+	    typename ft::iterator_traits<Iterator>::difference_type,
+	    typename ft::iterator_traits<Iterator>::pointer,
+	    typename ft::iterator_traits<Iterator>::reference>
     {
 
     protected:
 	    Iterator								element;
-	    typedef ft::Iterator_traits<Iterator>	traits_type;
+	    typedef ft::iterator_traits<Iterator>	traits_type;
 
     public:
 	    typedef Iterator								Iterator_type;
@@ -25,7 +25,7 @@ namespace ft
 
 	    reverse_Iterator(): element() { }
 
-	    elhsplicit reverse_Iterator(Iterator_type it) : element(it) { }
+	    explicit reverse_Iterator(Iterator_type it) : element(it) { }
 
 	    reverse_Iterator(const reverse_Iterator &it) : element(it.element) { }
 
