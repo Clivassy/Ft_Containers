@@ -1,13 +1,16 @@
 #ifndef VECTOR_HPP
-#define VECTOR_HPP
-
-#include <iostream>
-#include <algorithm>
-#include <cstddef>
-#include <iterator>
-#include <limits>
-#include <memory>
-#include <stdexcept>
+# define VECTOR_HPP
+ 
+# include <iostream>
+# include <algorithm>
+# include <cstddef>
+# include <iterator>
+# include <limits>
+# include <memory>
+# include <stdexcept>
+# include "random_access_iterator.hpp"
+# include "reverse_iterator.hpp"
+# include "equal.hpp"
 
 namespace ft
 {
@@ -24,11 +27,11 @@ namespace ft
 	        typedef typename Allocator::reference			        reference;
 	        typedef typename Allocator::const_reference		        const_reference;
         
-        // ITERATORS
-        /* typedef ft::random_access_iterator<T>			iterator;
-	    typedef ft::random_access_iterator<const T> 	const_iterator;
-        typedef ft::reverse_iterator<iterator>			reverse_iterator;
-	    typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;*/
+            // ITERATORS
+            typedef ft::random_access_iterator<T>			iterator;
+	        typedef ft::random_access_iterator<const T> 	const_iterator;
+            typedef ft::reverse_Iterator<iterator>			reverse_iterator;
+	        typedef ft::reverse_Iterator<const_iterator>	const_reverse_iterator;
         
         // MEMBERS FUNCTIONS    
         // ( 1 ) Constructors  
@@ -60,15 +63,20 @@ namespace ft
             }
 
             // constructor par copie
-            /* vector (const vector& x)
+            /*vector (const vector& x)
             {
+                _alloc = alloc;
+                _start = NULL;
+                _end_capacity = NULL;
+                _end = NULL;
+               // this->insert(this->begin(), x.begin(), x.end());
                 // initialize values to null
                 // allocate memory with allocator
                 // copy each value in the new vector (from begin to end)
-            }
+            }*/
 
             // constructor par range 
-            template <class InputIterator>
+            /*template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = u_nullptr)
                     : _alloc(alloc)
@@ -78,7 +86,7 @@ namespace ft
         ~vector() // destruct all element in the vector + liberate memory
 	    {
 		    clear();
-		    _alloc.deallocate(_start, capacity());
+		   _alloc.deallocate(_start, capacity());
 	    }
 
        // ( 3 ) Overload operator= 
@@ -95,24 +103,23 @@ namespace ft
 	    }*/
 
        // ( 4 ) Iterators 
-       /* iterator begin() { return (_start); };
+        iterator    begin() { return (iterator(_start));}
         
-        const_iterator begin() const { return (_start); }
+        iterator	end(){ return (iterator(_end));}
         
-        iterator end()
-		{
-			if (this->empty())
-				return (this->begin());
-            return (_end);
-		}
+        const_iterator begin() const { return (_start);}
         
-        const_iterator end() const
-		{
-			if (this->empty())
-				return (this->begin());
-			return (_end);
-		}*/
+        const_iterator end() const { return (_end); }
+        
+        // Reverse iterators
+        reverse_iterator rbegin() { return reverse_iterator(end()); }
 
+	    const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+
+	    reverse_iterator rend() { return reverse_iterator(begin()); }
+
+	    const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+        
         // ( 5 ) CAPACITY
         size_type size() const{ // returns current size of the vector
             return size_type(_end - _start);
@@ -195,13 +202,13 @@ namespace ft
         // Pourquoi faire une fct à part checkRange ? 
         void checkRange(size_type n) const
         {
-            if (n >= this->size())
+           /* if (n >= this->size())
             {
                 throw std::out_of_range("vector:: checkRange: n "
 				"(which is " + ft::toStr(n)
 				+ " >= this->size() (which is "
 				+ ft::toStr(size()) + ")");
-            }
+            }*/
         }
 
         reference at (size_type n)
@@ -226,7 +233,33 @@ namespace ft
         // ( 7 ) MODIFIERS
         
         // assign 
+        /*template <class InputIterator>  
+        void assign (InputIterator first, InputIterator last)
+        {
 
+        // range version 
+        }*/
+
+        // fill the vector with a specified number of copies of a single value. 
+        void assign (size_type n, const T &val) // fill version 
+        {
+		    clear();
+		    if (capacity() >= n and n != 0)
+		    	while (n--)
+		    		_alloc.construct(_end++, val);
+		    else if (n != 0)
+		    {
+		    	_alloc.deallocate(_start, capacity());
+		    	_start = _alloc.allocate(n);
+		    	_end = _start;
+		    	_end_capacity = _start + n;
+		    	while (n--)
+		    	{
+		    		_alloc.construct(_end, val);
+		    		_end++;
+		    	}
+		    }
+        }
 
         // push back()
         void push_back (const value_type& val) 
@@ -236,21 +269,21 @@ namespace ft
             which causes an automatic reallocation of the allocated storage space 
             if -and only if- the new vector size surpasses the current vector capacity */
         {
-        if (this->_end != this->_end_capacity)
+        /*if (this->_end != this->_end_capacity)
         {
             _alloc.construct(_end++, val);
 		}
 		else
         {
           //  insert(end(), x);
-		} 
-           /* if (_end <= _end_capacity)
+		} */
+            if (_end <= _end_capacity)
 			{
 				int next_capacity = (this->size() > 0) ? (int)(this->size() * 2) : 1;
 				this->reserve(next_capacity);
 			}
             _alloc.construct(_end, val);
-            _end++;*/
+            _end++;
         }
 
         // pop back
@@ -264,14 +297,51 @@ namespace ft
         // insert
 
         // erase 
+        iterator erase (iterator position) // erase a single element from the vector
+        {
+			if (position + 1 != end()){
+				for (pointer x = position.base() + 1, y = position.base(); x != this->_end; ++x, ++y){
+					*y = *x;
+				}
+			}
+			_alloc.destroy(--this->_end);
+			return (position);
+        }
+        
+        iterator erase (iterator first, iterator last) // erase a range of elements in the vector between "first" and "last"
+        {
+            pointer pos = first.base();
+			for (pointer pos2 = last.base(); pos2 != this->_end; ++pos2, ++pos){
+				*pos = *pos2;
+			}
+			pointer ptr = pos;
+			while (ptr != this->_end){
+			
+				_alloc.destroy(ptr++);
+			}
+			this->_end = this->_end - (ptr - pos);
+			return (first);
+        }
 
         // swap 
         void	swap(vector &x)
         {
-			ft::swap(this->_start, x._start);
-			ft::swap(this->_end, x._end);
-			ft::swap(this->_end_capacity, x._end_capacity);
-			ft::swap(this->_alloc, x._alloc);
+           // if (x == *this)
+			//	return;	
+			pointer save_start = x._start;
+			pointer save_end = x._end;
+			pointer save_end_capacity = x._end_capacity;
+			allocator_type save_alloc = x._alloc;
+
+			x._start = this->_start;
+			x._end = this->_end;
+			x._end_capacity = this->_end_capacity;
+			x._alloc = this->_alloc;
+
+			this->_start = save_start;
+			this->_end = save_end;
+			this->_end_capacity = save_end_capacity;
+			this->_alloc = save_alloc;
 		}
 
         // clear
@@ -300,5 +370,47 @@ namespace ft
             
         // NON MEMBERS FUNTIONS OVERLOAD    
         };
+
+// RELATIONNAL OPERATORS
+// Operator == 
+/*
+template <class T, class Alloc>  
+bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+  if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
+        return( false );
+    return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+	
+template <class T, class Alloc>  
+bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{ 
+
+}
+	
+template <class T, class Alloc>  
+bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{ 
+    
+}
+		
+template <class T, class Alloc>  
+bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+    
+}
+		
+template <class T, class Alloc>  
+bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{ 
+    
+}
+		
+template <class T, class Alloc>  
+bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{ 
+    
+}*/
+	
 }
 #endif
