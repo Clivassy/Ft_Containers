@@ -390,7 +390,7 @@ int main() {
   myvector.get_allocator().deallocate(p,5);
 
 //////////////////////////////////////////////////////////////
- /* std::cout << std::endl;
+  std::cout << std::endl;
   std::cout << "------- OPERATOR == TEST--------" << std::endl;
   
   vector<int> test1;
@@ -398,11 +398,11 @@ int main() {
   test1.push_back(4);
   test1.push_back(40);
   test2.push_back(4);
-  test2.push_back(4);
+  test2.push_back(40);
   if (test1 == test2)
     std::cout << "Vectors are equal" << std::endl;
   else
-    std::cout << "Vectors are not equal" << std::endl;*/
+    std::cout << "Vectors are not equal" << std::endl;
   return (0);
 }
 

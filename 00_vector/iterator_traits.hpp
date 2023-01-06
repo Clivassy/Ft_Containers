@@ -6,6 +6,7 @@
 
 // https://en.cppreference.com/w/cpp/iterator/iterator_traits
 // https://cplusplus.com/reference/iterator/iterator/
+
 namespace ft {
 
     template <class Category, class T, class Distance = std::ptrdiff_t,
