@@ -1,3 +1,4 @@
+
 #include "Vector.hpp"
 using namespace ft;
 
@@ -45,24 +46,7 @@ int main()
   std::cout << std::endl;
   std::cout << "------- RE_SIZE TEST--------" << std::endl;  
 
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- CAPACITY TEST--------" << std::endl;
 
-  std::cout << "capacity: " << myvector.capacity() << "\n";
-
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- EMPTY TEST--------" << std::endl;
-  if (myvector.empty())
-      std::cout << "Vector is empty" << "\n";
-  else
-    std::cout << "Vector is not empty" << "\n";
-  myvector.clear();
-  if (myvector.empty())
-      std::cout << "Vector is empty" << "\n";
-  else
-    std::cout << "Vector is not empty" << "\n";
   //////////////////////////////////////////////////////////////
   return (0);
 }*/
@@ -191,6 +175,103 @@ int main() {
   
   vector<int> vec;
 
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- SIZE TEST--------" << std::endl;
+  std::cout << "0. size: " << vec.size() << '\n';
+
+  for (int i=0; i<10; i++) vec.push_back(i);
+  std::cout << "1. size: " << vec.size() << '\n';
+
+  vec.insert (vec.end(), 10, 100);
+  std::cout << "2. size: " << vec.size() << '\n';
+
+  vec.pop_back();
+  std::cout << "3. size: " << vec.size() << '\n';
+
+  vec.clear();
+
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- MAX_SIZE TEST--------" << std::endl;
+
+  for (int i=0; i<100; i++) vec.push_back(i);
+
+  std::cout << "size: " << vec.size() << "\n";
+  std::cout << "capacity: " << vec.capacity() << "\n";
+  std::cout << "max_size: " << vec.max_size() << "\n";
+
+  vec.clear();
+
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- RESIZE TEST--------" << std::endl;
+
+  for (int i=1;i<10;i++) vec.push_back(i);
+  vec.resize(5);
+  vec.resize(8,100);
+  vec.resize(12);
+
+  std::cout << "vec contains:";
+  for (int i=0;i<vec.size();i++)
+    std::cout << ' ' << vec[i];
+  std::cout << '\n';
+
+  vec.clear();
+  
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- CAPACITY TEST--------" << std::endl;
+
+  std::cout << "capacity: " << vec.capacity() << "\n";
+
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- EMPTY TEST--------" << std::endl;
+  for (int i=0; i<10; i++) vec.push_back(i);
+  if (vec.empty())
+    std::cout << "Vector is empty" << "\n";
+  else
+    std::cout << "Vector is not empty" << "\n";
+  vec.clear();
+ 
+  if (vec.empty())
+      std::cout << "Vector is empty" << "\n";
+  else
+    std::cout << "Vector is not empty" << "\n";
+  
+   vec.clear();
+  
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- RESERVE TEST--------" << std::endl;
+  vector<int>::size_type sz;
+
+  vector<int> foo;
+  sz = foo.capacity();
+  std::cout << "making foo grow:\n";
+  for (int i=0; i<100; ++i) {
+    foo.push_back(i);
+    if (sz!=foo.capacity()) {
+      sz = foo.capacity();
+      std::cout << "capacity changed: " << sz << '\n';
+    }
+  }
+
+  vector<int> bar;
+  sz = bar.capacity();
+  bar.reserve(100);   // this is the only difference with foo above
+  std::cout << "making bar grow:\n";
+  for (int i=0; i<100; ++i) {
+    bar.push_back(i);
+    if (sz!=bar.capacity()) {
+      sz = bar.capacity();
+      std::cout << "capacity changed: " << sz << '\n';
+    }
+  }
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- ASSIGN TEST--------" << std::endl;
   // Fill the vector with 10 copies of the value 42
   vec.assign(10, 42);
 
@@ -199,7 +280,32 @@ int main() {
       std::cout << *it << " ";
       std::cout << std::endl;
   }
- //////////////////////////////////////////////////////////////
+  vec.clear();
+  //////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- OPEARTOR[] TEST--------" << std::endl;
+  vector<int> operatorTest (10);   // 10 zero-initialized elements
+
+  vector<int>::size_type sze = operatorTest.size();
+
+  // assign some values:
+  for (unsigned i=0; i<sze; i++) operatorTest[i]=i;
+
+  // reverse vector using operator[]:
+  for (unsigned i=0; i<sze/2; i++)
+  {
+    int temp;
+    temp = operatorTest[sze-1-i];
+    operatorTest[sze-1-i]=operatorTest[i];
+    operatorTest[i]=temp;
+  }
+
+  std::cout << "myvector contains:";
+  for (unsigned i=0; i<sze; i++)
+    std::cout << ' ' << operatorTest[i];
+  std::cout << '\n';
+
+  ///////////////////////////////////////
   std::cout << std::endl;
   std::cout << "------- AT TEST--------" << std::endl;
   vector<int> myvector (10);   // 10 zero-initialized ints
@@ -328,19 +434,19 @@ int main() {
   //////////////////////////////////////////////////////////////
   std::cout << std::endl;
   std::cout << "------- SWAP TEST--------" << std::endl;
-  vector<int> foo (3,100);   // three ints with a value of 100
-  vector<int> bar (5,200);   // five ints with a value of 200
+  vector<int> foo1 (3,100);   // three ints with a value of 100
+  vector<int> bar1 (5,200);   // five ints with a value of 200
 
-  foo.swap(bar);
+  foo.swap(bar1);
 
   std::cout << "foo contains:";
-  for (unsigned i=0; i<foo.size(); i++)
-    std::cout << ' ' << foo[i];
+  for (unsigned i=0; i<foo1.size(); i++)
+    std::cout << ' ' << foo1[i];
   std::cout << '\n';
 
   std::cout << "bar contains:";
-  for (unsigned i=0; i<bar.size(); i++)
-    std::cout << ' ' << bar[i];
+  for (unsigned i=0; i<bar1.size(); i++)
+    std::cout << ' ' << bar1[i];
   std::cout << '\n';
   //////////////////////////////////////////////////////////////
   std::cout << std::endl;
@@ -365,9 +471,6 @@ int main() {
   myvector.clear();
 
   //////////////////////////////////////////////////////////////
-
-  // EMPLACE ?
-  // EMPLACE_BACK ?
 
   //////////////////////////////////////////////////////////////
   std::cout << std::endl;
@@ -403,6 +506,38 @@ int main() {
     std::cout << "Vectors are equal" << std::endl;
   else
     std::cout << "Vectors are not equal" << std::endl;
+
+//////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- COPY CONSTRUCTOR TEST--------" << std::endl;
+  
+  vector<int> copy(test1);
+
+  std::cout << "Test1 contains:";
+  for (unsigned i = 0; i < test1.size(); i++)
+    std::cout << ' ' << test1[i];
+  std::cout << '\n';
+
+  std::cout << "Copy Vector contains:";
+  for (unsigned i = 0; i < copy.size(); i++)
+    std::cout << ' ' << copy[i];
+  std::cout << '\n';
+
+//////////////////////////////////////////////////////////////
+  std::cout << std::endl;
+  std::cout << "------- RANGE CONSTRUCTOR TEST--------" << std::endl;
+  
+  vector<int> test3;
+  test3.push_back(10);
+  test3.push_back(11);
+  test3.push_back(12);
+
+  vector<int> rangeVector(test3.begin(), test3.end());
+
+  std::cout << "Range Vector contains:";
+  for (unsigned i = 0; i < rangeVector.size(); i++)
+    std::cout << ' ' << rangeVector[i];
+  std::cout << '\n';
   return (0);
 }
 

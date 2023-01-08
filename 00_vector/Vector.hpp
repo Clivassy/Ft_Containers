@@ -12,6 +12,7 @@
 
 // Personnal librairies
 # include "random_access_iterator.hpp"
+# include "iterator_traits.hpp"
 # include "reverse_iterator.hpp"
 # include "lexicographical_compare.hpp"
 # include "equal.hpp"
@@ -33,26 +34,28 @@ namespace ft
 	        typedef typename Allocator::reference			        reference;
 	        typedef typename Allocator::const_reference		        const_reference;
         
-            // ITERATORS
             typedef ft::random_access_iterator<T>			iterator;
 	        typedef ft::random_access_iterator<const T> 	const_iterator;
             typedef ft::reverse_Iterator<iterator>			reverse_iterator;
 	        typedef ft::reverse_Iterator<const_iterator>	const_reverse_iterator;
         
-        // MEMBERS FUNCTIONS    
-        // ( 1 ) Constructors  
+        // --------------------
+        // MEMBERS FUNCTIONS  
+        // ----------------------
+        // ( 1 ) CONSTRUCTORS 
 
             // Constructor by default
-            // construct an empty container, with no element in it.
-            // call of std::allocator : construct an allocator object. 
+            // Construct an empty container, with no element in it.
+            // Call of std::allocator : construct an allocator object. 
             explicit vector( const allocator_type& alloc = allocator_type()): 
             _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL)
             { }
 
-            // fill constructor : construct a T vector object allocating memory for N elements
+            // Fill constructor
+            // Construct a T vector object allocating memory for N elements
+            // std::allocator<T>::construct : Construct a type T object in the allocated storage pointed by _end
             explicit vector(size_type n, const T &val = T(), const allocator_type& alloc = allocator_type())
             {   
-                // check here if N > max-size : reject exception if it is the case
                 if (n > max_size())
                     throw (std::length_error("cannot create std::vector larger than max_size()"));
                 _start = _alloc.allocate( n ); 
@@ -60,29 +63,16 @@ namespace ft
                 _end_capacity = _start + n;
                 while (n--)
 				{
-					_alloc.construct(_end, val); //constructs a type T object in the allocated storage pointed by _end
+					_alloc.construct(_end, val); 
 					_end++;
 				}
             }
-// UTILS 
-    template <class InputIterator>
-	typename ft::iterator_traits<InputIterator>::difference_type 
-    distance(InputIterator first, InputIterator last)
-	{
-		typename ft::iterator_traits<InputIterator>::difference_type rtn = 0;
-		while (first != last)
-		{
-			first++;
-			rtn++;
-		}
-		return (rtn);
-	}
 
-            // constructor par copie
+            // Copy constructor
+            // Initialize values to null
+            // Allocate memory with allocator
+            // Copy each value in the new vector (from begin to end)
             vector (const vector& x)
-            /*initialize values to null
-            allocate memory with allocator
-            copy each value in the new vector (from begin to end)*/
             {
                 _alloc = x._alloc;
                 _start = NULL;
@@ -91,7 +81,10 @@ namespace ft
                 this->insert(this->begin(), x.begin(), x.end());
             }
 
-            // constructor par range 
+            // Range Constructor 
+            // It is enabled only if the type of the input iterators 
+            // is not an integral type (i.e., a type that is used to represent integers, 
+            // such as int or long long).
             template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
@@ -110,121 +103,164 @@ namespace ft
 		        }
             }
 
-        // ( 2 ) DESTRUCTOR 
-        ~vector() // destruct all element in the vector + liberate memory
+        // ( 2 ) DESTRUCTOR
+        // Destruct all elements in the vector
+        // Free memory
+        ~vector()
 	    {
 		    clear();
 		    _alloc.deallocate(_start, capacity());
 	    }
 
-       // ( 3 ) Overload operator= 
-       // Need iterators
+       // ( 3 ) ASSIGNMENT OPERATOR=
+       // Clear before copying element ensure the container is empty and has size 0
         vector<T, Allocator> &operator=(const vector<T, Allocator> &rhs)
 	    {
 		    if (*this != rhs)
 		    {
 		    	clear();
-		    	this->reserve(rhs.size());
+		    	reserve(rhs.size());
 		    	insert(begin(), rhs.begin(), rhs.end());
 		    }
 		    return (*this);
 	    }
-
-       // ( 4 ) Iterators 
+// UTILS 
+    template <class InputIterator>
+	typename ft::iterator_traits<InputIterator>::difference_type 
+    distance(InputIterator first, InputIterator last)
+	{
+		typename ft::iterator_traits<InputIterator>::difference_type rtn = 0;
+		while (first != last)
+		{
+			first++;
+			rtn++;
+		}
+		return (rtn);
+	}
+       // ( 4 ) ITERATORS
+       // Returns an iterator pointing to the first element in the vector
         iterator    begin() { return (iterator(_start));}
-        
+
+        // Returns an iterator pointing to the last element in the vector
         iterator	end(){ return (iterator(_end));}
         
+        // Same as begin() with const_iterator type
         const_iterator begin() const { return (_start);}
         
+        // Same as end() with const_iterator type
         const_iterator end() const { return (_end); }
         
         // Reverse iterators
+        // Returns an iterator pointing to the last element in the vector
         reverse_iterator rbegin() { return reverse_iterator(end()); }
-
+        
+        // Same as rbegin() with const_iterator type
 	    const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
+        // Returns an iterator pointing to the first element in the vector
 	    reverse_iterator rend() { return reverse_iterator(begin()); }
 
+        // Same as rend() with const_iterator type
 	    const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
         
         // ( 5 ) CAPACITY
-        size_type size() const{ // returns current size of the vector
+
+        // Returns current size of the vector
+        size_type size() const
+        { 
             return size_type(_end - _start);
         }
 
-        // max size : Return maximum size of the vector
-        size_type max_size() const {
+        // Return maximum size of the vector
+        // Maximum size == maximum number of elements the vector can hold
+        // == Memory allocated to stock vector elements
+        size_type max_size() const 
+        {
             return (_alloc.max_size());
         }
 
-        void resize(size_type n, T val = T()) // resize : change sie of the vector 
+        // Change size of the vector.
+        // If n < vector size :
+        // content is reduce to its first n element removing those beyond by destroying them.
+        // Else, is n >= vector size : 
+        // content is expandes by inserting at the end as many element as needed to reach size of n. 
+        // NB : val argument is optionnal
+        // if val is specified, the new element are initialized as copies of val
+        void resize(size_type n, T val = T())
         {
 		    if (n > max_size())
 		    	throw (std::length_error("vector::resize")); 
-                // belong to std::class lenght error
-                // https://en.cppreference.com/w/cpp/error/length_error 
             else if (n < size())
             {
-                // content is reduce to its first n element
-                // removing those beyond by destroying them.
-              while (size() > n) 
+              while (n < size()) 
 		        {
 		    	    _end--;
 		    	    _alloc.destroy(_end);
 		        }
             }
-           // else
-                // content is expandes by inserting at the end as many element
-                // as needed to reach size of n. 
-                // if val is specified, the new element are initialized as copies of val
-		       // insert(end(), n - size(), val);
+            else
+		       insert(end(), n - size(), val);
 	    }
 
-        size_type capacity() const{ // returns current capacity of the vector
+        // Returns current capacity of the vector
+        // Vector capacity == amount of memory the vector has allocated
+        // to store its elements
+        size_type capacity() const
+        {
             return size_type(_end_capacity - _start); 
         }
 
-        bool	empty()const{
+        // Returns true : if the container is empty
+        // Returns false : if the conatiner is not empty
+        // If the pointer start and end of vecto are equal
+        // the container has no element
+        bool	empty()const
+        {
 			return (this->_start == this->_end);
 		}
 
+        // Change capacity of the vector
+        // IF n IS NOT > max_size()
+        // AND IF n IS > capacity()
 	    void reserve(size_type n)
 	    {
 	    	if (n > max_size())
 	    		throw std::length_error("vector::reserve");
-                // belong to std::class lenght error
-                // https://en.cppreference.com/w/cpp/error/length_error 
-			else if (n > this->capacity())
+			if (n > capacity())
 			{
+                // Save pointers to the current memory block and its size and capacity
 				pointer prev_start = _start;
 				pointer prev_end = _end;
 				size_type prev_size = size();
 				size_type prev_capacity = capacity();
 				
+                // Allocate a new memory block of size n
 				_start = _alloc.allocate( n );
 				_end_capacity = _start + n;
 				_end = _start;
 				while (prev_start != prev_end)
 				{
+                    // Copy the elements from the old memory block to the new one
 					_alloc.construct(_end, *prev_start);
 					_end++;
 					prev_start++;
 				}
+                // Deallocate the old memory block
 				_alloc.deallocate(prev_start - prev_size, prev_capacity);
 	        }
         }
-        // ( 6 ) ELEMENT ACCESS   
 
-	    reference back(){ return *(_end - 1); }
-	    const_reference back() const{ return *(_end - 1); }
+        // ( 6 ) ELEMENT ACCESS 
         
-        // operator[]
+        // Returns a reference to the element at the specified position in the vector
         reference operator[](size_type n) { return *(_start + n); }
-        const_reference operator[](size_type n) const { return *(_start + n); }
         
-        // at
+        // Same as operator with a const_reference return type
+        const_reference operator[](size_type n) const { return *(_start + n); }
 
+        // Returns a reference to the element at the specified position in the vector
+        // Unlike the operaror [], it at check specified position is in valid range of vector.
+        // IF NOT it returns an "out of range" exception
         reference at (size_type n)
         { 
             if (n >= this->size())
@@ -232,6 +268,7 @@ namespace ft
             return ((*this)[n]);
         }
 
+        // Same as at with a const_reference as return type
         const reference at (size_type n) const
         {
             if (n >= this->size())
@@ -239,9 +276,17 @@ namespace ft
             return ((*this)[n]);
         }
 
-        // front
+        // Returns a reference to the first element in the vector 
         reference front(){ return *_start; }
+
+        // Same as front with a const_reference as return type
         const_reference front() const { return *_start; }
+
+        // Returns a reference to the last element in the vector  
+	    reference back(){ return *(_end - 1); }
+
+	    // Same as back with a const_reference as return type
+        const_reference back() const{ return *(_end - 1); }
 
         // ( 7 ) MODIFIERS
         
@@ -263,7 +308,7 @@ namespace ft
             // 1- clear notre ancien vector 
             clear();
             // 2 - Calculer la taille du nouveau vector
-            size_type size = difference(first, last);
+            size_type size = distance(first, last);
             // si notre capacity est > a la nouvelle taille
             // il faut désallouer pour réallouer le strict nécessaire en mémoire
             if (capacity() < size)
@@ -314,23 +359,14 @@ namespace ft
             which causes an automatic reallocation of the allocated storage space 
             if -and only if- the new vector size surpasses the current vector capacity */
         {
-        /*if (this->_end != this->_end_capacity)
+        if (this->_end != this->_end_capacity)
         {
             _alloc.construct(_end++, val);
 		}
 		else
         {
-          //  insert(end(), x);
-		} */
-            if (_end <= _end_capacity)
-			{
-				int next_capacity = (this->size() > 0) 
-                ? (int)(this->size() * 2) 
-                : 1;
-				this->reserve(next_capacity);
-			}
-            _alloc.construct(_end, val);
-            _end++;
+            insert(end(), val);
+		} 
         }
 
         // pop back
@@ -364,12 +400,14 @@ namespace ft
 
         void insert (iterator position, size_type n, const value_type& val)
         {
+            //std::cout << "insert 1 called"<< std::endl;
             ft::vector<value_type> tmp(n, val);
 		    this->insert(position, tmp.begin(), tmp.end());
         }
 
         template <class InputIterator>    
-        void insert (iterator position, InputIterator first, InputIterator last)
+        void insert (iterator position, InputIterator first, InputIterator last,
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
         {
 		    size_type inputOffset = distance(first, last);
 		    size_type posOffset = distance(position, end());
@@ -396,7 +434,6 @@ namespace ft
 		    for (iterator it = tmp.begin(); it < tmp.end(); it++)
 		    	push_back(*it);
         }
-
 
         // erase 
         iterator erase (iterator position) // erase a single element from the vector
