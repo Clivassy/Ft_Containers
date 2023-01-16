@@ -11,13 +11,14 @@
 # include <stdexcept>
 
 // Personnal librairies
-# include "random_access_iterator.hpp"
-# include "iterator_traits.hpp"
-# include "reverse_iterator.hpp"
-# include "lexicographical_compare.hpp"
-# include "equal.hpp"
-# include "enable_if.hpp"
-# include "is_integral.hpp"
+# include "utils/random_access_iterator.hpp"
+# include "utils/iterator_traits.hpp"
+# include "utils/equal.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/is_integral.hpp"
+# include "utils/reverse_iterator.hpp"
+# include "utils/lexicographical_compare.hpp"
+
 
 namespace ft
 {
@@ -506,7 +507,6 @@ namespace ft
             
         // NON MEMBERS FUNTIONS OVERLOAD    
 };
-
 
 
 // RELATIONNAL OPERATORS

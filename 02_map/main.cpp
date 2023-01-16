@@ -1,10 +1,15 @@
-#include <iostream>
-#include <vector>
+#include "RedBlackTree.hpp"
 
-#include <map>
-#include <unordered_map>
+using namespace std;
 
-struct CityRecord {
-    std::string name; 
+int main() {
+    
+  RedBlackTree tree;
 
-};
+  tree.insertNode(3);
+  tree.insertNode(30);
+  tree.insertNode(1);
+  tree.insertNode(12);
+
+  tree.printTree();
+}
