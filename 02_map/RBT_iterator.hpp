@@ -37,7 +37,8 @@ namespace ft {
 			RBT_iterator(node_pointer ptr) : node(ptr) {}
 
 			// Copy constructor
-			// 
+			// Create new iterator intitialized with 'src' value.
+			// /!\ both iterator will point to the same node in the tree.
 			RBT_iterator(RBT_iterator const & src) : node(src.node) {}
 
 			RBT_iterator & operator=(RBT_iterator const & rhs) 

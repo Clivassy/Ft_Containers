@@ -1,7 +1,7 @@
 #ifndef IS_INTEGRAL_HPP
 # define IS_INTEGRAL_HPP
 
-namespace ft{
+namespace ft {
 
     template <typename T>
 	struct	is_integral
