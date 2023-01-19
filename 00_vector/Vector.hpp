@@ -21,7 +21,10 @@
 
 
 namespace ft
-{
+{   
+    // T : for the type of element the vector will hold
+    // Allocator : default allocator for std containers
+    // => used to allocate and deallocate memory.
     template <class T, class Allocator = std::allocator <T> >
     class vector 
     {
@@ -47,14 +50,20 @@ namespace ft
 
             // Constructor by default
             // Construct an empty container, with no element in it.
-            // Call of std::allocator : construct an allocator object. 
+            // Initialize object _alloc : with default std::allocator if no custom allocator is spécified.
+            // Initialize object _alloc : with custom allocator is it is specified.  
             explicit vector( const allocator_type& alloc = allocator_type()): 
             _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL)
-            { }
+            { 
+                // _start: pointer to the beginning of the memory block that stores the elements of the vector.
+                // _end: pointer to the element that follows the last element in the vector.
+                // _end_capacity: pointer to the element that follows the last element that can be stored in 
+                // the current memory block without resizing. 
+            }
 
             // Fill constructor
-            // Construct a T vector object allocating memory for N elements
-            // std::allocator<T>::construct : Construct a type T object in the allocated storage pointed by _end
+            // Construct a T vector object allocating memory for N elements.
+            // Construct a type T object in the allocated storage pointed by _end.
             explicit vector(size_type n, const T &val = T(), const allocator_type& alloc = allocator_type())
             {   
                 if (n > max_size())
@@ -76,9 +85,6 @@ namespace ft
             vector (const vector& x)
             {
                 _alloc = x._alloc;
-                _start = NULL;
-                _end_capacity = NULL;
-                _end = NULL;
                 this->insert(this->begin(), x.begin(), x.end());
             }
 
