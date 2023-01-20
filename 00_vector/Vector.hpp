@@ -32,6 +32,7 @@ namespace ft
             typedef typename Allocator::pointer 			        pointer;
             typedef typename Allocator::const_pointer		        const_pointer;
             typedef Allocator                                       allocator_type;
+            // represent the nb of element between two iterators
             typedef std::ptrdiff_t							        difference_type;
             typedef typename allocator_type::size_type              size_type;
             typedef T										        value_type;
@@ -125,27 +126,29 @@ namespace ft
 	    {
 		    if (*this != rhs)
 		    {
-		    	clear();
-		    	reserve(rhs.size());
-		    	insert(begin(), rhs.begin(), rhs.end());
+                vector<T, Allocator> tmp(rhs);
+                this->swap(tmp);
 		    }
 		    return (*this);
 	    }
-// UTILS 
-    template <class InputIterator>
-	typename ft::iterator_traits<InputIterator>::difference_type 
-    distance(InputIterator first, InputIterator last)
-	{
-		typename ft::iterator_traits<InputIterator>::difference_type rtn = 0;
-		while (first != last)
-		{
-			first++;
-			rtn++;
-		}
-		return (rtn);
-	}
-       // ( 4 ) ITERATORS
-       // Returns an iterator pointing to the first element in the vector
+
+        // UTILS 
+
+        // Calculate the number of elements between two input iterators.
+        template <class InputIterator>
+	    difference_type distance(InputIterator first, InputIterator last)
+	    {
+	    	difference_type distance = 0;
+	    	while (first != last)
+	    	{
+	    		first++;
+	    		distance++;
+	    	}
+	    	return (distance);
+	    }
+
+        // ( 4 ) ITERATORS
+        // Returns an iterator pointing to the first element in the vector
         iterator    begin() { return (iterator(_start));}
 
         // Returns an iterator pointing to the last element in the vector
@@ -178,7 +181,7 @@ namespace ft
             return size_type(_end - _start);
         }
 
-        // Return maximum size of the vector
+        // Return maximum size of the vector = getter accessing _alloc
         // Maximum size == maximum number of elements the vector can hold
         // == Memory allocated to stock vector elements
         size_type max_size() const 
@@ -196,7 +199,9 @@ namespace ft
         void resize(size_type n, T val = T())
         {
 		    if (n > max_size())
-		    	throw (std::length_error("vector::resize")); 
+		    	throw (std::length_error("vector::resize"));
+            if (n == size())
+                return; 
             else if (n < size())
             {
               while (n < size()) 
