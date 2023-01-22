@@ -11,13 +11,13 @@
 # include <stdexcept>
 
 // Personnal librairies
-# include "utils/random_access_iterator.hpp"
-# include "utils/iterator_traits.hpp"
-# include "utils/equal.hpp"
-# include "utils/enable_if.hpp"
-# include "utils/is_integral.hpp"
-# include "utils/reverse_iterator.hpp"
-# include "utils/lexicographical_compare.hpp"
+# include "../utils/random_access_iterator.hpp"
+# include "../utils/iterator_traits.hpp"
+# include "../utils/equal.hpp"
+# include "../utils/enable_if.hpp"
+# include "../utils/is_integral.hpp"
+# include "../utils/reverse_iterator.hpp"
+# include "../utils/lexicographical_compare.hpp"
 
 //test
 namespace ft
@@ -86,9 +86,11 @@ namespace ft
             vector (const vector& x)
             {
                 _alloc = x._alloc;
+                _start = NULL;
+                _end = NULL;
+                _end_capacity = NULL;
                 this->insert(this->begin(), x.begin(), x.end());
             }
-
             // Range Constructor 
             // It is enabled only if the type of the input iterators 
             // is not an integral type (i.e., a type that is used to represent integers, 
@@ -200,8 +202,6 @@ namespace ft
         {
 		    if (n > max_size())
 		    	throw (std::length_error("vector::resize"));
-            if (n == size())
-                return; 
             else if (n < size())
             {
               while (n < size()) 
