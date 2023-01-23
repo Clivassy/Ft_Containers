@@ -24,8 +24,8 @@ namespace ft{
 		return (true); // otherwise, it will return true
 	}
 	
-//still need to understand the difference between first fct and the second//
-// use of different type : use specified range for the firt and iterators on object for the second i guess
+	//still need to understand the difference between first fct and the second//
+	// use of different type : use specified range for the firt and iterators on object for the second i guess
 	template< typename InputIt1, typename InputIt2 >
 	bool equal( InputIt1 first1, InputIt1 last1, InputIt2 first2 )
 	{

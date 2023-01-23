@@ -302,39 +302,21 @@ namespace ft
 
         // ( 7 ) MODIFIERS
         
-        // assign 
-        /* std::enable_if is used to enable 
-        the function overload that accepts an initializer list as an argument 
-        only if the type of the elements in the initializer list can be assigned 
-        to the elements of the vector. This is done to avoid ambiguities when the 
-        function is called with an initializer list that contains elements of a type 
-        that is different from the type of the elements in the vector.*/
-        
-        /* Takes two arguments of type InputIterator.
-         Overload is enabled only if the type of InputIterator is not an integral type 
-         (i.e., a type that is used to represent integers, such as int or long long).*/
+        // Assign
+        // Fill the vector with each elements in the range between first and last.
         template <class InputIterator>  
         void assign (InputIterator first, InputIterator last
         , typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
         {
-            // 1- clear notre ancien vector 
             clear();
-            // 2 - Calculer la taille du nouveau vector
             size_type size = distance(first, last);
-            // si notre capacity est > a la nouvelle taille
-            // il faut désallouer pour réallouer le strict nécessaire en mémoire
             if (capacity() < size)
             {
                 _alloc.deallocate(_start, capacity());
                 _start = _alloc.allocate(size);
-                // on initialize ici end au début du vector
-                // on va lui faire prendre son emplacement exact après.
                 _end = _start;
                 _end_capacity = _start + size;
             }
-            // On construit le nouveau vector avec la range de nombres
-            // passée en paramètre.
-            // On incrémente _end pour qu'il se situe à la fin du vector.
             for (InputIterator it = first; it != last; it++)
             {
                 _alloc.construct(_end, *it);
@@ -343,14 +325,13 @@ namespace ft
         }
 
         // fill the vector with a specified number of copies of a single value. 
-        void assign (size_type n, const T &val) // fill version 
+        void assign (size_type n, const T &val)
         {
 		    clear();
-		    if (capacity() >= n and n != 0)
-		    	while (n--)
-		    		_alloc.construct(_end++, val);
-		    else if (n != 0)
-		    {
+            if (n == 0)
+                return;
+            if (capacity() < n)
+            {
 		    	_alloc.deallocate(_start, capacity());
 		    	_start = _alloc.allocate(n);
 		    	_end = _start;
@@ -360,45 +341,45 @@ namespace ft
 		    		_alloc.construct(_end, val);
 		    		_end++;
 		    	}
-		    }
+            }
+            else
+            {
+                while (n--)
+                {
+                    _alloc.construct(_end, val);
+                    _end++;
+                }
+            }
         }
 
         // push back()
+        // Add a new element at the end of the current vector
         void push_back (const value_type& val) 
-        /* add an element at the end of the vector, after its current last element
-            the content of val is copied to the new element. 
-            This effectively increases the container size by one,
-            which causes an automatic reallocation of the allocated storage space 
-            if -and only if- the new vector size surpasses the current vector capacity */
         {
-        if (this->_end != this->_end_capacity)
-        {
-            _alloc.construct(_end++, val);
-		}
-		else
-        {
-            insert(end(), val);
-		} 
+            if (_end != _end_capacity)
+            {
+                _alloc.construct(_end++, val);
+		    }
+		    else
+            {
+                insert(end(), val);
+		    } 
         }
 
         // pop back
-        void        pop_back() // remove the last element from the vector
-        {
+        // remove the last element from the vector
         // Decrement the size of the vector by one
         // If vector is empty : undefined behavior
+        void        pop_back()
+        {
            _alloc.destroy(--_end);
         }
 
         // insert
         iterator insert (iterator position, const value_type& val)
         {
-            // 1- save l'emplacement où insérer le nouvel élément
-            // -> on calcule la distance entre le début du vector et la position
-            // où l'élément doit être insérer : on stocke la valeur.
-            // 2 - Il faut réserver l'espace nécessaire en mémoire pour le vector + 1 elem
-            // si le vector est vide, on a seulement besoin de la place pour un élément
-		    difference_type offset = std::distance(begin(), position);
-		    size_type offset2 = std::distance(position, end());
+		    difference_type savePos = distance(begin(), position);
+		    size_type offset2 = distance(position, end());
 		    if (capacity() < size() + 1)
 		    	reserve(size() > 0 ? capacity() * 2 : 1);
 		    _alloc.construct(_end, val);
@@ -407,14 +388,14 @@ namespace ft
 		    	*it = *(it - 1);
 		    *it = val;
 		    _end++;
-		    return begin() + offset;
+		    return begin() + savePos;
         }
 
         void insert (iterator position, size_type n, const value_type& val)
         {
-            //std::cout << "insert 1 called"<< std::endl;
             ft::vector<value_type> tmp(n, val);
 		    this->insert(position, tmp.begin(), tmp.end());
+            // quid de tmp apres ? 
         }
 
         template <class InputIterator>    
@@ -447,8 +428,9 @@ namespace ft
 		    	push_back(*it);
         }
 
-        // erase 
-        iterator erase (iterator position) // erase a single element from the vector
+        // Erase
+        // erase a single element from the vector
+        iterator erase (iterator position) 
         {
 			if (position + 1 != end()){
 				for (pointer x = position.base() + 1, y = position.base(); x != this->_end; ++x, ++y){
@@ -496,6 +478,7 @@ namespace ft
 		}
 
         // clear
+        // Destroy all elements in the vector, without deallocating memory.
         void    clear()
         {
 		    while (_end > _start)
@@ -512,64 +495,61 @@ namespace ft
         }
         protected:
             allocator_type _alloc; 
-            pointer _start; // pointer to the first element of my vector
+            pointer _start; 
             pointer _end; 
             pointer _end_capacity; 
-            
-        // NON MEMBERS FUNTIONS OVERLOAD    
 };
 
+    // RELATIONNAL OPERATORS
+    // Operator == 
+    template <class T, class Alloc>  
+    bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+      if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
+            return( false );
+        return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+    }
 
-// RELATIONNAL OPERATORS
-// Operator == 
-template <class T, class Alloc>  
-bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-  if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
-        return( false );
-    return (equal(lhs.begin(), lhs.end(), rhs.begin()));
-}
+    // Operator != 
+    template <class T, class Alloc>  
+    bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return(!(lhs == rhs));
+    }
 
-// Operator != 
-template <class T, class Alloc>  
-bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-    return(!(lhs == rhs));
-}
+    // Operator <
+    template <class T, class Alloc>  
+    bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    { 
+        return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    }
 
-// Operator <
-template <class T, class Alloc>  
-bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{ 
-    return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-}
+    // Operator <=
+    template <class T, class Alloc>  
+    bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (!(lhs > rhs));    
+    }
 
-// Operator <=
-template <class T, class Alloc>  
-bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-    return (!(lhs > rhs));    
-}
+    // Operator >
+    template <class T, class Alloc>  
+    bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (rhs < lhs);
+    }
 
-// Operator >
-template <class T, class Alloc>  
-bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-    return (rhs < lhs);
-}
+    // Operator =>
+    template <class T, class Alloc>  
+    bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (!(lhs < rhs));   
+    }	
 
-// Operator =>
-template <class T, class Alloc>  
-bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-{
-    return (!(lhs < rhs));   
-}	
-
-// to swap content between two vectors
-template <class T, class Alloc>
-void swap(vector<T,Alloc>& lhs, vector<T,Alloc>& rhs )
-{
-	lhs.swap(rhs);
-}
+    // to swap content between two vectors
+    template <class T, class Alloc>
+    void swap(vector<T,Alloc>& lhs, vector<T,Alloc>& rhs )
+    {
+    	lhs.swap(rhs);
+    }
 }
 #endif
