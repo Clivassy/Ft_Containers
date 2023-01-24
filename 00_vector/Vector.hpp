@@ -67,6 +67,7 @@ namespace ft
             // Construct a type T object in the allocated storage pointed by _end.
             explicit vector(size_type n, const T &val = T(), const allocator_type& alloc = allocator_type())
             {   
+                (void)alloc;
                 if (n > max_size())
                     throw (std::length_error("cannot create std::vector larger than max_size()"));
                 _start = _alloc.allocate( n ); 
@@ -281,7 +282,7 @@ namespace ft
         }
 
         // Same as at with a const_reference as return type
-        const reference at (size_type n) const
+        const_reference at (size_type n) const
         {
             if (n >= this->size())
                 throw(std::out_of_range("out of range"));
@@ -356,6 +357,8 @@ namespace ft
         // Add a new element at the end of the current vector
         void push_back (const value_type& val) 
         {
+            // check if the end of the vector has
+            // reached its capacity
             if (_end != _end_capacity)
             {
                 _alloc.construct(_end++, val);
@@ -378,53 +381,68 @@ namespace ft
         // insert
         iterator insert (iterator position, const value_type& val)
         {
-		    difference_type savePos = distance(begin(), position);
-		    size_type offset2 = distance(position, end());
-		    if (capacity() < size() + 1)
-		    	reserve(size() > 0 ? capacity() * 2 : 1);
+            difference_type insertionPosition = distance(begin(), position);     
+            size_type elementsToMove = distance(position, end());
+		    
+            if (capacity() < size() + 1)
+            {
+                if (size() == 0)
+                    reserve(1);                   
+                else
+                    reserve(capacity() * 2 );
+            }
 		    _alloc.construct(_end, val);
 		    iterator it = end();
-		    for (size_type i = 0; i < offset2; it--, i++)
+		    for (size_type i = 0; i < elementsToMove; i++)
+            {
 		    	*it = *(it - 1);
+                it--;
+            }
 		    *it = val;
 		    _end++;
-		    return begin() + savePos;
+		    return begin() + insertionPosition;
         }
 
         void insert (iterator position, size_type n, const value_type& val)
         {
             ft::vector<value_type> tmp(n, val);
 		    this->insert(position, tmp.begin(), tmp.end());
-            // quid de tmp apres ? 
         }
 
         template <class InputIterator>    
         void insert (iterator position, InputIterator first, InputIterator last,
         typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
         {
-		    size_type inputOffset = distance(first, last);
-		    size_type posOffset = distance(position, end());
-		    ft::vector<value_type> tmp(position, end());
-		    if (capacity() < size() + inputOffset)
+		    // number of element in the input range
+		    size_type inputRange = distance(first, last);
+            // number of elements between position and vector last element
+		    size_type distanceFromEnd = distance(position, end());
+		    
+            ft::vector<value_type> save(position, end());
+
+            // is the actual vector sufficient to insert all range elements
+		    if (capacity() < size() + inputRange)
 		    {
-		    	if (this->size() == 0)
-		    		reserve(this->size() + inputOffset);
+		    	if (size() == 0)
+		    		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
 		    	else
 		    	{
-		    		size_type i = 2;
-		    		while (this->size() * i < inputOffset + this->size())
+                    //make sure that the container has enough space to insert the new elements, 
+                    //and also some extra space for future insertions
+		    		size_type i = 2; // to at least double the vector size capacity
+		    		while (size() * i < inputRange + size())
 		    			i++;
-		    		reserve(this->size() * i);
+		    		reserve(size() * i);
 		    	}
 		    }
-		    for (size_type i = 0; i < posOffset; i++)
+		    for (size_type i = 0; i < distanceFromEnd; i++)
 		    	erase(end() - 1);
-		    for (size_type i = 0; i < inputOffset; i++)
+		    for (size_type i = 0; i < inputRange; i++)
 		    {
 		    	push_back(*first);
 		    	first++;
 		    }
-		    for (iterator it = tmp.begin(); it < tmp.end(); it++)
+		    for (iterator it = save.begin(); it < save.end(); it++)
 		    	push_back(*it);
         }
 
@@ -432,28 +450,30 @@ namespace ft
         // erase a single element from the vector
         iterator erase (iterator position) 
         {
-			if (position + 1 != end()){
-				for (pointer x = position.base() + 1, y = position.base(); x != this->_end; ++x, ++y){
-					*y = *x;
+			if (position + 1 != end())
+            {
+                // base() function returns a pointer 
+                // to the first element of the dynamic array,
+                // same as _start but way much faster  
+				for (pointer x = position.base() + 1, y = position.base(); x != _end; ++x)
+                {
+                	*y = *x;
+                    y++;
 				}
 			}
-			_alloc.destroy(--this->_end);
+			_alloc.destroy(--_end); // destruction of the last element of the vector
 			return (position);
         }
         
-        iterator erase (iterator first, iterator last) // erase a range of elements in the vector between "first" and "last"
+        // erase a range of elements in the vector between "first" and "last"
+        iterator erase (iterator first, iterator last) 
         {
-            pointer pos = first.base();
-			for (pointer pos2 = last.base(); pos2 != this->_end; ++pos2, ++pos){
-				*pos = *pos2;
+            while (first != last)
+			{
+				erase(first);
+				last--;
 			}
-			pointer ptr = pos;
-			while (ptr != this->_end){
-			
-				_alloc.destroy(ptr++);
-			}
-			this->_end = this->_end - (ptr - pos);
-			return (first);
+			return (iterator(first));
         }
 
         // swap 
@@ -464,17 +484,17 @@ namespace ft
 			pointer save_start = x._start;
 			pointer save_end = x._end;
 			pointer save_end_capacity = x._end_capacity;
-			allocator_type save_alloc = x._alloc;
+			Allocator save_alloc = x._alloc;
 
 			x._start = this->_start;
 			x._end = this->_end;
 			x._end_capacity = this->_end_capacity;
 			x._alloc = this->_alloc;
 
-			this->_start = save_start;
-			this->_end = save_end;
-			this->_end_capacity = save_end_capacity;
-			this->_alloc = save_alloc;
+			_start = save_start;
+			_end = save_end;
+			_end_capacity = save_end_capacity;
+			_alloc = save_alloc;
 		}
 
         // clear
