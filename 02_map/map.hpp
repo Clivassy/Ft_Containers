@@ -6,13 +6,13 @@
 
 // Personnal librairies
 #include "pair.hpp"
-#include "random_access_iterator.hpp"
+#include "../utils/random_access_iterator.hpp"
 #include "RBT_iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "utils/equal.hpp"
-#include "utils/enable_if.hpp"
-#include "utils/is_integral.hpp"
-#include "utils/lexicographical_compare.hpp"
+#include "../utils/reverse_iterator.hpp"
+#include "../utils/equal.hpp"
+#include "../utils/enable_if.hpp"
+#include "../utils/is_integral.hpp"
+#include "../utils/lexicographical_compare.hpp"
 #include "RedBlackTree.hpp"
 
 namespace ft {
@@ -86,9 +86,8 @@ namespace ft {
 		// Default constructor
 		// Construct an empty map container object. 
 		// Initialize the internal RB Tree with comp and alloc as args. 
-		explicit map (const key_compare& comp = key_compare(), 
-			const allocator_type& alloc = allocator_type()) :
-			RB_Tree(value_compare(comp), alloc)
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		: RB_Tree(value_compare(comp), alloc)
 		{ }
 
 		// Initializes the internal red-black tree data member 
@@ -125,7 +124,7 @@ namespace ft {
 		/*-------------------------------------------------------*/
 
 		// ITERATORS
-		iterator begin() { return RB_Tree.begin(); }
+		/*iterator begin() { return RB_Tree.begin(); }
 		
 		const_iterator begin() const { return RB_Tree.begin(); }
 			
@@ -140,7 +139,7 @@ namespace ft {
 		reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
 		
 		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
-
+		*/
 		// CAPACITY
 /*
 		bool empty() const { return _tree.empty(); }

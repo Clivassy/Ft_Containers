@@ -60,6 +60,7 @@ namespace ft {
 
 			// Post-increment operator
 			RBT_iterator& operator++ (void) {
+				// need to check if tree is empty ? 
 				// If the current node has a right child:
 				// the iterator goes to the leftmost node in the right subtree.
 				if (node && node->right)
@@ -87,6 +88,7 @@ namespace ft {
 					}
 					node = tmp;
 				}
+				// else, current node is root 
 				return *this;
 			}
 
