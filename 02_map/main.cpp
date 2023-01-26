@@ -21,3 +21,16 @@ int main() {
 
   tree.printTree();
 }
+// Fill constructor 
+/*
+int main() {
+    std::pair<std::string, int> data[] = { {"apple", 1}, {"banana", 2}, {"cherry", 3} };
+    std::map<std::string, int> myMap(data, data + 3);
+
+    for(const auto& elem : myMap) {
+        std::cout << elem.first << " : " << elem.second << std::endl;
+    }
+
+    return 0;
+}
+*/

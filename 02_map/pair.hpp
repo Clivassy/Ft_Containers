@@ -1,18 +1,24 @@
 #ifndef PAIR_HPP
 # define PAIR_HPP
 
-/*-------------------------------------------------
+/*--------------------------------------------------------
 PAIR: 
 ¨¨¨¨
 	Container olding two objects of potential 
 	differents types called 'first' and 'second.
--------------------------------------------------
+----------------------------------------------------------
 MAKE_PAIR:
 ¨¨¨¨¨¨¨¨¨
 	Enable create an object of type pair< T1, T2 >
 	initialized with values passed in argument.  
 
--------------------------------------------------*/
+-----------------------------------------------------------
+ TYPEDEFS:
+ ¨¨¨¨¨¨¨
+ 	Typedefs are used by the standard template library 
+	in STL to make the code more consistent and reusable.
+-----------------------------------------------------------*/
+
 namespace ft {
 
 	template <class T1, class T2>
@@ -49,7 +55,7 @@ namespace ft {
                 return (*this);
 			this->first = pr.first;
 			this->second = pr.second;
-			return *this;
+			return (*this);
 		};
 	};
 	
@@ -58,9 +64,9 @@ namespace ft {
 	// with the values of the arguments as the values
 	// of the 'first' and 'second' members of the pair. 
 	template< class T1, class T2 >
-	pair<T1,T2>		make_pair( T1 t, T2 u )
+	pair<T1,T2>		make_pair( T1 x, T2 y )
 	{
-		return pair<T1, T2>(t, u);
+		return pair<T1, T2>(x, y);
 	};
 
 	//	RELATIONAL OPERATORS 
@@ -74,8 +80,7 @@ namespace ft {
 	};
 
 	// Returns 'true' if the 'first' and 'second' members
-	// of the two 'pair' objects are not equal, 
-	// returns 'true' otherwise. 
+	// of the two 'pair' objects are not equal, returns 'false' otherwise. 
 	template <class T1, class T2>
 	bool operator!= (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs) 
 	{
@@ -85,7 +90,7 @@ namespace ft {
 	// Check if the first element of the left-hand side pair is 
 	// smaller than the first element of the right-hand side pair
 	// If true : return true 
-	// -> left and side pair should come first int the sorted order. 
+	// -> left and side pair should come first in the sorted order. 
 	// second check is here to stop comparison if there first elems are not equal.
 	// If firsts eleme are equal => comparison of second to determine order.
 	template <class T1, class T2>

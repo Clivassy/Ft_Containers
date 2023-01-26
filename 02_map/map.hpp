@@ -38,7 +38,8 @@ namespace ft {
 	 		typedef Compare									key_compare;
 			typedef Alloc									allocator_type;
 			
-			//
+			// /!\ Not used to sort but only to compare elements 
+			// in the tree and maintain the order.
 			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
 				// Declaring 'map' as a friend of 'value_compare' class
@@ -47,7 +48,7 @@ namespace ft {
 				// Specified parameters to clearly indicate which specific version of map class
 				// we are referring to.
 				// ->  more a matter of readability, maintainability 
-				//and robustness of the code than a real need.
+				// and robustness of the code than a real need.
 				protected:
 					key_compare comp;
 					value_compare (key_compare c) : comp(c) {}
@@ -85,7 +86,7 @@ namespace ft {
 
 		// Default constructor
 		// Construct an empty map container object. 
-		// Initialize the internal RB Tree with comp and alloc as args. 
+		// Initialize the internal RB Tree.
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		: RB_Tree(value_compare(comp), alloc)
 		{ }
@@ -105,12 +106,15 @@ namespace ft {
 		// Copy constructor
 		map (const map& rhs)
 		{
-			this->clear() // protection
-			this->insert(rhs.begin(), rhs.end());
+			clear() // protection
+			insert(rhs.begin(), rhs.end());
 		}
 		
 		// DESTRUCTOR
-		~map(){ clear(); }
+		~map()
+		{ 
+			clear(); 
+		}
 
 		map& operator= (const map& rhs)
 		{	
