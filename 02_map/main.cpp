@@ -1,15 +1,16 @@
-#include "RedBlackTree.hpp"
-//#include "map.hpp"
+#include "map.hpp"
 
 using namespace std;
-//using namespace ft;
+using namespace ft;
 
 
 int main() {
     
-  RedBlackTree tree;
+ // RedBlackTree tree;
+  map<int, int> test;
 
-  tree.insertNode(33);
+  
+  /*tree.insertNode(33);
   tree.insertNode(13);
   tree.insertNode(21);
   tree.insertNode(11);
@@ -19,7 +20,7 @@ int main() {
   tree.insertNode(41);
   tree.insertNode(61);
 
-  tree.printTree();
+  tree.printTree();*/
 }
 // Fill constructor 
 /*
@@ -30,7 +31,6 @@ int main() {
     for(const auto& elem : myMap) {
         std::cout << elem.first << " : " << elem.second << std::endl;
     }
-
     return 0;
 }
 */

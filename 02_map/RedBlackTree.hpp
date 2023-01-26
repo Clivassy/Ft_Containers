@@ -4,7 +4,9 @@
 #define BLACK 0
 #define RED 1
 
+namespace ft {
 
+template <typename T, typename K, class Compare, class Alloc>
 class RedBlackTree {
 
     struct Node {
@@ -14,21 +16,39 @@ class RedBlackTree {
         Node *right;
         Node *parent;
         bool color;
-};
-    private:
-        Node *root;
-        Node *leaf;
-        size_t size;
+    };
+
+    typedef size_t				                                    size_type;
+	typedef K					                                    key_type;
+	typedef Compare				                                    compare_type;
+	typedef Alloc				                                    allocator_type;
+//	typedef value_type*			                                    pointer;
+	typedef Node*				                                    node_pointer;
+	typedef const Node*			                                    const_node_pointer;
+//	typedef value_type&			                                    reference;
+	//typedef const value_type&	                                    const_reference;
+	typedef typename allocator_type::template rebind<Node>::other   node_allocator;
+    
+    //private:
+    public:
+    	node_pointer    root; // root of the tree
+		node_pointer	end; // leaf
+		size_type		size;
+		node_allocator	node_alloc;
+		compare_type	compare;
 
     public:
     // CONSTRUCTORS
-        RedBlackTree() {
-            leaf = new Node;
-            leaf->color = BLACK;
-            leaf->left = nullptr;
-            leaf->right = nullptr;
-            leaf->value = 0;
-            root = leaf;
+        RedBlackTree(const compare_type& comp = compare_type(), 
+            const node_allocator& alloc = node_allocator()) 
+            : compare(comp), node_alloc(alloc)
+        {
+            size = 0;
+            root = node_alloc.allocate(1);
+            node_alloc.construct(root, Node());
+            root->parent = 0;
+            root->right = root;
+            root->left = root;
         }
 
     // DESTRUCTOR
@@ -217,5 +237,7 @@ class RedBlackTree {
                 printHelper(this->root,"", true);
             }
         }
-    ////////////////////////////////////////////////////////////////////////
+  
+  ////////////////////////////////////////////////////////////////////////
 };
+}

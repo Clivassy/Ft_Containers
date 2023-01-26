@@ -1,8 +1,5 @@
-#ifndef RED_BLACK_TREE_HPP
-# define RED_BLACK_TREE_HPP
-
 #include <iostream>
-#include "map_iterator.hpp"
+//#include "map_iterator.hpp"
 
 namespace ft
 {
@@ -766,6 +763,3 @@ namespace ft
 			}
 	};
 };
-
-
-#endif

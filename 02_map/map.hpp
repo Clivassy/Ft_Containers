@@ -50,8 +50,8 @@ namespace ft {
 				// ->  more a matter of readability, maintainability 
 				// and robustness of the code than a real need.
 				protected:
-					key_compare comp;
-					value_compare (key_compare c) : comp(c) {}
+					key_compare compare;
+					value_compare (key_compare c) : compare(c) {}
 
 				public:
 					// Compares two pairs based on their fisrt element
@@ -71,11 +71,11 @@ namespace ft {
 			typedef typename allocator_type::const_reference										const_reference;
 			typedef typename allocator_type::pointer												pointer;
 			typedef typename allocator_type::const_pointer											const_pointer;
-			typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>	tree_type;
-			typedef typename tree_type::iterator													iterator;
-			typedef typename tree_type::const_iterator												const_iterator;
-			typedef ft::reverse_Iterator<iterator>													reverse_iterator;
-			typedef ft::reverse_Iterator<const_iterator>											const_reverse_iterator;
+			typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>		tree_type;
+			//typedef typename tree_type::iterator													iterator;
+			//typedef typename tree_type::const_iterator												const_iterator;
+			//typedef ft::reverse_Iterator<iterator>													reverse_iterator;
+			//typedef ft::reverse_Iterator<const_iterator>											const_reverse_iterator;
 
 		protected:
 			tree_type	RB_Tree;
@@ -87,15 +87,19 @@ namespace ft {
 		// Default constructor
 		// Construct an empty map container object. 
 		// Initialize the internal RB Tree.
+		//: RB_Tree(value_compare(comp), alloc)
 		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-		: RB_Tree(value_compare(comp), alloc)
-		{ }
+		{ 
+			RB_Tree.compare = comp;
+			RB_Tree.node_alloc = alloc;
+		}
+
 
 		// Initializes the internal red-black tree data member 
 		// with the passed comp and alloc arguments.
 		// Uses the insert function to insert elements 
 		// from the range [first, last) into the map.
-		template <class InputIterator>
+		/*template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const Compare& comp = Compare(), const Allocator& alloc = Allocator())
 		: RB_Tree(comp, alloc)
@@ -108,22 +112,22 @@ namespace ft {
 		{
 			clear() // protection
 			insert(rhs.begin(), rhs.end());
-		}
+		}*/
 		
 		// DESTRUCTOR
 		~map()
 		{ 
-			clear(); 
+			//clear(); 
 		}
 
-		map& operator= (const map& rhs)
+		/*map& operator= (const map& rhs)
 		{	
 			if (this == &rhs)
 				return *this;
 			clear();
 			insert(rhs.begin(), rhs.end());
 			return (*this);
-		}
+		}*/
 
 		/*-------------------------------------------------------*/
 

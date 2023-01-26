@@ -3,7 +3,7 @@
 
 #include "map.hpp"
 
-namespace ft {
+/*namespace ft {
 
 	// 'T': the type of the element stored in the tree
 	// 'node': the type of the node in the tree
@@ -167,5 +167,5 @@ namespace ft {
 			}
 	};
 
-}
+}*/
 #endif
