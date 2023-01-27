@@ -1,5 +1,8 @@
 #include <iostream>
-//#include "RBT_iterator.hpp"
+#include "map.hpp"
+//#include "../utils/iterator_traits.hpp"
+//#include "./RBT_iterator.hpp"
+# include <iterator>
 
 #define BLACK 0
 #define RED 1
@@ -9,53 +12,99 @@ namespace ft {
 template <typename T, typename K, class Compare, class Alloc>
 class RedBlackTree {
 
-    struct Node {
+    public:
+	    typedef K					                                    key_type;
+        typedef T										                mapped_type;
+        typedef ft::pair<key_type, mapped_type>			                value_type;
+        typedef size_t				                                    size_type;
+	    typedef Compare				                                    compare_type;
+	    typedef Alloc				                                    allocator_type;
+	    typedef value_type*			                                    pointer;
 
-        int value;
-        Node *left;
-        Node *right;
-        Node *parent;
-        bool color;
-    };
+    private:
+        struct Node {
 
-    typedef size_t				                                    size_type;
-	typedef K					                                    key_type;
-	typedef Compare				                                    compare_type;
-	typedef Alloc				                                    allocator_type;
-//	typedef value_type*			                                    pointer;
-	typedef Node*				                                    node_pointer;
-	typedef const Node*			                                    const_node_pointer;
-//	typedef value_type&			                                    reference;
-	//typedef const value_type&	                                    const_reference;
-	typedef typename allocator_type::template rebind<Node>::other   node_allocator;
+            value_type value;
+            Node *left;
+            Node *right;
+            Node *parent;
+            bool color;
+
+            //Node(): constructor
+        };
+	        typedef Node*				                                    node_pointer;
+	        typedef const Node*			                                    const_node_pointer;
+	        typedef value_type&			                                    reference;
+	        typedef const value_type&	                                    const_reference;
+
+        //-- create a new type of allocator that is bound to the 'Node' type nd uses the same 
+        // memoryressource as the original 'allocator_type'.
+	    typedef typename allocator_type::template rebind<Node>::other   node_allocator;
     
     //private:
     public:
     	node_pointer    root; // root of the tree
 		node_pointer	end; // leaf
-		size_type		size;
-		node_allocator	node_alloc;
+		size_type		size; // number of elements in the tree 
+		node_allocator	node_alloc; // allocation pour un noeud
 		compare_type	compare;
 
-    public:
-    // CONSTRUCTORS
+    public: // ton change to private 
+
+        // CONSTRUCTORS
+        //--- Default Constructor
+        //--- Createsan empty tree with a single node, that serve as the root of the tree.
+        //--- The nodeis empty ans serve to separate the tree into empty left and right subtree
+        //--- Mes in easy to insert the first element and perform operation on the tree.
         RedBlackTree(const compare_type& comp = compare_type(), 
             const node_allocator& alloc = node_allocator()) 
             : compare(comp), node_alloc(alloc)
         {
             size = 0;
-            root = node_alloc.allocate(1);
-            node_alloc.construct(root, Node());
+            root = node_alloc.allocate(1); // allocate memory for one node memory
+            node_alloc.construct(root, Node()); // construct root node : create a new node object
             root->parent = 0;
             root->right = root;
             root->left = root;
+
+            //---- DEBEUG ---- 
+            std::cout<< "red black tree is created" << std::endl;
+            root->color = BLACK;
+            std::cout<< "Root node is " ;
+            if (root->color == BLACK)
+                std::cout << "Black" << std::endl;
+            else
+                std::cout << "FAILED" << std::endl;
+            //this->insert(ft::make_pair<key_type, mapped_type>(1,3));
         }
 
-    // DESTRUCTOR
-    // ITERATORS
-    // MODIFIERS
+        // DESTRUCTOR
+        ~RedBlackTree() 
+        {
+            // call clear() to remove all elements from the tree.
+            // -> recursive : call the destructor on all children of the root nod
+            // + deallocation memory for each node.
+            // delete root node : node_allocator::destroy(); + deallocate memory for root node.
+            // 
+        }
+        // ITERATORS
+        
+        
+        // MODIFIERS
+        ft::pair<std::iterator, bool>    insert( const_reference value )
+        {
+           /* node_pointer newNode = node_alloc.allocate(1);
 
-        void    insertNode( int key )
+			node_alloc.construct(newNode, value);
+			newNode->color = RED; 
+			newNode->left = NULL;
+			newNode->right = NULL;
+			newNode->parent = NULL;*/
+            std::cout << "insert function called" << std::endl;
+        }
+
+
+     /*   void    insertNode( int key )
         {
             // create a new node and initialize value
             Node *newNode = new Node;
@@ -237,7 +286,7 @@ class RedBlackTree {
                 printHelper(this->root,"", true);
             }
         }
-  
+  */
   ////////////////////////////////////////////////////////////////////////
 };
 }

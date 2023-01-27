@@ -3,7 +3,7 @@
 
 #include "iterator_traits.hpp"
 
-namespace ft {
+/*namespace ft {
     
 template <typename T>
 class random_access_iterator : ft::iterator<std::random_access_iterator_tag, T>
@@ -193,5 +193,5 @@ template<typename T1, typename T2>
 inline typename ft::random_access_iterator<T1>::difference_type operator-(const ft::random_access_iterator<T1> &lhs,
           const ft::random_access_iterator<T2> &rhs)
 { return lhs.base() - rhs.base(); }
-}
+}*/
 #endif

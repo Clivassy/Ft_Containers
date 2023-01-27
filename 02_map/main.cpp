@@ -1,13 +1,31 @@
 #include "map.hpp"
 
-using namespace std;
+//using namespace std;
 using namespace ft;
 
 
 int main() {
     
- // RedBlackTree tree;
-  map<int, int> test;
+    map<int, int> test;
+
+
+    // MAKE_PAIR TEST 
+    pair <int, int> foo;
+    pair <int, int> bar;
+    const pair <int, int> bar2;
+
+    foo = make_pair(10, 20);
+    bar = make_pair(1,20);
+
+
+    std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
+    std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
+
+    test.insert(pair<const int, int>(1, 3));
+   // test.insert(std::make_pair(1,3));
+
+}
+    //test.insert(pair<int, int>(1,2));
 
   
   /*tree.insertNode(33);
@@ -21,7 +39,7 @@ int main() {
   tree.insertNode(61);
 
   tree.printTree();*/
-}
+//}
 // Fill constructor 
 /*
 int main() {

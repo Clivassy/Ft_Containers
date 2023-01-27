@@ -43,8 +43,8 @@ namespace ft {
 		// The "pr" second is passed to this second
 		// copy constructor is only used when the type of the object
 		// being copied is the same as the type of the object being initialized. 
-		template<class U, class V>
-		pair(const pair< U, V >& pr) : first(pr.first), second(pr.second) {};
+		//template<class U, class V>
+		//pair(const pair< U, V >& pr) : first(pr.first), second(pr.second) {};
 		
 		// Why no destructor? 
 
@@ -63,6 +63,7 @@ namespace ft {
 	// Returns a pair of those types
 	// with the values of the arguments as the values
 	// of the 'first' and 'second' members of the pair. 
+	
 	template< class T1, class T2 >
 	pair<T1,T2>		make_pair( T1 x, T2 y )
 	{

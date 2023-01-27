@@ -4,11 +4,13 @@
 // Officials libraries
 #include <iostream>
 
+# include <iterator>
 // Personnal librairies
-#include "pair.hpp"
+#include "./pair.hpp"
 #include "../utils/random_access_iterator.hpp"
-#include "RBT_iterator.hpp"
+//#include "RBT_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
+//#include "../utils/iterator_traits.hpp"
 #include "../utils/equal.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/is_integral.hpp"
@@ -57,25 +59,25 @@ namespace ft {
 					// Compares two pairs based on their fisrt element
 					// Returns 'true' if first element of first pair is < firs element of second pair
 					// Returns 'false' otherwise.
-					bool operator() (const value_type& x, const value_type& y) const 
+					bool operator() (const value_type& lhs, const value_type& rhs) const 
 					{
-						return comp(x.first, y.first);
+						return comp(lhs.first, rhs.first);
 					}
 			};
 
 			//-------------------------------------------------------
-
-			typedef typename allocator_type::size_type												size_type;
-			typedef typename allocator_type::difference_type										difference_type;
-			typedef typename allocator_type::reference												reference;
-			typedef typename allocator_type::const_reference										const_reference;
-			typedef typename allocator_type::pointer												pointer;
-			typedef typename allocator_type::const_pointer											const_pointer;
-			typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>		tree_type;
-			//typedef typename tree_type::iterator													iterator;
-			//typedef typename tree_type::const_iterator												const_iterator;
-			//typedef ft::reverse_Iterator<iterator>													reverse_iterator;
-			//typedef ft::reverse_Iterator<const_iterator>											const_reverse_iterator;
+			public: 
+				typedef typename allocator_type::size_type												size_type;
+				typedef typename allocator_type::difference_type										difference_type;
+				typedef typename allocator_type::reference												reference;
+				typedef typename allocator_type::const_reference										const_reference;
+				typedef typename allocator_type::pointer												pointer;
+				typedef typename allocator_type::const_pointer											const_pointer;
+				typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>	tree_type;
+				typedef typename tree_type::iterator													iterator;
+				//typedef typename tree_type::const_iterator											const_iterator;
+				//typedef ft::reverse_Iterator<iterator>												reverse_iterator;
+				//typedef ft::reverse_Iterator<const_iterator>											const_reverse_iterator;
 
 		protected:
 			tree_type	RB_Tree;
@@ -149,8 +151,8 @@ namespace ft {
 		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
 		*/
 		// CAPACITY
-/*
-		bool empty() const { return _tree.empty(); }
+
+		/*	bool empty() const { return _tree.empty(); }
 
 		size_type size() const
 		{
@@ -179,18 +181,22 @@ namespace ft {
 		}*/
 
 		// MODIFIERS 
-	/*	void clear()
+		/*void clear()
 		{
 			if (size())
 				_tree.clearAll();
-		}
+		}*/
 
-		ft::pair<iterator, bool> insert( const_reference value )
+		//--- Inserts the given value into th map
+		//--- Returns a pair.
+		//--- 'iterator': pointing the the inserted element(or element htat prevented insertion).
+		//--- 'bool': wether the insertion succeed or not.
+		ft::pair<std::iterator, bool> insert( const_reference value )
 		{
-			return _tree.insert(value);
+			return RB_Tree.insert(value);
 		}
 
-		iterator insert( iterator pos, const value_type& value )
+		/*iterator insert( iterator pos, const value_type& value )
 		{
 			(void)pos;
 			return _tree.insert(value).first;
