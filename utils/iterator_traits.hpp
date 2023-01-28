@@ -7,7 +7,7 @@
 // https://en.cppreference.com/w/cpp/iterator/iterator_traits
 // https://cplusplus.com/reference/iterator/iterator/
 
-/*namespace ft {
+namespace ft {
 
     template <class Category, class T, class Distance = std::ptrdiff_t,
     class Pointer = T*, class Reference = T&>
@@ -49,5 +49,5 @@
 		typedef	const T	            &reference;
 		typedef std::random_access_iterator_tag	iterator_category;
     };
-}*/
+}
 #endif

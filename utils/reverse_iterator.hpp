@@ -3,7 +3,7 @@
 
 # include "iterator_traits.hpp"
 
-/*namespace ft
+namespace ft
 {
     template <typename Iterator>
     struct reverse_Iterator : public ft::iterator<typename ft::iterator_traits<Iterator>::iterator_category,
@@ -162,5 +162,5 @@ inline typename reverse_Iterator<Iterator1>::difference_type operator-(const rev
 		  const reverse_Iterator<Iterator2>& rhs)
 { return rhs.base() - lhs.base(); }
 
-}*/
+}
 #endif

@@ -4,21 +4,14 @@
 // Officials libraries
 #include <iostream>
 
-# include <iterator>
 // Personnal librairies
 #include "./pair.hpp"
 #include "../utils/random_access_iterator.hpp"
-//#include "RBT_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
-//#include "../utils/iterator_traits.hpp"
-#include "../utils/equal.hpp"
-#include "../utils/enable_if.hpp"
-#include "../utils/is_integral.hpp"
-#include "../utils/lexicographical_compare.hpp"
-#include "RedBlackTree.hpp"
+#include "newRBT.hpp"
+//#include "./RedBlackTree.hpp"
 
 namespace ft {
-
 	/*--------------------------------------------------------
 	1. 'KEY': Type of the key int he map (used to sort and organize elements in the map)
 	2. 'T': Type of the value stored in the map.
@@ -66,6 +59,7 @@ namespace ft {
 			};
 
 			//-------------------------------------------------------
+
 			public: 
 				typedef typename allocator_type::size_type												size_type;
 				typedef typename allocator_type::difference_type										difference_type;
@@ -74,11 +68,12 @@ namespace ft {
 				typedef typename allocator_type::pointer												pointer;
 				typedef typename allocator_type::const_pointer											const_pointer;
 				typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>	tree_type;
+			// --- TO DO --- IN PROGRESS
 				typedef typename tree_type::iterator													iterator;
-				//typedef typename tree_type::const_iterator											const_iterator;
-				//typedef ft::reverse_Iterator<iterator>												reverse_iterator;
-				//typedef ft::reverse_Iterator<const_iterator>											const_reverse_iterator;
-
+				typedef typename tree_type::const_iterator												const_iterator;
+				typedef typename tree_type::reverse_iterator											reverse_iterator;
+				typedef typename tree_type::reverse_iterator											const_reverse_iterator;
+		
 		protected:
 			tree_type	RB_Tree;
 
@@ -89,11 +84,10 @@ namespace ft {
 		// Default constructor
 		// Construct an empty map container object. 
 		// Initialize the internal RB Tree.
-		//: RB_Tree(value_compare(comp), alloc)
-		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-		{ 
-			RB_Tree.compare = comp;
-			RB_Tree.node_alloc = alloc;
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())  
+		{
+			// Here need to initialize the Red black tree.
+			std::cout<< "Map constructor called" << std::endl;
 		}
 
 
@@ -132,39 +126,10 @@ namespace ft {
 		}*/
 
 		/*-------------------------------------------------------*/
+		//------- ELEMENT ACCESS 
+		//----------------------------------------------------------
 
-		// ITERATORS
-		/*iterator begin() { return RB_Tree.begin(); }
-		
-		const_iterator begin() const { return RB_Tree.begin(); }
-			
-		iterator end() { return RB_Tree.end(); }
-		
-		const_iterator end() const { return RB_Tree.end(); }
-
-		reverse_iterator rbegin() { return reverse_iterator(RB_Tree.end()); }
-		
-		const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.end()); }
-
-		reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
-		
-		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
-		*/
-		// CAPACITY
-
-		/*	bool empty() const { return _tree.empty(); }
-
-		size_type size() const
-		{
-			return _tree.size();
-		}
-
-		size_type max_size() const
-		{
-			return _tree.max_size();
-		}
-
-		mapped_type& operator[](const key_type& key)
+		/*mapped_type& operator[](const key_type& key)
 		{
 			return (insert(ft::make_pair(key, mapped_type())).first)->second;
 		}
@@ -180,6 +145,37 @@ namespace ft {
 
 		}*/
 
+		// ITERATORS
+		iterator begin() { return RB_Tree.begin(); }
+		
+		const_iterator begin() const { return RB_Tree.begin(); }
+			
+		iterator end() { return RB_Tree.end(); }
+		
+		const_iterator end() const { return RB_Tree.end(); }
+
+		reverse_iterator rbegin() { return reverse_iterator(RB_Tree.end()); }
+		
+		const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.end()); }
+
+		reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
+		
+		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
+		
+		// CAPACITY
+
+		bool empty() const { return _tree.empty(); }
+
+		size_type size() const
+		{
+			return _tree.size();
+		}
+
+		size_type max_size() const
+		{
+			return _tree.max_size();
+		}
+
 		// MODIFIERS 
 		/*void clear()
 		{
@@ -191,10 +187,10 @@ namespace ft {
 		//--- Returns a pair.
 		//--- 'iterator': pointing the the inserted element(or element htat prevented insertion).
 		//--- 'bool': wether the insertion succeed or not.
-		ft::pair<std::iterator, bool> insert( const_reference value )
+		/*ft::pair<iterator, bool> insert( const_reference value )
 		{
 			return RB_Tree.insert(value);
-		}
+		}*/
 
 		/*iterator insert( iterator pos, const value_type& value )
 		{

@@ -5,12 +5,17 @@ using namespace ft;
 
 
 int main() {
-    
+
     map<int, int> test;
+
+    test.begin();
+    test.end();
+    test.rbegin();
+    test.rend();
 
 
     // MAKE_PAIR TEST 
-    pair <int, int> foo;
+   /* pair <int, int> foo;
     pair <int, int> bar;
     const pair <int, int> bar2;
 
@@ -19,9 +24,9 @@ int main() {
 
 
     std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
-    std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
+    std::cout << "bar: " << bar.first << ", " << bar.second << '\n';*/
 
-    test.insert(pair<const int, int>(1, 3));
+  //  test.insert(pair<const int, int>(1, 3));
    // test.insert(std::make_pair(1,3));
 
 }
