@@ -86,11 +86,18 @@ namespace ft{
                     std::cout << "Black" << std::endl;
                 else
                     std::cout << "FAILED" << std::endl;
+            }
+
+            ~RedBlackTree()
+            {
+                //clear();
+        		node_alloc.destroy(root);
+		        node_alloc.deallocate(root, 1);
             } 
 
         //-- RED BLACK TREE OPERATIONS
         //--------------------------------
-        
+
         // rotateLeft
         // rotateright
         // insertfix
@@ -165,9 +172,11 @@ namespace ft{
         }
 
         //-------------------------------------------------------------
-        //-------------- CAPACITY -------------------------------------
+        //-------------- MODIFIERS -------------------------------------
         //-------------------------------------------------------------
+        // Erase all elements from the container
         // Clear 
+
         // Insert
         // erase 
         // swap 
@@ -188,7 +197,6 @@ namespace ft{
         // value_comp
 
     };
-
     //------------ NON MEMBER FUNCTIONS 
     
 
