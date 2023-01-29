@@ -45,8 +45,8 @@ namespace ft {
 				// ->  more a matter of readability, maintainability 
 				// and robustness of the code than a real need.
 				protected:
-					key_compare compare;
-					value_compare (key_compare c) : compare(c) {}
+					key_compare comp;
+					value_compare (key_compare c) : comp(c) {}
 
 				public:
 					// Compares two pairs based on their fisrt element
@@ -61,19 +61,19 @@ namespace ft {
 			//-------------------------------------------------------
 
 			public: 
-				typedef typename allocator_type::size_type												size_type;
-				typedef typename allocator_type::difference_type										difference_type;
-				typedef typename allocator_type::reference												reference;
-				typedef typename allocator_type::const_reference										const_reference;
-				typedef typename allocator_type::pointer												pointer;
-				typedef typename allocator_type::const_pointer											const_pointer;
+
 				typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>	tree_type;
 			// --- TO DO --- IN PROGRESS
 				typedef typename tree_type::iterator													iterator;
 				typedef typename tree_type::const_iterator												const_iterator;
 				typedef typename tree_type::reverse_iterator											reverse_iterator;
 				typedef typename tree_type::reverse_iterator											const_reverse_iterator;
-		
+				typedef typename allocator_type::size_type												size_type;
+				typedef typename allocator_type::difference_type										difference_type;
+				typedef typename tree_type::reference													reference;
+				typedef typename tree_type::const_reference												const_reference;
+				typedef typename allocator_type::pointer												pointer;
+				typedef typename allocator_type::const_pointer											const_pointer;
 		protected:
 			tree_type	RB_Tree;
 
@@ -145,7 +145,28 @@ namespace ft {
 
 		}*/
 
-		// ITERATORS
+		//-------------------------------------------------------------
+        //-------------- CAPACITY -------------------------------------
+        //-------------------------------------------------------------
+
+		bool empty() const 
+		{ 
+			return RB_Tree.empty(); 
+		}
+
+		size_type size() const
+		{
+			return RB_Tree.size();
+		}
+
+		size_type max_size() const
+		{
+			return RB_Tree.max_size();
+		}
+
+		//-------------------------------------------------------------
+        //-------------- ITERATOR  ------------------------------------
+        //-------------------------------------------------------------
 		iterator begin() { return RB_Tree.begin(); }
 		
 		const_iterator begin() const { return RB_Tree.begin(); }
@@ -162,21 +183,10 @@ namespace ft {
 		
 		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
 		
-		// CAPACITY
 
-		bool empty() const { return _tree.empty(); }
-
-		size_type size() const
-		{
-			return _tree.size();
-		}
-
-		size_type max_size() const
-		{
-			return _tree.max_size();
-		}
-
-		// MODIFIERS 
+		//-------------------------------------------------------------
+        //-------------- MODIFIERS  ------------------------------------
+        //-------------------------------------------------------------
 		/*void clear()
 		{
 			if (size())
@@ -187,10 +197,10 @@ namespace ft {
 		//--- Returns a pair.
 		//--- 'iterator': pointing the the inserted element(or element htat prevented insertion).
 		//--- 'bool': wether the insertion succeed or not.
-		/*ft::pair<iterator, bool> insert( const_reference value )
+		ft::pair<iterator, bool> insert( const value_type &value )
 		{
-			return RB_Tree.insert(value);
-		}*/
+			return RB_Tree.insert(value.first);
+		}
 
 		/*iterator insert( iterator pos, const value_type& value )
 		{
@@ -279,17 +289,20 @@ namespace ft {
 				return allocator_type();
 		}*/
 
-
-		// OBSERVERS
-		/*key_compare key_comp() const
+		//-------------------------------------------------------------
+        //-------------- OBSERVERS  -------------------------------------
+        //-------------------------------------------------------------
+		key_compare key_comp() const
 		{
 			return key_compare();
 		}
 
+		// Returns a boolean value indicating wether 
+		// the first argument is less than the second.
 		value_compare value_comp() const
 		{
-			return value_compare(_tree.comp());
-		}*/
+			return value_compare(RB_Tree.key_comp());
+		}
 	};
 
 	// NON MEMBERS FUNCTIONS 

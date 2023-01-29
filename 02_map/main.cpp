@@ -1,8 +1,9 @@
 #include "map.hpp"
-
-//using namespace std;
 using namespace ft;
 
+//#include <iostream>
+//#include <map>
+//using namespace std;
 
 int main() {
 
@@ -12,6 +13,49 @@ int main() {
     test.end();
     test.rbegin();
     test.rend();
+    if (test.empty())
+      std::cout << "Map is empty" << std::endl;
+    else
+      std::cout << "Map is NOT empty" << std::endl;
+
+    //--------- Size() - MaxSize()
+    std::cout << "size: "<< test.size() << std::endl;
+    std::cout << "Max size: "<< test.max_size() << std::endl;
+
+    //-----------------------------------------
+    pair <int, int> bar;
+    bar = make_pair(1,20);
+    test.insert(bar);
+
+    //--------------------------------
+    // Key_comp test 
+    //---------------------------------
+    // will print "4 is less than 5" because 4 is 
+    // less than 5 according to the default comparison 
+    // function (which is std::less<int>)
+    //-------------------------------- 
+    map<int, std::string> myMap1;
+ 
+    map<int, std::string>::key_compare comp = myMap1.key_comp();
+    if (comp(14, 5))
+        std::cout << "4 is less than 5" << std::endl;
+    else
+        std::cout << "4 is not less than 5" << std::endl;
+
+    //--------------------------------
+    // Value_compare test 
+    //---------------------------------
+    // will print "4 is less than 5" because 4 is 
+    // less than 5 according to the default comparison 
+    // function (which is std::less<int>)
+    //-------------------------------- 
+    map<int, std::string> myMap;
+
+    map<int, std::string>::value_compare val_comp = myMap.value_comp();
+    if (val_comp(make_pair(4, "four"), make_pair(5, "five")))
+        std::cout << "4,\"four\" is less than 5,\"five\"" << std::endl;
+    else
+        std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;
 
 
     // MAKE_PAIR TEST 

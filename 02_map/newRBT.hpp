@@ -41,23 +41,28 @@ namespace ft{
             typedef typename Allocator::template rebind<Node<Val>>::other   node_allocator;
 
         public:
-            typedef size_t				                                    size_type;
-			typedef Key					                                    key_type;
+        	typedef Key					                                    key_type;
+            typedef Compare											        key_compare;
 			typedef Compare				                                    compare_type;
+            typedef Val												        value_type;
+            typedef Val*			                                        pointer;
+            typedef const value_type *								        const_pointer;
+            typedef value_type &									        reference;
+	        typedef const value_type &								        const_reference;    
+            typedef size_t				                                    size_type;
 			typedef Allocator				                                allocator_type;
-			typedef Val*			                                        pointer;
 			typedef Node<Val>*				                                node_pointer;
 			typedef const Node<Val>*			                            const_node_pointer;
-			typedef Val&			                                        reference;
-			typedef const Val&	                                            const_reference;
-            
+    
 
         protected:
-            node_pointer    root; // root of the tree
-	        node_pointer	leaf; // leaf
-	        size_type		size; // number of elements in the tree 
-	        node_allocator	node_alloc; // allocation pour un noeud
-	        compare_type	compare;
+            typedef Node<Val>*  node;
+
+            node_pointer    _root; // root of the tree
+	        node_pointer	_leaf; // leaf
+	        size_type		_size; // number of elements in the tree 
+	        node_allocator	_node_alloc; // allocation pour un noeud
+	        compare_type	_compare;
         
         public:
             // ----  Iterators TO DO 
@@ -69,20 +74,20 @@ namespace ft{
 
             RedBlackTree(const compare_type& comp = compare_type(), 
                 const node_allocator& alloc = node_allocator()) 
-                : compare(comp), node_alloc(alloc)
+                : _compare(comp), _node_alloc(alloc)
             {
-                size = 0;
-                root = node_alloc.allocate(1); // allocate memory for one node memory
-                node_alloc.construct(root, Node<Val>()); // construct root node : create a new node object
-                root->parent = 0;
-                root->right = root;
-                root->left = root;
+                _size = 0;
+                _root = _node_alloc.allocate(1); // allocate memory for one node memory
+                _node_alloc.construct(_root, Node<Val>()); // construct root node : create a new node object
+                _root->parent = 0;
+                _root->right = _root;
+                _root->left = _root;
 
                 //---- DEBEUG ---- 
                 std::cout<< "red black tree is created" << std::endl;
-                root->color = BLACK;
+                _root->color = BLACK;
                 std::cout<< "Root node is " ;
-                if (root->color == BLACK)
+                if (_root->color == BLACK)
                     std::cout << "Black" << std::endl;
                 else
                     std::cout << "FAILED" << std::endl;
@@ -91,17 +96,112 @@ namespace ft{
             ~RedBlackTree()
             {
                 //clear();
-        		node_alloc.destroy(root);
-		        node_alloc.deallocate(root, 1);
+        		_node_alloc.destroy(_root);
+		        _node_alloc.deallocate(_root, 1);
             } 
 
         //-- RED BLACK TREE OPERATIONS
         //--------------------------------
 
         // rotateLeft
-        // rotateright
+        /*void rotateLeft(node node)
+        {
+            Node *y = node->right;
+
+            node->right = y->left;
+            if (y->left != leaf) {
+              y->left->parent = node;
+            }
+            y->parent = node->parent;
+            if (node->parent == nullptr) {
+              this->root = y;
+            } else if (node == node->parent->left) {
+              node->parent->left = y;
+            } else {
+              node->parent->right = y;
+            }
+            y->left = node;
+            node->parent = y;
+        }*/
+
+        // Rotate Right
+       /* void    rotateRight(node nodePtr)
+        {         
+            node y = nodePtr->left;
+            nodePtr->left = y->right;
+            if (y->right != leaf) {
+              y->right->parent = nodePtr;
+            }
+            y->parent = nodePtr->parent;
+            if (nodePtr->parent == nullptr) {
+              this->root = y;
+            } else if (nodePtr == nodePtr->parent->right) {
+              nodePtr->parent->right = y;
+            } else {
+              nodePtr->parent->left = y;
+            }
+            y->right = nodePtr;
+            nodePtr->parent = y;   
+        }*/
+
         // insertfix
-        // delet fix
+        /*void    checkInsertionNode(node newNode)
+        {
+            Node *ptr;
+            // while the parent of newNode (p) is RED
+            while (newNode->parent->color == RED)
+            {         
+                if (newNode->parent == newNode->parent->parent->right) 
+                {
+                    ptr = newNode->parent->parent->left;
+                    if (ptr->color == 1) 
+                    {
+                        ptr->color = 0;
+                        newNode->parent->color = 0;
+                        newNode->parent->parent->color = 1;
+                        newNode = newNode->parent->parent;
+                    } 
+                    else 
+                    {
+                        if (newNode == newNode->parent->left) 
+                        {
+                            newNode = newNode->parent;
+                            rotateRight(newNode);
+                        }
+                        newNode->parent->color = 0;
+                        newNode->parent->parent->color = 1;
+                        rotateLeft(newNode->parent->parent);
+                    }
+                } 
+                else 
+                {
+                    ptr = newNode->parent->parent->right;
+                    if (ptr->color == 1) 
+                    {
+                        ptr->color = 0;
+                        newNode->parent->color = 0;
+                        newNode->parent->parent->color = 1;
+                        newNode = newNode->parent->parent;
+                    } 
+                    else 
+                    {
+                        if (newNode == newNode->parent->right) 
+                        {
+                            newNode = newNode->parent;
+                            rotateLeft(newNode);
+                        }
+                        newNode->parent->color = 0;
+                        newNode->parent->parent->color = 1;
+                        rotateRight(newNode->parent->parent);
+                    }
+                }
+                if (newNode == root) 
+                    break;
+            }
+        root->color = 0;
+    }*/
+        // delete fix
+        // TO DO ----- 
      
         //----------------------------------------------------------------
         //-------------- ELEMENT ACCESS ----------------------------------
@@ -113,23 +213,23 @@ namespace ft{
 	    iterator begin()
 	    { 
             std::cout << "begin() function called" << std::endl;
-            return iterator(root->right); 
+            return iterator(_root->right); 
         }
 
 	    const_iterator begin()const
 	    { 
-            return const_iterator(root->right); 
+            return const_iterator(_root->right); 
         }
 
 	    iterator end()
 	    { 
             std::cout << "end() function called" << std::endl;
-            return iterator(root); 
+            return iterator(_root); 
         }
 
 	    const_iterator end() const 
         { 
-            return const_iterator(root); 
+            return const_iterator(_root); 
         }
 
 	    reverse_iterator rbegin()
@@ -158,17 +258,17 @@ namespace ft{
         //-- Returns `true` if map is empty.
         //-- Returns `false` otherwise.
         bool empty () const{
-            return size == 0;
+            return _size == 0;
         }
 
         //-- Returns number of elements present in the map
         size_type size() const {
-            return size;
+            return _size;
         }
 
         //-- Return maximum number of elements the map can hold
-        size_type max_size() {
-            return node_alloc.max_size(); 
+        size_type max_size() const {
+            return _node_alloc.max_size(); 
         }
 
         //-------------------------------------------------------------
@@ -178,6 +278,13 @@ namespace ft{
         // Clear 
 
         // Insert
+        ft::pair<iterator, bool> insert(const value_type &val)
+        {
+            node    newNode = _node_alloc.allocate(1);
+		    _node_alloc.construct(newNode, Node<Val>(val));
+            std::cout<< "Insert function called" << std::endl;
+            return ft::make_pair(iterator(newNode), true);
+        }
         // erase 
         // swap 
 
@@ -191,10 +298,19 @@ namespace ft{
         // upper_bound
 
         //-------------------------------------------------------------
-        //-------------- OBSERVERS  -------------------------------------
+        //-------------- OBSERVERS  -----------------------------------
         //-------------------------------------------------------------
-        // Key_comp
-        // value_comp
+        // Returns the comparison object used to compare the keys in the map
+        // Used for example :
+        // ---> To check if a given key is less than or equal to another key.
+        // ---> To sort a rangeof keys.
+        key_compare key_comp() const{
+            return _compare;
+        }
+
+        //-------------------------------------------------------------
+        //-------------- ALLOCATOR  -----------------------------------
+        //-------------------------------------------------------------
 
     };
     //------------ NON MEMBER FUNCTIONS 
