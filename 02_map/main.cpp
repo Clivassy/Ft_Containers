@@ -9,10 +9,20 @@ int main() {
 
     map<int, int> test;
 
+    //////////////////////////////////////////////////////////////
+    // ITERATORS
+    std::cout << std::endl;
+    std::cout << "------- ITERATORS TESTS--------" << std::endl;
+    std::cout << std::endl;
     test.begin();
     test.end();
     test.rbegin();
     test.rend();
+    //////////////////////////////////////////////////////////////
+    // CAPACITY
+    std::cout << std::endl;
+    std::cout << "------- CAPACITY TESTS--------" << std::endl;
+    std::cout << std::endl;
     if (test.empty())
       std::cout << "Map is empty" << std::endl;
     else
@@ -22,11 +32,21 @@ int main() {
     std::cout << "size: "<< test.size() << std::endl;
     std::cout << "Max size: "<< test.max_size() << std::endl;
 
+    //////////////////////////////////////////////////////////////
+    // PAIR
+    std::cout << std::endl;
+    std::cout << "------- PAIR TESTS--------" << std::endl;
+    std::cout << std::endl;
     //-----------------------------------------
     pair <int, int> bar;
     bar = make_pair(1,20);
-    test.insert(bar);
+   // test.insert(bar);
 
+    //////////////////////////////////////////////////////////////
+    // OBSERVERS
+    std::cout << std::endl;
+    std::cout << "------- OBSERVERS TESTS--------" << std::endl;
+    std::cout << std::endl;
     //--------------------------------
     // Key_comp test 
     //---------------------------------
@@ -49,45 +69,29 @@ int main() {
     // less than 5 according to the default comparison 
     // function (which is std::less<int>)
     //-------------------------------- 
-    map<int, std::string> myMap;
+    /*map<int, std::string> myMap;
 
     map<int, std::string>::value_compare val_comp = myMap.value_comp();
     if (val_comp(make_pair(4, "four"), make_pair(5, "five")))
         std::cout << "4,\"four\" is less than 5,\"five\"" << std::endl;
     else
-        std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;
-
-
-    // MAKE_PAIR TEST 
-   /* pair <int, int> foo;
-    pair <int, int> bar;
-    const pair <int, int> bar2;
-
-    foo = make_pair(10, 20);
-    bar = make_pair(1,20);
-
-
-    std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
-    std::cout << "bar: " << bar.first << ", " << bar.second << '\n';*/
-
-  //  test.insert(pair<const int, int>(1, 3));
+        std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;*/
+    //////////////////////////////////////////////////////////////
+    // INSERT
+    std::cout << std::endl;
+    std::cout << "------- INSERT TESTS--------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Size before insertion : " << test.size() << std::endl;
+    test.insert(pair<const int, int>(1, 3));
+    test.insert(pair<const int, int>(1, 6));
+    test.insert(pair<const int, int>(6, 3));
+    test.insert(pair<const int, int>(4, 3));
+    std::cout << "Size after insertion : " << test.size() << std::endl;
    // test.insert(std::make_pair(1,3));
-
+       //test.insert(pair<int, int>(1,2));
 }
-    //test.insert(pair<int, int>(1,2));
 
   
-  /*tree.insertNode(33);
-  tree.insertNode(13);
-  tree.insertNode(21);
-  tree.insertNode(11);
-  tree.insertNode(15);
-  tree.insertNode(31);
-  tree.insertNode(53);
-  tree.insertNode(41);
-  tree.insertNode(61);
-
-  tree.printTree();*/
 //}
 // Fill constructor 
 /*

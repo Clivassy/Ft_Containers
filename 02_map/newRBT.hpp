@@ -104,37 +104,38 @@ namespace ft{
         //--------------------------------
 
         // rotateLeft
-        /*void rotateLeft(node node)
+        void rotateLeft(node newNode)
         {
-            Node *y = node->right;
+            node y = newNode->right;
 
-            node->right = y->left;
-            if (y->left != leaf) {
-              y->left->parent = node;
+            newNode->right = y->left;
+            if (y->left != 0) {
+              y->left->parent = newNode;
             }
-            y->parent = node->parent;
-            if (node->parent == nullptr) {
-              this->root = y;
-            } else if (node == node->parent->left) {
-              node->parent->left = y;
+            y->parent = newNode->parent;
+            if (newNode->parent == nullptr) {
+              this->_root = y;
+            } else if (newNode == newNode->parent->left) {
+              newNode->parent->left = y;
             } else {
-              node->parent->right = y;
+              newNode->parent->right = y;
             }
-            y->left = node;
-            node->parent = y;
-        }*/
+            y->left = newNode;
+            newNode->parent = y;
+        }
 
         // Rotate Right
-       /* void    rotateRight(node nodePtr)
+        void    rotateRight(node nodePtr)
         {         
             node y = nodePtr->left;
+
             nodePtr->left = y->right;
-            if (y->right != leaf) {
+            if (y->right != 0) {
               y->right->parent = nodePtr;
             }
             y->parent = nodePtr->parent;
             if (nodePtr->parent == nullptr) {
-              this->root = y;
+              this->_root = y;
             } else if (nodePtr == nodePtr->parent->right) {
               nodePtr->parent->right = y;
             } else {
@@ -142,12 +143,12 @@ namespace ft{
             }
             y->right = nodePtr;
             nodePtr->parent = y;   
-        }*/
+        }
 
         // insertfix
-        /*void    checkInsertionNode(node newNode)
+        void    checkInsertionNode(node newNode)
         {
-            Node *ptr;
+            node ptr;
             // while the parent of newNode (p) is RED
             while (newNode->parent->color == RED)
             {         
@@ -195,11 +196,11 @@ namespace ft{
                         rotateRight(newNode->parent->parent);
                     }
                 }
-                if (newNode == root) 
+                if (newNode == _root) 
                     break;
             }
-        root->color = 0;
-    }*/
+        _root->color = 0;
+    }
         // delete fix
         // TO DO ----- 
      
@@ -277,12 +278,72 @@ namespace ft{
         // Erase all elements from the container
         // Clear 
 
+        /*
+        
+        */
+
         // Insert
         ft::pair<iterator, bool> insert(const value_type &val)
         {
+            //std::cout<< "Insert function called" << std::endl;
+            //- 1)Traverse the tree to find the locatonto insertthe nez node 
+            // while keeping trace of the last visited node.
+            node currentNode = _root->parent;
+            node parentNode = 0;
+
+            //-- If node == 0 -> leaf has been reached.
+            while (currentNode != 0 and currentNode != 0)
+            {
+                //-- check if the value already exist in the tree : return an iterator to the
+                //-- existing node, and bool false to indicate the insert failed.
+                if (currentNode->value == val)
+                {
+                    std::cout << "Error: key already exists in the map" << std::endl;
+                    return ft::make_pair(iterator(currentNode), false);
+                }
+
+                parentNode = currentNode;
+                //-- if `Val` < node -> go to left
+                //-- Else go to right
+                if (val < currentNode->value)
+                    currentNode = currentNode->left;
+                else
+                    currentNode = currentNode->right;
+            }
             node    newNode = _node_alloc.allocate(1);
 		    _node_alloc.construct(newNode, Node<Val>(val));
-            std::cout<< "Insert function called" << std::endl;
+            newNode->parent = parentNode;
+            if (parentNode == 0)
+                _root->parent = newNode;
+            else
+            {
+                if (newNode->value < parentNode->value)
+                    parentNode->left = newNode;
+                else
+                    parentNode->right = newNode;
+            }
+            // check if node is root 
+            if (newNode->parent == 0 or newNode->parent == _root)
+                newNode->color = BLACK;
+            else
+            {
+                // checkInsertionNode(newNode);
+                std::cout << "Need to check RBT rules" << std::endl;
+            }
+            // Need to update the header node here
+            // increase total size of the map
+            _size++;
+
+            // -- DEBEUG ------------------------------------
+            std::cout << "------------------------------------ "<< std::endl;
+            std::cout << "Node color : " ;
+            if (newNode->color == BLACK) 
+                std::cout << "Black" << std::endl;
+            else
+                std::cout << "Red" << std::endl;
+            std::cout << "Node value : " << newNode->value << std::endl;
+            std::cout << "------------------------------------ "<< std::endl;
+            getMin();
             return ft::make_pair(iterator(newNode), true);
         }
         // erase 
@@ -292,7 +353,24 @@ namespace ft{
         //-------------- LOOKUP -------------------------------------
         //-------------------------------------------------------------
         // count
+        size_type count (const key_type& k) const
+        {
+            // search in the map for element with a key equivalent to `K`
+            // As key are unique, countcan only return '1'
+        }
         // find
+        //-- Search the container for an element with a key equivalent to key.
+        //-- Returns an iterator  to it if found.
+        //-- Returns an iterator to map::end() otherwise.
+        iterator find (const key_type& k)
+        {
+           
+        }
+
+        const_iterator find (const key_type& k) const
+        {
+
+        }
         // equal_range 
         // lower_bound
         // upper_bound
@@ -307,11 +385,86 @@ namespace ft{
         key_compare key_comp() const{
             return _compare;
         }
+        //-------------------------------------------------------------
+        //-------------- UTILS  ---------------------------------------
+        //-------------------------------------------------------------
+        void    updateRoot()
+        {
+
+        }
+
+        node getMin()
+        {
+            node traversal;
+            traversal = _root;
+
+            if (_root->parent)
+            {
+                while (traversal->parent)
+                {
+                   // traversal = _root;
+                   _root = traversal->parent;
+                   traversal = _root;
+                }
+            }
+            std::cout << "ROOT: " << _root->parent->value << std::endl;
+            /*{
+                while (traversal->parent != 0)
+                {
+                    _root = traversal->parent;
+                }
+                std::cout << "ROOT: " << _root->value << std::endl;
+            }*/
+            node min;
+            min = _root->left;
+            /*while (min != 0)
+            {
+                min = min->left;
+            }
+            std::cout << "MIN NODE: " << min->value << std::endl;*/
+            return (min);
+
+        }
+
+        node getMax()
+        {
+
+        }
 
         //-------------------------------------------------------------
         //-------------- ALLOCATOR  -----------------------------------
         //-------------------------------------------------------------
 
+        ///////////////////// DEBUG //////////////////
+        void printHelper(node root, std::string indent, bool last) 
+        {
+            if (_root != 0) 
+            {
+                std::cout << indent;
+                if (last) 
+                {
+                    std::cout << "R----";
+                    indent += "   ";
+                }     
+                else 
+                {
+                    std::cout << "L----";
+                    indent += "|  ";
+                }
+                std::string sColor = root->color ? "RED" : "BLACK";
+                std::cout << root->value << "(" << sColor << ")" << std::endl;
+                printHelper(root->left, indent, false);
+                printHelper(root->right, indent, true);
+            }
+        }
+
+        void    printTree( void )
+        {
+            if (_root)
+            {
+                printHelper(this->root,"", true);
+            }
+        }
     };
     //------------ NON MEMBER FUNCTIONS 
     
