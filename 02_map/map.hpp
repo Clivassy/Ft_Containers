@@ -61,19 +61,19 @@ namespace ft {
 			//-------------------------------------------------------
 
 			public: 
-
-				typedef typename ft::RedBlackTree<value_type, key_type, key_compare, allocator_type>	tree_type;
+				typedef typename ft::RedBlackTree< key_type, value_type, key_compare, allocator_type>	tree_type;
 			// --- TO DO --- IN PROGRESS
 				typedef typename tree_type::iterator													iterator;
 				typedef typename tree_type::const_iterator												const_iterator;
 				typedef typename tree_type::reverse_iterator											reverse_iterator;
 				typedef typename tree_type::reverse_iterator											const_reverse_iterator;
-				typedef typename allocator_type::size_type												size_type;
+				typedef typename tree_type::size_type													size_type;
 				typedef typename allocator_type::difference_type										difference_type;
 				typedef typename tree_type::reference													reference;
 				typedef typename tree_type::const_reference												const_reference;
-				typedef typename allocator_type::pointer												pointer;
-				typedef typename allocator_type::const_pointer											const_pointer;
+				typedef typename tree_type::pointer														pointer;
+				typedef typename tree_type::const_pointer												const_pointer;
+		
 		protected:
 			tree_type	RB_Tree;
 
@@ -197,10 +197,17 @@ namespace ft {
 		//--- Returns a pair.
 		//--- 'iterator': pointing the the inserted element(or element htat prevented insertion).
 		//--- 'bool': wether the insertion succeed or not.
-		ft::pair<iterator, bool> insert( const value_type &value )
+		ft::pair<iterator, bool> insert( const_reference &value )
 		{
-			return RB_Tree.insert(value.first);
+			return RB_Tree.insert(value);
 		}
+		
+		// DEBEUG 
+		void	prinTree()
+		{
+			RB_Tree.printTree();
+		}
+
 
 		/*iterator insert( iterator pos, const value_type& value )
 		{

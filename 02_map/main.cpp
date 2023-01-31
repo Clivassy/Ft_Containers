@@ -82,11 +82,14 @@ int main() {
     std::cout << "------- INSERT TESTS--------" << std::endl;
     std::cout << std::endl;
     std::cout << "Size before insertion : " << test.size() << std::endl;
-    test.insert(pair<const int, int>(1, 3));
+    test.insert(pair<const int, int>(1, 12));
     test.insert(pair<const int, int>(1, 6));
-    test.insert(pair<const int, int>(6, 3));
-    test.insert(pair<const int, int>(4, 3));
+    test.insert(pair<const int, int>(6, 30));
+    test.insert(pair<const int, int>(4, 45));
+    test.insert(pair<const int, int>(2, 65));
+    test.insert(pair<const int, int>(2, 85));
     std::cout << "Size after insertion : " << test.size() << std::endl;
+    test.prinTree();
    // test.insert(std::make_pair(1,3));
        //test.insert(pair<int, int>(1,2));
 }

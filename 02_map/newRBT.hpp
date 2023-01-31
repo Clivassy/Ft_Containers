@@ -20,8 +20,7 @@
 //---------------------------------------------------
 
 namespace ft{
-    template <typename Key, typename Val = Key , 
-        class Compare = std::less<Key>, class Allocator = std::allocator<Val> >
+    template <typename Key, typename Val , class Compare = std::less<Key>, class Allocator = std::allocator<Val> >
     class RedBlackTree
     {
         private:
@@ -279,33 +278,35 @@ namespace ft{
         // Clear 
 
         /*
-        
+        		//insert empty node
+			ft::pair<iterator, bool>	insert_empty_node(node_pointer node)
+			{
+				_root = node;
+				_root->left = NULL;
+				_root->right = _end;
+				_end->parent = _root;
+				_root->color = 0; //black
+				_size++;
+				return ft::make_pair(iterator(_root), true);
+			}
         */
 
         // Insert
-        ft::pair<iterator, bool> insert(const value_type &val)
+        ft::pair<iterator, bool> insert(const_reference &val)
         {
-            //std::cout<< "Insert function called" << std::endl;
-            //- 1)Traverse the tree to find the locatonto insertthe nez node 
-            // while keeping trace of the last visited node.
             node currentNode = _root->parent;
             node parentNode = 0;
 
-            //-- If node == 0 -> leaf has been reached.
-            while (currentNode != 0 and currentNode != 0)
+            while (currentNode != 0 and currentNode != _root)
             {
-                //-- check if the value already exist in the tree : return an iterator to the
-                //-- existing node, and bool false to indicate the insert failed.
-                if (currentNode->value == val)
+                if (currentNode->value.first == val.first)
                 {
                     std::cout << "Error: key already exists in the map" << std::endl;
                     return ft::make_pair(iterator(currentNode), false);
                 }
 
                 parentNode = currentNode;
-                //-- if `Val` < node -> go to left
-                //-- Else go to right
-                if (val < currentNode->value)
+                if (val.first < currentNode->value.first)
                     currentNode = currentNode->left;
                 else
                     currentNode = currentNode->right;
@@ -317,33 +318,35 @@ namespace ft{
                 _root->parent = newNode;
             else
             {
-                if (newNode->value < parentNode->value)
+                if (newNode->value.first < parentNode->value.first)
                     parentNode->left = newNode;
                 else
                     parentNode->right = newNode;
             }
-            // check if node is root 
             if (newNode->parent == 0 or newNode->parent == _root)
                 newNode->color = BLACK;
             else
             {
-                // checkInsertionNode(newNode);
                 std::cout << "Need to check RBT rules" << std::endl;
             }
-            // Need to update the header node here
-            // increase total size of the map
             _size++;
 
-            // -- DEBEUG ------------------------------------
-            std::cout << "------------------------------------ "<< std::endl;
-            std::cout << "Node color : " ;
-            if (newNode->color == BLACK) 
-                std::cout << "Black" << std::endl;
-            else
-                std::cout << "Red" << std::endl;
-            std::cout << "Node value : " << newNode->value << std::endl;
-            std::cout << "------------------------------------ "<< std::endl;
-            getMin();
+            // Need to update the header node here
+            //!\\ Root->value is stocked in root->parent 
+            if (_root->parent)
+            {   
+                //-- sets the parent of the header's parent to be the header node, 
+                //-- ensuring that the header node is always a valid parent node.
+                _root->parent->parent = _root;
+                //-- sets the right child of the header node to be the minimum node in the tree.
+                _root->right = getMin(_root->parent);
+                //-- sets the left child of the header node to be the maximum node in the tree.
+                _root->left = getMax(_root->parent);
+            }
+            // DEBEUG 
+            printRoot();
+            printOneNode(newNode);
+            //printTree();
             return ft::make_pair(iterator(newNode), true);
         }
         // erase 
@@ -355,25 +358,46 @@ namespace ft{
         // count
         size_type count (const key_type& k) const
         {
-            // search in the map for element with a key equivalent to `K`
-            // As key are unique, countcan only return '1'
-        }
-        // find
-        //-- Search the container for an element with a key equivalent to key.
-        //-- Returns an iterator  to it if found.
-        //-- Returns an iterator to map::end() otherwise.
-        iterator find (const key_type& k)
-        {
-           
+
         }
 
         const_iterator find (const key_type& k) const
         {
 
         }
-        // equal_range 
-        // lower_bound
-        // upper_bound
+
+        //-- std::equal_range
+        //-- Returns a range containing all elements with the given key in the container.
+        //-- Returns a pair of iterators defining the wanted range :
+        //-- Firt iterator: is pointing to the first element that is not less than the key
+        //-- Second element: is pointing to the first element greater than key.
+        std::pair<iterator,iterator> equal_range( const Key& key )
+        {
+
+        }
+
+        std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+        {
+
+        }
+
+
+        //-- std::lower_bound
+        //-- Returns an iterator pointing to the first element that is not less than key
+        //-- (Greater or equal) 
+        iterator lower_bound( const Key& key )
+        {
+
+
+        }
+
+
+        const_iterator lower_bound( const Key& key ) const
+        {
+
+        }
+
+        //-- std::upper_bound
 
         //-------------------------------------------------------------
         //-------------- OBSERVERS  -----------------------------------
@@ -393,42 +417,26 @@ namespace ft{
 
         }
 
-        node getMin()
+        // returns the minimum node in the RBT
+        node getMin(const node &newNode) const
         {
-            node traversal;
-            traversal = _root;
-
-            if (_root->parent)
+            if (newNode == 0 || newNode == _root)
+                return (0);
+            if (newNode->left == 0 || newNode->left == _root)
             {
-                while (traversal->parent)
-                {
-                   // traversal = _root;
-                   _root = traversal->parent;
-                   traversal = _root;
-                }
+                return newNode;
             }
-            std::cout << "ROOT: " << _root->parent->value << std::endl;
-            /*{
-                while (traversal->parent != 0)
-                {
-                    _root = traversal->parent;
-                }
-                std::cout << "ROOT: " << _root->value << std::endl;
-            }*/
-            node min;
-            min = _root->left;
-            /*while (min != 0)
-            {
-                min = min->left;
-            }
-            std::cout << "MIN NODE: " << min->value << std::endl;*/
-            return (min);
 
+            return (getMin(newNode->left));
         }
 
-        node getMax()
+        node getMax(const node &newNode) const
         {
-
+            if (newNode == 0 || newNode == _root)
+                return (0);
+            if (newNode->right == 0|| newNode->right == _root)
+                return newNode;
+            return (getMin(newNode->right));
         }
 
         //-------------------------------------------------------------
@@ -436,35 +444,57 @@ namespace ft{
         //-------------------------------------------------------------
 
         ///////////////////// DEBUG //////////////////
-        void printHelper(node root, std::string indent, bool last) 
+        void    printOneNode( node oneNode)
         {
-            if (_root != 0) 
-            {
-                std::cout << indent;
-                if (last) 
-                {
-                    std::cout << "R----";
-                    indent += "   ";
-                }     
-                else 
-                {
-                    std::cout << "L----";
-                    indent += "|  ";
-                }
-                std::string sColor = root->color ? "RED" : "BLACK";
-                std::cout << root->value << "(" << sColor << ")" << std::endl;
-                printHelper(root->left, indent, false);
-                printHelper(root->right, indent, true);
-            }
+            std::cout << std::endl;
+            std::cout << "| ------------------------------------ |"<< std::endl;
+            std::cout << "   Node color : " ;
+            if (oneNode->color == BLACK) 
+                std::cout << "   Black" << std::endl;
+            else
+                std::cout << " Red" << std::endl;
+            std::cout << "   Node value : " << oneNode->value.first << std::endl;
+            std::cout << "| ------------------------------------ |"<< std::endl;
         }
 
-        void    printTree( void )
+        void    printRoot( void )
         {
-            if (_root)
-            {
-                printHelper(this->root,"", true);
-            }
+            std::cout << std::endl;
+            std::cout << "| ------------------------------------ |"<< std::endl;
+            std::cout << "   ROOT: " << _root->parent->value.first << std::endl;
+            std::cout << "| ------------------------------------ |"<< std::endl;
         }
+
+    	void printTreeHelper(node root, std::string indent, bool last)
+	{
+		if (root != 0 and root != _root)
+		{
+			std::cout << indent;
+			if (last)
+			{
+				std::cout << "R----";
+				indent += "   ";
+			}
+			else
+			{
+				std::cout << "L----";
+				indent += "|  ";
+			}
+			std::string sColor = root->color ? "RED" : "BLACK";
+			std::cout << root->value.second << "(" << sColor << ")" << std::endl;
+			printTreeHelper(root->left, indent, false);
+			printTreeHelper(root->right, indent, true);
+		}
+	}
+
+
+    void printTree()
+	{ 
+        printTreeHelper(_root->parent, "", true); 
+    }
+
+
+    
     };
     //------------ NON MEMBER FUNCTIONS 
     
