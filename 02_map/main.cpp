@@ -90,8 +90,17 @@ int main() {
     test.insert(pair<const int, int>(2, 85));
     std::cout << "Size after insertion : " << test.size() << std::endl;
     test.prinTree();
+    
+    map<int,int>::iterator itlow;
+    itlow = test.lower_bound(2);
+
+
+    map<int,int> mymap;
+    mymap.insert(test.begin(), test.end()); 
+
+
    // test.insert(std::make_pair(1,3));
-       //test.insert(pair<int, int>(1,2));
+    //test.insert(pair<int, int>(1,2));
 }
 
   

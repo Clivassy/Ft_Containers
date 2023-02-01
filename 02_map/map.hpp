@@ -9,6 +9,8 @@
 #include "../utils/random_access_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
 #include "newRBT.hpp"
+#include "../utils/enable_if.hpp"
+#include "../utils/is_integral.hpp"
 //#include "./RedBlackTree.hpp"
 
 namespace ft {
@@ -84,27 +86,26 @@ namespace ft {
 		// Default constructor
 		// Construct an empty map container object. 
 		// Initialize the internal RB Tree.
-		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())  
+		map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())  
 		{
 			// Here need to initialize the Red black tree.
 			std::cout<< "Map constructor called" << std::endl;
 		}
 
-
 		// Initializes the internal red-black tree data member 
 		// with the passed comp and alloc arguments.
 		// Uses the insert function to insert elements 
 		// from the range [first, last) into the map.
-		/*template <class InputIterator>
+		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
-			const Compare& comp = Compare(), const Allocator& alloc = Allocator())
+			const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
 		: RB_Tree(comp, alloc)
 		{
-			insert(first, last);
+			RB_Tree.insert(first, last);
 		}
 
 		// Copy constructor
-		map (const map& rhs)
+		/*map (const map& rhs)
 		{
 			clear() // protection
 			insert(rhs.begin(), rhs.end());
@@ -113,7 +114,7 @@ namespace ft {
 		// DESTRUCTOR
 		~map()
 		{ 
-			//clear(); 
+			clear(); 
 		}
 
 		/*map& operator= (const map& rhs)
@@ -187,11 +188,11 @@ namespace ft {
 		//-------------------------------------------------------------
         //-------------- MODIFIERS  ------------------------------------
         //-------------------------------------------------------------
-		/*void clear()
+		void clear()
 		{
 			if (size())
-				_tree.clearAll();
-		}*/
+				RB_Tree.clear();
+		}
 
 		//--- Inserts the given value into th map
 		//--- Returns a pair.
@@ -212,19 +213,16 @@ namespace ft {
 		/*iterator insert( iterator pos, const value_type& value )
 		{
 			(void)pos;
-			return _tree.insert(value).first;
-		}
+			return RB_Tree.insert(value).first;
+		}*/
 
 		template< class InputIterator >
 		void insert(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
 		{
-			for (;first != last; first++)
-			{
-				_tree.insert(*first);				
-			}
+			RB_Tree.insert(first, last);
 		}
 
-		void erase( iterator pos )
+		/*void erase( iterator pos )
 		{
 			erase(pos->first);
 		}
@@ -269,14 +267,14 @@ namespace ft {
 		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
-		}
+		}*/
 		
-		iterator lower_bound( const Key& key )
+		iterator lower_bound( const key_type& key )
 		{
-			return (_tree.lower_bound(ft::make_pair(key, mapped_type())));
+			return (RB_Tree.lower_bound(key));
 		}
 
-		const_iterator lower_bound( const Key& key ) const
+		/*const_iterator lower_bound( const Key& key ) const
 		{
 			return (_tree.lower_bound(ft::make_pair(key, mapped_type())));
 		}

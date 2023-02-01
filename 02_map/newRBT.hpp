@@ -42,7 +42,7 @@ namespace ft{
         public:
         	typedef Key					                                    key_type;
             typedef Compare											        key_compare;
-			typedef Compare				                                    compare_type;
+			//typedef Compare				                                    compare_type;
             typedef Val												        value_type;
             typedef Val*			                                        pointer;
             typedef const value_type *								        const_pointer;
@@ -61,7 +61,7 @@ namespace ft{
 	        node_pointer	_leaf; // leaf
 	        size_type		_size; // number of elements in the tree 
 	        node_allocator	_node_alloc; // allocation pour un noeud
-	        compare_type	_compare;
+	        Compare         _compare;
         
         public:
             // ----  Iterators TO DO 
@@ -70,10 +70,8 @@ namespace ft{
             typedef ft::reverse_Iterator<iterator>			    reverse_iterator;
 	        typedef ft::reverse_Iterator<const_iterator>	    const_reverse_iterator;
 
-
-            RedBlackTree(const compare_type& comp = compare_type(), 
-                const node_allocator& alloc = node_allocator()) 
-                : _compare(comp), _node_alloc(alloc)
+            RedBlackTree(const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
+            : _compare(comp), _node_alloc(alloc)
             {
                 _size = 0;
                 _root = _node_alloc.allocate(1); // allocate memory for one node memory
@@ -84,17 +82,26 @@ namespace ft{
 
                 //---- DEBEUG ---- 
                 std::cout<< "red black tree is created" << std::endl;
-                _root->color = BLACK;
-                std::cout<< "Root node is " ;
-                if (_root->color == BLACK)
-                    std::cout << "Black" << std::endl;
-                else
-                    std::cout << "FAILED" << std::endl;
             }
+
+            template <class InputIterator>
+            RedBlackTree(InputIterator first, InputIterator last,
+            const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
+            : _compare(comp), _node_alloc(alloc)
+            {
+                _size = 0;
+                _root = _node_alloc.allocate(1);
+                _node_alloc.construct(_root, Node<Val>());
+                _root->parent = 0;
+                _root->right = _root;
+                _root->left = _root;
+                insert(first, last);
+            }
+
 
             ~RedBlackTree()
             {
-                //clear();
+                clear();
         		_node_alloc.destroy(_root);
 		        _node_alloc.deallocate(_root, 1);
             } 
@@ -207,6 +214,11 @@ namespace ft{
         //-------------- ELEMENT ACCESS ----------------------------------
         //----------------------------------------------------------------
 
+        //-- at
+
+        //-- operator[]
+
+
         //----------------------------------------------
         //------ ITERATORS --- From RBT_Iterators
         //----------------------------------------------
@@ -274,25 +286,33 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- MODIFIERS -------------------------------------
         //-------------------------------------------------------------
+        
+        // Clear  
+        void    clearEachNode( node oneNode)
+        {
+            if (!oneNode)
+                return;
+            clearEachNode(oneNode->left);
+            clearEachNode(oneNode->right);
+            _node_alloc.destroy(oneNode);
+            _node_alloc.deallocate(oneNode, 1);
+        }
+        
         // Erase all elements from the container
-        // Clear 
-
-        /*
-        		//insert empty node
-			ft::pair<iterator, bool>	insert_empty_node(node_pointer node)
-			{
-				_root = node;
-				_root->left = NULL;
-				_root->right = _end;
-				_end->parent = _root;
-				_root->color = 0; //black
-				_size++;
-				return ft::make_pair(iterator(_root), true);
-			}
-        */
+        void    clear( )
+        {
+            if (_root)
+            {
+                clearEachNode(_root->parent);
+                _root->parent = 0;
+                _root->right = _root;
+                _root->left = _root;
+                _size = 0;
+            }
+        }
 
         // Insert
-        ft::pair<iterator, bool> insert(const_reference &val)
+        ft::pair<iterator, bool> insert(const value_type &val)
         {
             node currentNode = _root->parent;
             node parentNode = 0;
@@ -301,7 +321,7 @@ namespace ft{
             {
                 if (currentNode->value.first == val.first)
                 {
-                    std::cout << "Error: key already exists in the map" << std::endl;
+                    //std::cout << "Error: key already exists in the map" << std::endl;
                     return ft::make_pair(iterator(currentNode), false);
                 }
 
@@ -330,25 +350,39 @@ namespace ft{
                 std::cout << "Need to check RBT rules" << std::endl;
             }
             _size++;
+            updateRootPos();
 
-            // Need to update the header node here
-            //!\\ Root->value is stocked in root->parent 
-            if (_root->parent)
-            {   
-                //-- sets the parent of the header's parent to be the header node, 
-                //-- ensuring that the header node is always a valid parent node.
-                _root->parent->parent = _root;
-                //-- sets the right child of the header node to be the minimum node in the tree.
-                _root->right = getMin(_root->parent);
-                //-- sets the left child of the header node to be the maximum node in the tree.
-                _root->left = getMax(_root->parent);
-            }
             // DEBEUG 
             printRoot();
             printOneNode(newNode);
-            //printTree();
             return ft::make_pair(iterator(newNode), true);
         }
+
+        //-- Insert `val` at given `position` in the map
+        //-- Returns an iterator pointing to the newly inserted element.
+        iterator insert (iterator position, const value_type& val)
+        {
+            // PAS TESTE
+            /*ft::pair<iterator, bool> result = this->insert(val);
+            if (result.second)
+            {
+                return result.first;
+            }
+            else
+            {
+                *(result.first)= val;
+                return result.first;
+            }*/
+        }
+
+        template <class InputIterator>  
+        void insert (InputIterator first, InputIterator last)
+        {
+
+            std::cout << "Iterator Insert function called" << std::endl;
+        }
+
+
         // erase 
         // swap 
 
@@ -381,14 +415,27 @@ namespace ft{
 
         }
 
-
         //-- std::lower_bound
         //-- Returns an iterator pointing to the first element that is not less than key
         //-- (Greater or equal) 
-        iterator lower_bound( const Key& key )
+        iterator lower_bound( const key_type& key )
         {
+            node currentNode = _root->parent;
+            node lowerBoundNode = _root; 
 
-
+            while( currentNode != 0 and currentNode!= _root)
+            {
+                if ( !_compare(currentNode->value.first, key))
+                {
+                    lowerBoundNode = currentNode;
+                    currentNode = currentNode->left;
+                }
+                else
+                {
+                    currentNode = currentNode->right;
+                }
+            }
+            return iterator (lowerBoundNode);
         }
 
 
@@ -398,6 +445,15 @@ namespace ft{
         }
 
         //-- std::upper_bound
+        iterator upper_bound( const Key& key )
+        {
+
+        }
+
+        const_iterator upper_bound( const Key& key ) const
+        {
+
+        }
 
         //-------------------------------------------------------------
         //-------------- OBSERVERS  -----------------------------------
@@ -412,9 +468,20 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- UTILS  ---------------------------------------
         //-------------------------------------------------------------
-        void    updateRoot()
+        void    updateRootPos()
         {
-
+            // Need to update the header node here
+            //!\\ Root->value is stocked in root->parent 
+            if (_root->parent)
+            {   
+                //-- sets the parent of the header's parent to be the header node, 
+                //-- ensuring that the header node is always a valid parent node.
+                _root->parent->parent = _root;
+                //-- sets the right child of the header node to be the minimum node in the tree.
+                _root->right = getMin(_root->parent);
+                //-- sets the left child of the header node to be the maximum node in the tree.
+                _root->left = getMax(_root->parent);
+            }
         }
 
         // returns the minimum node in the RBT
@@ -465,8 +532,13 @@ namespace ft{
             std::cout << "| ------------------------------------ |"<< std::endl;
         }
 
-    	void printTreeHelper(node root, std::string indent, bool last)
+    void printTreeHelper(node root, std::string indent, bool last)
 	{
+        if (empty())
+        {
+            std::cout << "MAP IS EMPTY" << std::endl;
+            return;
+        }
 		if (root != 0 and root != _root)
 		{
 			std::cout << indent;
