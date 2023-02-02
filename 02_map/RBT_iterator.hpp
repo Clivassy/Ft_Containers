@@ -9,7 +9,7 @@ namespace ft {
 	// 'T': the type of the element stored in the tree
 	// 'node': the type of the node in the tree
 	// 'Compare'
-	template<typename T, typename node>
+	template<typename T, typename node, class Compare>
 	class RBT_iterator
 	{ 
 		private:
@@ -19,6 +19,7 @@ namespace ft {
 			typedef typename std::bidirectional_iterator_tag	iterator_category;
 			typedef typename iterator::difference_type			difference_type;
 			typedef typename iterator::pointer					pointer;
+			//typedef value_type*									pointer;
 			typedef typename iterator::reference				reference;
 			typedef node										node_pointer;
 
@@ -72,7 +73,7 @@ namespace ft {
 			// Post-decrement operator
 			RBT_iterator& operator-- (void) 
 			{
-				_node = decrease(_node);
+				_node = RBT_iterator::decrease(_node);
 				return(*this);
 			}
 
@@ -89,7 +90,8 @@ namespace ft {
 				return _node->value;
 			}
 
-			pointer operator->() const 
+			
+			pointer operator->() const
 			{
 				return &_node->value;
 			}

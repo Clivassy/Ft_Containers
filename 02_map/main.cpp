@@ -1,3 +1,5 @@
+#include "testeur.hpp"
+
 #include "map.hpp"
 using namespace ft;
 
@@ -7,22 +9,54 @@ using namespace ft;
 
 int main() {
 
-    map<int, int> test;
+    //-----------------------------------------------------------
+    //-- CONSTRUCTORS
+    {
+        printTitle("CONSTRUCTORS TESTS");
+        printFunctionTest("Default Construtor");
 
-    //////////////////////////////////////////////////////////////
-    // ITERATORS
-    std::cout << std::endl;
-    std::cout << "------- ITERATORS TESTS--------" << std::endl;
-    std::cout << std::endl;
-    test.begin();
-    test.end();
-    test.rbegin();
-    test.rend();
-    //////////////////////////////////////////////////////////////
+        map<char, int> defaultConstructor;
+        defaultConstructor.insert(pair<const int, int>('A', 12));
+        defaultConstructor.insert(pair<const int, int>('B', 6));
+        defaultConstructor.insert(pair<const int, int>('C', 30));
+
+        printFunctionTest("Range Construtor");
+        map<char,int> rangeConstructor (defaultConstructor.begin(),defaultConstructor.end());
+
+        printFunctionTest("Copy Construtor");
+        map<char,int> copyConstructor (rangeConstructor);
+    }
+
+    {
+    //-----------------------------------------------------------
+    //-- ITERATORS
+        printTitle("ITERATORS TESTS");
+        printFunctionTest("Begin and End");
+
+        map<char, int> iteratorTest;
+        iteratorTest.insert(pair<const int, int>('A', 100));
+        iteratorTest.insert(pair<const int, int>('B', 200));
+        iteratorTest.insert(pair<const int, int>('C', 300));
+        for (map<char,int>::iterator it=iteratorTest.begin(); it!=iteratorTest.end(); ++it)
+            std::cout << it->first << " => " << it->second << '\n';
+        
+        printFunctionTest("Rbegin and Rend");
+        map<char, int> reverseIteratorTest;
+        reverseIteratorTest.insert(pair<const int, int>('A', 100));
+        reverseIteratorTest.insert(pair<const int, int>('B', 200));
+        reverseIteratorTest.insert(pair<const int, int>('C', 300));
+        
+        map<char,int>::reverse_iterator rit;
+        for (rit=reverseIteratorTest.rbegin(); rit!=reverseIteratorTest.rend(); ++rit)
+            std::cout << rit->first << " => " << rit->second << '\n';
+    }
+
+
+
+   //////////////////////////////////////////////////////////////
     // CAPACITY
-    std::cout << std::endl;
-    std::cout << "------- CAPACITY TESTS--------" << std::endl;
-    std::cout << std::endl;
+    /*printTitle("CAPACITY TESTS");
+    //-- empty()
     if (test.empty())
       std::cout << "Map is empty" << std::endl;
     else
@@ -44,9 +78,7 @@ int main() {
 
     //////////////////////////////////////////////////////////////
     // OBSERVERS
-    std::cout << std::endl;
-    std::cout << "------- OBSERVERS TESTS--------" << std::endl;
-    std::cout << std::endl;
+    printTitle("OBSERVERS TESTS");   
     //--------------------------------
     // Key_comp test 
     //---------------------------------
@@ -69,13 +101,13 @@ int main() {
     // less than 5 according to the default comparison 
     // function (which is std::less<int>)
     //-------------------------------- 
-    /*map<int, std::string> myMap;
+    map<int, std::string> myMap;
 
     map<int, std::string>::value_compare val_comp = myMap.value_comp();
     if (val_comp(make_pair(4, "four"), make_pair(5, "five")))
         std::cout << "4,\"four\" is less than 5,\"five\"" << std::endl;
     else
-        std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;*/
+        std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;
     //////////////////////////////////////////////////////////////
     // INSERT
     std::cout << std::endl;
@@ -96,7 +128,7 @@ int main() {
 
 
     map<int,int> mymap;
-    mymap.insert(test.begin(), test.end()); 
+    mymap.insert(test.begin(), test.end()); */
 
 
    // test.insert(std::make_pair(1,3));

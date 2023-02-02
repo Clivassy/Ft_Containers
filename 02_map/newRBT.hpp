@@ -65,10 +65,10 @@ namespace ft{
         
         public:
             // ----  Iterators TO DO 
-            typedef ft::RBT_iterator<Key, node_pointer>         iterator;
-            typedef ft::RBT_iterator<Key, node_pointer>         const_iterator;
-            typedef ft::reverse_Iterator<iterator>			    reverse_iterator;
-	        typedef ft::reverse_Iterator<const_iterator>	    const_reverse_iterator;
+            typedef ft::RBT_iterator<Val, node_pointer, Compare>        iterator;
+            typedef ft::RBT_iterator<Val, node_pointer, Compare>        const_iterator;
+            typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
+	        typedef ft::reverse_Iterator<const_iterator>	            const_reverse_iterator;
 
             RedBlackTree(const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
             : _compare(comp), _node_alloc(alloc)
@@ -79,9 +79,6 @@ namespace ft{
                 _root->parent = 0;
                 _root->right = _root;
                 _root->left = _root;
-
-                //---- DEBEUG ---- 
-                std::cout<< "red black tree is created" << std::endl;
             }
 
             template <class InputIterator>
@@ -224,7 +221,6 @@ namespace ft{
         //----------------------------------------------
 	    iterator begin()
 	    { 
-            std::cout << "begin() function called" << std::endl;
             return iterator(_root->right); 
         }
 
@@ -235,7 +231,6 @@ namespace ft{
 
 	    iterator end()
 	    { 
-            std::cout << "end() function called" << std::endl;
             return iterator(_root); 
         }
 
@@ -347,14 +342,14 @@ namespace ft{
                 newNode->color = BLACK;
             else
             {
-                std::cout << "Need to check RBT rules" << std::endl;
+               // std::cout << "Need to check RBT rules" << std::endl;
             }
             _size++;
             updateRootPos();
 
             // DEBEUG 
-            printRoot();
-            printOneNode(newNode);
+           // printRoot();
+            //printOneNode(newNode);
             return ft::make_pair(iterator(newNode), true);
         }
 

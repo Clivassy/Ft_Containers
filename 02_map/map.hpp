@@ -89,7 +89,7 @@ namespace ft {
 		map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())  
 		{
 			// Here need to initialize the Red black tree.
-			std::cout<< "Map constructor called" << std::endl;
+			std::cout<< "Default constructor called" << std::endl;
 		}
 
 		// Initializes the internal red-black tree data member 
@@ -101,15 +101,17 @@ namespace ft {
 			const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
 		: RB_Tree(comp, alloc)
 		{
+			std::cout<< "Range constructor called" << std::endl;
 			RB_Tree.insert(first, last);
 		}
 
 		// Copy constructor
-		/*map (const map& rhs)
+		map (const map& rhs)
 		{
-			clear() // protection
+			std::cout<< "Copy constructor called" << std::endl;
+			clear();
 			insert(rhs.begin(), rhs.end());
-		}*/
+		}
 		
 		// DESTRUCTOR
 		~map()

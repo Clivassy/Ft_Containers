@@ -167,7 +167,7 @@ int main() {
   std::cout << "------- reserve() --------" << std::endl;
   std::cout << std::endl;
 
-  vector<int>::size_type sz;
+ vector<int>::size_type sz;
   vector<int> foo;
   sz = foo.capacity();
   std::cout << "making foo grow:\n";
@@ -193,7 +193,7 @@ int main() {
 
   // ELEMENT ACCESS 
   /////////////////////////////////////////////////////////////
-  std::cout << std::endl;
+  /*std::cout << std::endl;
   std::cout << "------- ELEMENT ACCESS TESTS--------" << std::endl;
   std::cout << std::endl;
 
@@ -472,6 +472,7 @@ int main() {
  
   std::cout << "Time taken by function: "
          << duration.count() << " microseconds" << std::endl;
+         */
   return (0);
 }
 
