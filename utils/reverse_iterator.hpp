@@ -29,7 +29,13 @@ namespace ft
 
 	    reverse_Iterator(const reverse_Iterator &it) : element(it.element) { }
 
-    // what is Iterator2?
+		reverse_Iterator& operator=(const reverse_Iterator rhs)
+		{
+			// TO DO 
+			return (*this);
+		}
+
+
 	    template <typename Iterator2>
 	    reverse_Iterator(const reverse_Iterator<Iterator2> &it) : element(it.base()) { }
 

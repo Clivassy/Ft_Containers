@@ -73,7 +73,7 @@ namespace ft {
 			// Post-decrement operator
 			RBT_iterator& operator-- (void) 
 			{
-				_node = RBT_iterator::decrease(_node);
+				_node = decrease(_node);
 				return(*this);
 			}
 
@@ -118,15 +118,14 @@ namespace ft {
 			}
 
 		// ------------------------------------------------------------------------------------
-		private:
+		protected:
 			// If the current node has a right child:
 			// the iterator goes to the leftmost node in the right subtree.
 			// If the current node does not have a right child and has a parent, 
 			// the iterator goes up the tree until it finds a parent node whose 
 			// left child is the current node
 			// else, current node is root 
-			template<typename K>
-			K increase(K &nodePos) 
+			node increase(node &nodePos) 
 			{
 				if (nodePos->right != 0) 
 				{
@@ -136,7 +135,7 @@ namespace ft {
 				}
 				else
 				{
-					K tmp = nodePos->parent;
+					node tmp = nodePos->parent;
 					while (nodePos == tmp->right)
 					{
 						nodePos = tmp;
@@ -150,10 +149,9 @@ namespace ft {
 
 
 			// Same logic as increase in the reverse way	
-			template<typename K>
-			K decrease(T &nodePos) 
+			node decrease(node &nodePos) 
 			{
-				K tmp;
+				node tmp;
 				if (nodePos->left != 0) 
 				{
 					tmp = nodePos->left;

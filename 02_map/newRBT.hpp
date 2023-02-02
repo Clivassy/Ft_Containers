@@ -94,6 +94,15 @@ namespace ft{
                 _root->left = _root;
                 insert(first, last);
             }
+	        
+            RedBlackTree& operator= (const RedBlackTree& rhs)
+		    {	
+		    	if (this == &rhs)
+		    		return *this;
+		    	clear();
+		    	insert(rhs.begin(), rhs.end());
+		    	return (*this);
+		    }
 
 
             ~RedBlackTree()
@@ -357,24 +366,26 @@ namespace ft{
         //-- Returns an iterator pointing to the newly inserted element.
         iterator insert (iterator position, const value_type& val)
         {
-            // PAS TESTE
-            /*ft::pair<iterator, bool> result = this->insert(val);
-            if (result.second)
+            insert(val);
+ 
+			iterator Found = begin();
+            while( begin() != end())
             {
-                return result.first;
+                if (*Found == val)
+                    break;
+                Found++;
             }
-            else
-            {
-                *(result.first)= val;
-                return result.first;
-            }*/
+			return Found;
         }
 
         template <class InputIterator>  
         void insert (InputIterator first, InputIterator last)
         {
-
-            std::cout << "Iterator Insert function called" << std::endl;
+            while ( first != last)
+            {
+                insert(*first);
+                first++;
+            }
         }
 
 
@@ -390,10 +401,10 @@ namespace ft{
 
         }
 
-        const_iterator find (const key_type& k) const
+        /*const_iterator find (const key_type& k) const
         {
 
-        }
+        }*/
 
         //-- std::equal_range
         //-- Returns a range containing all elements with the given key in the container.

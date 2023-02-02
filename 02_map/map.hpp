@@ -37,18 +37,14 @@ namespace ft {
 			
 			// /!\ Not used to sort but only to compare elements 
 			// in the tree and maintain the order.
-			class value_compare : public std::binary_function<value_type, value_type, bool>
+			//class value_compare : public std::binary_function<value_type, value_type, bool>
+			class value_compare : public std::less<value_type>
 			{
 				// Declaring 'map' as a friend of 'value_compare' class
 				// 'map' has access to the private and protected members of 'value compare' class.
 				friend class map<key_type, mapped_type, key_compare, allocator_type>;
 				// Specified parameters to clearly indicate which specific version of map class
-				// we are referring to.
-				// ->  more a matter of readability, maintainability 
-				// and robustness of the code than a real need.
-				protected:
-					key_compare comp;
-					value_compare (key_compare c) : comp(c) {}
+				// we are referring to.iterator(c) {}
 
 				public:
 					// Compares two pairs based on their fisrt element
@@ -58,6 +54,10 @@ namespace ft {
 					{
 						return comp(lhs.first, rhs.first);
 					}
+
+				protected:
+					Compare comp;
+					value_compare(Compare c): comp(c) { }
 			};
 
 			//-------------------------------------------------------
@@ -119,14 +119,14 @@ namespace ft {
 			clear(); 
 		}
 
-		/*map& operator= (const map& rhs)
+		map& operator= (const map& rhs)
 		{	
 			if (this == &rhs)
 				return *this;
 			clear();
 			insert(rhs.begin(), rhs.end());
 			return (*this);
-		}*/
+		}
 
 		/*-------------------------------------------------------*/
 		//------- ELEMENT ACCESS 
@@ -168,7 +168,7 @@ namespace ft {
 		}
 
 		//-------------------------------------------------------------
-        //-------------- ITERATOR  ------------------------------------
+        //-------------- ITERATORS  ------------------------------------
         //-------------------------------------------------------------
 		iterator begin() { return RB_Tree.begin(); }
 		
@@ -212,11 +212,10 @@ namespace ft {
 		}
 
 
-		/*iterator insert( iterator pos, const value_type& value )
+		iterator insert( iterator pos, const value_type& value )
 		{
-			(void)pos;
-			return RB_Tree.insert(value).first;
-		}*/
+			return RB_Tree.insert(pos, value);
+		}
 
 		template< class InputIterator >
 		void insert(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
