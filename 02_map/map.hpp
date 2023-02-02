@@ -86,7 +86,8 @@ namespace ft {
 		// Default constructor
 		// Construct an empty map container object. 
 		// Initialize the internal RB Tree.
-		map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())  
+		map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+		: RB_Tree(comp, alloc)
 		{
 			// Here need to initialize the Red black tree.
 			std::cout<< "Default constructor called" << std::endl;

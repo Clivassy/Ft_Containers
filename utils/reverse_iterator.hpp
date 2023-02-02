@@ -32,6 +32,7 @@ namespace ft
 		reverse_Iterator& operator=(const reverse_Iterator rhs)
 		{
 			// TO DO 
+			(void)rhs;
 			return (*this);
 		}
 

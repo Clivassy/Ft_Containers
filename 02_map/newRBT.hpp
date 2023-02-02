@@ -37,7 +37,7 @@ namespace ft{
             };
             //-- create a new type of allocator that is bound to the 'Node' type nd uses the same 
             // memoryressource as the original 'allocator_type'.
-            typedef typename Allocator::template rebind<Node<Val>>::other   node_allocator;
+            typedef typename Allocator::template rebind<Node<Val> >::other   node_allocator;
 
         public:
         	typedef Key					                                    key_type;
@@ -59,9 +59,11 @@ namespace ft{
 
             node_pointer    _root; // root of the tree
 	        node_pointer	_leaf; // leaf
-	        size_type		_size; // number of elements in the tree 
+	        size_type		_size; // number of elements in the tree
+            Compare         _compare;
 	        node_allocator	_node_alloc; // allocation pour un noeud
-	        Compare         _compare;
+
+	       
         
         public:
             // ----  Iterators TO DO 
@@ -73,6 +75,7 @@ namespace ft{
             RedBlackTree(const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
             : _compare(comp), _node_alloc(alloc)
             {
+                (void)comp;
                 _size = 0;
                 _root = _node_alloc.allocate(1); // allocate memory for one node memory
                 _node_alloc.construct(_root, Node<Val>()); // construct root node : create a new node object
@@ -366,8 +369,8 @@ namespace ft{
         //-- Returns an iterator pointing to the newly inserted element.
         iterator insert (iterator position, const value_type& val)
         {
+            (void)position;
             insert(val);
- 
 			iterator Found = begin();
             while( begin() != end())
             {
@@ -398,7 +401,7 @@ namespace ft{
         // count
         size_type count (const key_type& k) const
         {
-
+            (void)k;
         }
 
         /*const_iterator find (const key_type& k) const
@@ -413,12 +416,12 @@ namespace ft{
         //-- Second element: is pointing to the first element greater than key.
         std::pair<iterator,iterator> equal_range( const Key& key )
         {
-
+            (void)key;
         }
 
         std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
         {
-
+            (void)key;
         }
 
         //-- std::lower_bound
@@ -447,18 +450,18 @@ namespace ft{
 
         const_iterator lower_bound( const Key& key ) const
         {
-
+            (void)key;
         }
 
         //-- std::upper_bound
         iterator upper_bound( const Key& key )
         {
-
+            (void)key;
         }
 
         const_iterator upper_bound( const Key& key ) const
         {
-
+            (void)key;
         }
 
         //-------------------------------------------------------------
