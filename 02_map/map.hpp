@@ -260,12 +260,12 @@ namespace ft {
 			return (RB_Tree.find(key));
 		}
 
-		/*const_iterator find( const Key& key ) const
+		const_iterator find( const Key& key ) const
 		{	
-			return (_tree.find(ft::make_pair(key, mapped_type())));
+			return (_tree.find(key));
 		}
 
-		ft::pair<iterator,iterator> equal_range( const Key& key )
+		/*ft::pair<iterator,iterator> equal_range( const Key& key )
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
@@ -285,16 +285,16 @@ namespace ft {
 			return (RB_Tree.lower_bound(key));
 		}
 
-		/*iterator upper_bound( const Key& key )
+		iterator upper_bound( const Key& key )
 		{
-			return (_tree.upper_bound(ft::make_pair(key, mapped_type())));
+			return (RB_Tree.upper_bound(key));
 		}
 
 		const_iterator upper_bound( const Key& key ) const
 		{
-			return (_tree.upper_bound(ft::make_pair(key, mapped_type())));
+			return (_tree.upper_bound(key));
 		}
-			*/
+
 		allocator_type get_allocator() const
 		{
 				return allocator_type();

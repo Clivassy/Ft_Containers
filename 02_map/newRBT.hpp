@@ -523,10 +523,25 @@ namespace ft{
             return (end());
         }
 
-        /*const_iterator find (const key_type& k) const
+        const_iterator find (const key_type& key) const
         {
+            node traversal = _root;
+            node parent = NULL;
 
-        }*/
+            if (empty())
+                return (end());
+            while ( traversal != 0)
+            {
+                parent = traversal;
+                if (traversal->value.first == key)
+                    return(iterator(traversal));
+                if (_compare(key, traversal->value.first))
+                    traversal =  traversal->left;
+                else if (_compare(traversal->value.first, key))
+                    traversal =  traversal->right;
+            }
+            return (end());
+        }
 
         //-- std::equal_range
         //-- Returns a range containing all elements with the given key in the container.
@@ -545,7 +560,7 @@ namespace ft{
 
         //-- std::lower_bound
         //-- Returns an iterator pointing to the first element that is not less than key
-        //-- (Greater or equal) 
+        //-- (== first element greater or equal to key) 
         iterator lower_bound( const key_type& key )
         {
             node currentNode = _root->parent;
@@ -574,14 +589,14 @@ namespace ft{
 
             while( currentNode != 0 and currentNode!= _root)
             {
-                if ( !_compare(currentNode->value.first, key))
+                if (_compare(currentNode->value.first, key))
                 {
-                    lowerBoundNode = currentNode;
-                    currentNode = currentNode->left;
+                    currentNode = currentNode->right;
                 }
                 else
                 {
-                    currentNode = currentNode->right;
+                    lowerBoundNode = currentNode;
+                    currentNode = currentNode->left;
                 }
             }
             return iterator (lowerBoundNode);
@@ -590,12 +605,42 @@ namespace ft{
         //-- std::upper_bound
         iterator upper_bound( const Key& key )
         {
-            (void)key;
+            node currentNode = _root->parent;
+            node upperBoundNode = _root;
+
+            while (currentNode != 0 and currentNode != _root)
+            {
+                if (_compare(key, currentNode->value.first))
+                {
+                    upperBoundNode = currentNode;
+                    currentNode = currentNode->left;
+                }
+                else
+                {
+                    currentNode = currentNode->right;
+                }
+            }
+            return iterator (upperBoundNode);
         }
 
         const_iterator upper_bound( const Key& key ) const
         {
-            (void)key;
+            node currentNode = _root->parent;
+            node upperBoundNode = _root;
+
+            while (currentNode != 0 and currentNode != _root)
+            {
+                if (_compare(key, currentNode->value.first))
+                {
+                    upperBoundNode = currentNode;
+                    currentNode = currentNode->left;
+                }
+                else
+                {
+                    currentNode = currentNode->right;
+                }
+            }
+            return iterator (upperBoundNode);
         }
 
         //-------------------------------------------------------------
@@ -611,6 +656,8 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- UTILS  ---------------------------------------
         //-------------------------------------------------------------
+        
+        
         void    updateRootPos()
         {
             // Need to update the header node here

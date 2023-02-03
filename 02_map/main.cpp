@@ -1,7 +1,7 @@
 #include <iostream>
 #include "testeur.hpp"
 
-#if 0 // create a real STL example
+#if 1 // create a real STL example
     #include <map>
     namespace ft = std;
 #else
@@ -146,7 +146,7 @@ int main() {
             std::cout << it->first << " => " << it->second << '\n';
         std::cout << "Size after insertion : " << insertTest.size() << std::endl;
       
-        insertTest.prinTree();
+        //insertTest.prinTree();
 
         //-- Insert Pos + Val 
         printFunctionTest("Position Insert()");
@@ -245,13 +245,41 @@ int main() {
         for (map<char,int>::iterator it=lookupTest.begin(); it!=found; ++it)
           std::cout << it->first << " => " << it->second << '\n';
 
+        std::cout << "-----------------"<< std::endl;
+
+        found = lookupTest.find('c');
+        for (map<char,int>::iterator it=lookupTest.begin(); it!=found; ++it)
+          std::cout << it->first << " => " << it->second << '\n';
+
+        lookupTest.clear();
+        
         //-- equal_range()
+
+
+
 
         //-- lower_bound()
         printFunctionTest("Lower_bound()");
+        map<char,int>::iterator itlow, itup;
 
+        lookupTest['a']=20;
+        lookupTest['b']=40;
+        lookupTest['c']=60;
+        lookupTest['o']=80;
+        lookupTest['x']=100;
+
+        itlow = lookupTest.lower_bound('c');
+        for (map<char,int>::iterator it=lookupTest.begin(); it!=itlow; ++it)
+            std::cout << it->first << " => " << it->second << '\n';
+        std::cout << YELLOW " >>>>>> FOUND LOWER BOUND ELEMENT : KEY = " << itlow->first << " >>>>> " CLEAR << std::endl;
+        
         //-- upper_bound()
         printFunctionTest("Upper_bound()");
+        itup = lookupTest.upper_bound('c');
+        for (map<char,int>::iterator it=lookupTest.begin(); it!=itup; ++it)
+            std::cout << it->first << " => " << it->second << '\n';
+        std::cout << YELLOW " >>>>>> FOUND LOWER BOUND ELEMENT : KEY = " << itup->first << " >>>>> " CLEAR << std::endl;
+
     }
 
     //-----------------------------------------------------------
@@ -275,12 +303,6 @@ int main() {
             std::cout << "4,\"four\" is less than 5,\"five\"" << std::endl;
         else
             std::cout << "4,\"four\" is not less than 5,\"five\"" << std::endl;
-    }
-    //-----------------------------------------------------------
-    //-- OPERATIONS
-    {
-        printTitle("OPERATIONS TESTS");
-
     }
 
     //-----------------------------------------------------------
