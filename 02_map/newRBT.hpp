@@ -50,15 +50,15 @@ namespace ft{
 	        typedef const value_type &								        const_reference;    
             typedef size_t				                                    size_type;
 			typedef Allocator				                                allocator_type;
-			typedef Node<Val>*				                                node_pointer;
+			//typedef Node<Val>*				                                node_pointer;
 			typedef const Node<Val>*			                            const_node_pointer;
     
 
         protected:
             typedef Node<Val>*  node;
 
-            node_pointer    _root; // root of the tree
-	        node_pointer	_leaf; // leaf
+            node    _root; // root of the tree
+	       // node	_leaf; // leaf
 	        size_type		_size; // number of elements in the tree
             Compare         _compare;
 	        node_allocator	_node_alloc; // allocation pour un noeud
@@ -67,8 +67,8 @@ namespace ft{
         
         public:
             // ----  Iterators TO DO 
-            typedef ft::RBT_iterator<Val, node_pointer, Compare>        iterator;
-            typedef ft::RBT_iterator<Val, node_pointer, Compare>        const_iterator;
+            typedef ft::RBT_iterator<Val, node, Compare>        iterator;
+            typedef ft::RBT_iterator<Val, node, Compare>        const_iterator;
             typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
 	        typedef ft::reverse_Iterator<const_iterator>	            const_reverse_iterator;
 
@@ -219,10 +219,76 @@ namespace ft{
         // delete fix
         // TO DO ----- 
 
-        /*const key_type& at(const value_type &val)
+        void   inOrderSearch( node traversal)
         {
-           // return val;
-        }*/
+            if (traversal == NULL)
+                return;
+            inOrderSearch(traversal->left);
+            std::cout << traversal->value.first << " " << std::endl;
+            inOrderSearch(traversal->right);
+        }
+
+        void   preOrderSearch( node traversal)
+        {
+            if (traversal == NULL)
+                return;
+            std::cout << traversal->value.first << " " << std::endl;
+            inOrderSearch(traversal->left);
+            inOrderSearch(traversal->right);
+        }
+
+        void   postOrderSearch( node traversal)
+        {
+            if (traversal == NULL)
+                return;
+            inOrderSearch(traversal->left);
+            inOrderSearch(traversal->right);
+            std::cout << traversal->value.first << " " << std::endl;
+        }
+
+        //----------------------------------------------
+        //------ ACCESSORS 
+        //----------------------------------------------
+        ft::pair<iterator, bool> at(const value_type &value)
+        {
+            node traversal = _root;
+            node parent;
+            key_type key = value.first;
+
+            if (empty())
+                throw std::out_of_range("ft::map::at");
+            while ( traversal != 0 )
+            {
+                parent = traversal;
+                if (traversal->value.first == key)
+                    return(ft::make_pair(iterator(traversal), false));
+                if (_compare(value.first, traversal->value.first))
+                    traversal =  traversal->left;
+                else if (_compare(traversal->value.first, value.first))
+                    traversal =  traversal->right;
+            }
+            throw std::out_of_range("ft::map::at");
+        }
+
+        const ft::pair<iterator, bool> at(const value_type &value) const
+        {
+            node traversal = _root;
+            node parent;
+            key_type key = value.first;
+            
+            while ( traversal != 0 )
+            {
+                parent = traversal;
+                if (traversal->value.first == key)
+                    return(ft::make_pair(iterator(traversal), false));
+                if (_compare(value.first, traversal->value.first))
+                    traversal =  traversal->left;
+                else if (_compare(traversal->value.first, value.first))
+                    traversal =  traversal->right;
+            }
+            throw std::out_of_range("ft::map::at");          
+        }
+
         //----------------------------------------------
         //------ ITERATORS --- From RBT_Iterators
         //----------------------------------------------
@@ -355,7 +421,7 @@ namespace ft{
             updateRootPos();
 
             // DEBEUG 
-           // printRoot();
+           //printRoot();
             //printOneNode(newNode);
             return ft::make_pair(iterator(newNode), true);
         }
@@ -386,17 +452,75 @@ namespace ft{
             }
         }
 
-
         // erase 
+
         // swap 
+        void swap (RedBlackTree& x)
+        {
+            node            tmpRoot = NULL;
+            size_type       tmpSize;
+            Compare         tmpComp;
+	        node_allocator	tmpNodeAlloc;
+
+            tmpRoot = this->_root;
+            this->_root = x._root;
+            x._root = tmpRoot;
+
+            tmpSize = this->_size;
+            this->_size = x._size;
+            x._size = tmpSize;
+
+            tmpComp = this->_compare;
+            this->_compare = x._compare;
+            x._compare = tmpComp;
+
+            tmpNodeAlloc = this->_node_alloc;
+            this->_node_alloc = x._node_alloc;
+            x._node_alloc = tmpNodeAlloc;
+        }
 
         //-------------------------------------------------------------
         //-------------- LOOKUP -------------------------------------
         //-------------------------------------------------------------
         // count
-        size_type count (const key_type& k) const
+        size_type count (const key_type& key) const
         {
-            (void)k;
+            node traversal = _root;
+            node parent = NULL;
+
+            if (empty())
+                return (0);
+            while ( traversal != 0)
+            {
+                parent = traversal;
+                if (traversal->value.first == key)
+                    return(1);
+                if (_compare(key, traversal->value.first))
+                    traversal =  traversal->left;
+                else if (_compare(traversal->value.first, key))
+                    traversal =  traversal->right;
+            }
+            return (0);
+        }
+        
+        iterator find (const key_type& key)
+        {
+            node traversal = _root;
+            node parent = NULL;
+
+            if (empty())
+                return (end());
+            while ( traversal != 0)
+            {
+                parent = traversal;
+                if (traversal->value.first == key)
+                    return(iterator(traversal));
+                if (_compare(key, traversal->value.first))
+                    traversal =  traversal->left;
+                else if (_compare(traversal->value.first, key))
+                    traversal =  traversal->right;
+            }
+            return (end());
         }
 
         /*const_iterator find (const key_type& k) const
@@ -581,7 +705,12 @@ namespace ft{
 
     void printTree()
 	{ 
-        printTreeHelper(_root->parent, "", true); 
+        printTreeHelper(_root->parent, "", true);
+       /* preOrderSearch(_root->parent);
+        std::cout << std::endl;
+        inOrderSearch(_root->parent);
+        std::cout << std::endl;
+        postOrderSearch(_root->parent);*/
     }
 
 

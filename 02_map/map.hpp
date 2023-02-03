@@ -142,16 +142,16 @@ namespace ft {
 
 		//-- Returns a reference to the mappped value of the element identified with key `k`
 		//-- If `k` is not found, returns an `out of range` exception.
-		/*mapped_type& at(const key_type& k)
+		mapped_type& at(const key_type& k)
 		{
-			//return (RB_Tree.at(ft::make_pair(k, mapped_type())).first)->second;
-		}*/
+			return (RB_Tree.at(ft::make_pair(k, mapped_type())).first)->second;
+		}
 
-		/*const mapped_type& at(const key_type& key) const
+		const mapped_type& at(const key_type& key) const
 		{
-			return (_tree.at(ft::make_pair(key, mapped_type())).first)->second;
+			return (RB_Tree.at(ft::make_pair(key, mapped_type())).first)->second;
 
-		}*/
+		}
 
 		//-------------------------------------------------------------
         //-------------- CAPACITY -------------------------------------
@@ -241,26 +241,26 @@ namespace ft {
 		size_type erase( const Key& key )
 		{
 			return (_tree.erase_node(ft::make_pair(key, mapped_type())));
-		}
-
-		void swap( map& other )
-		{
-			_tree.swap_tree(other._tree);
 		}*/
+
+		void swap( map& x )
+		{
+			RB_Tree.swap(x.RB_Tree);
+		}
 
 		// LOOKUP 
 
-		/*size_type count( const Key& key ) const
+		size_type count( const Key& key ) const
 		{
-			return (_tree.count(ft::make_pair(key, mapped_type())));
+			return (RB_Tree.count(key));
 		}
 
 		iterator find( const Key& key )
 		{
-			return (_tree.find(ft::make_pair(key, mapped_type())));
+			return (RB_Tree.find(key));
 		}
 
-		const_iterator find( const Key& key ) const
+		/*const_iterator find( const Key& key ) const
 		{	
 			return (_tree.find(ft::make_pair(key, mapped_type())));
 		}

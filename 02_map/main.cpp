@@ -109,15 +109,22 @@ int main() {
 
         std::cout << "mymap now contains " << accessTest.size() << " elements.\n";
 
-        //at
+        // at
         printFunctionTest("at");
-      //  accessTest.at('a') = "Testing at function";
-      //  accessTest.at('b') = "I think it is working well";
+        accessTest.at('a') = "I am testing my at function";
+        accessTest.at('b') = "I think it is working well";
         
-      //  std::cout << "mymap['a'] is " << accessTest['a'] << '\n';
-      //  std::cout << "mymap['b'] is " << accessTest['b'] << '\n';
+        std::cout << "mymap['a'] is : " << accessTest['a'] << '\n';
+        std::cout << "mymap['b'] is : " << accessTest['b'] << '\n';
+        try
+        {
+            accessTest.at('y') = "I am testing my at function";
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Exception throwed :  " << e.what() << '\n';
+        }
     }
-
 
     //-----------------------------------------------------------
     //-- MODIFIERS
@@ -154,15 +161,90 @@ int main() {
         rangeInsert.insert(insertTest.begin(), insertTest.end());
         for (map<const char,int>::iterator itRange=rangeInsert.begin(); itRange!=rangeInsert.end(); ++itRange)
             std::cout << itRange->first << " => " << itRange->second << '\n';
+
+        //-- erase()
+
+        //-- swap()
+        printFunctionTest("Swap()");
+        map<char,int> testSwap1,testSwap2;
+
+        testSwap1['x']=100;
+        testSwap1['y']=200;
+
+        testSwap2['a']=11;
+        testSwap2['b']=22;
+        testSwap2['c']=33;
+
+        testSwap1.swap(testSwap2);
+
+        std::cout << "MAP (1)  contains:\n";
+        for (map<char,int>::iterator it=testSwap1.begin(); it!=testSwap1.end(); ++it)
+          std::cout << it->first << " => " << it->second << '\n';
+
+        std::cout << std::endl;
+        std::cout << "MAP (2) contains:\n";
+        for (map<char,int>::iterator it=testSwap2.begin(); it!=testSwap2.end(); ++it)
+          std::cout << it->first << " => " << it->second << '\n';
+
+        //-- clear()
+        printFunctionTest("Clear()");
+        map<char,int> clearTest;
+
+        clearTest['x']=100;
+        clearTest['y']=200;
+        clearTest['z']=300;
+
+        std::cout << "The map contains:\n";
+        for (map<char,int>::iterator it=clearTest.begin(); it!=clearTest.end(); ++it)
+          std::cout << it->first << " => " << it->second << '\n';
+
+        clearTest.clear();
+        clearTest['a']=1101;
+        clearTest['b']=2202;
+
+        std::cout << std::endl;
+        std::cout << "The map contains:\n";
+        for (map<char,int>::iterator it=clearTest.begin(); it!=clearTest.end(); ++it)
+          std::cout << it->first << " => " << it->second << '\n';
     }
+
     //-----------------------------------------------------------
     //-- LOOKUP
     {
         printTitle("LOOKUP TESTS");
-        map<const char, int> lookupTest;
+        map< char, int> lookupTest;
 
         //-- count()
+        printFunctionTest("Count()");
+        char c;
+    
+        lookupTest['a']=101;
+        lookupTest['c']=202;
+        lookupTest['f']=303;
+    
+        for (c = 'a'; c < 'h'; c++)
+        {
+          std::cout << c;
+          if (lookupTest.count(c) > 0)
+            std::cout << " is an element of mymap.\n";
+          else 
+            std::cout << " is not an element of mymap.\n";
+        }
+        lookupTest.clear();
+
         //-- find()
+        printFunctionTest("Count()");
+        map<char, int>::iterator found;
+        
+        lookupTest['a']=50;
+        lookupTest['b']=100;
+        lookupTest['c']=150;
+        lookupTest['d']=200;
+
+        found = lookupTest.find('i');
+        for (map<char,int>::iterator it=lookupTest.begin(); it!=found; ++it)
+          std::cout << it->first << " => " << it->second << '\n';
+
         //-- equal_range()
 
         //-- lower_bound()
@@ -198,6 +280,7 @@ int main() {
     //-- OPERATIONS
     {
         printTitle("OPERATIONS TESTS");
+
     }
 
     //-----------------------------------------------------------
