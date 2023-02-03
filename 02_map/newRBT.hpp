@@ -218,16 +218,11 @@ namespace ft{
     }
         // delete fix
         // TO DO ----- 
-     
-        //----------------------------------------------------------------
-        //-------------- ELEMENT ACCESS ----------------------------------
-        //----------------------------------------------------------------
 
-        //-- at
-
-        //-- operator[]
-
-
+        /*const key_type& at(const value_type &val)
+        {
+           // return val;
+        }*/
         //----------------------------------------------
         //------ ITERATORS --- From RBT_Iterators
         //----------------------------------------------
@@ -450,7 +445,22 @@ namespace ft{
 
         const_iterator lower_bound( const Key& key ) const
         {
-            (void)key;
+            node currentNode = _root->parent;
+            node lowerBoundNode = _root; 
+
+            while( currentNode != 0 and currentNode!= _root)
+            {
+                if ( !_compare(currentNode->value.first, key))
+                {
+                    lowerBoundNode = currentNode;
+                    currentNode = currentNode->left;
+                }
+                else
+                {
+                    currentNode = currentNode->right;
+                }
+            }
+            return iterator (lowerBoundNode);
         }
 
         //-- std::upper_bound

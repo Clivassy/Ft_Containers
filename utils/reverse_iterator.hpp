@@ -31,8 +31,9 @@ namespace ft
 
 		reverse_Iterator& operator=(const reverse_Iterator rhs)
 		{
-			// TO DO 
-			(void)rhs;
+			if (*this == rhs)
+				return *this;
+			element = rhs.element;
 			return (*this);
 		}
 

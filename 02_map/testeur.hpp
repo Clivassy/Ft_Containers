@@ -11,7 +11,6 @@
 # define MAGENTA  "\x1B[35m"
 #include <iostream>
 
-namespace ft {
 
 void    printTitle( std::string title)
 {
@@ -27,8 +26,6 @@ void    printFunctionTest( std::string functionName)
     std::cout << std::endl;
     std::cout << MAGENTA << "--  " << functionName << CLEAR<<  std::endl;
     std::cout << std::endl;
-}
-
 }
 
 #endif

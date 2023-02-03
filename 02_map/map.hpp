@@ -29,11 +29,11 @@ namespace ft {
 	{
 		public:
 
-			typedef Key										key_type;
-			typedef T										mapped_type;
-			typedef ft::pair<key_type, mapped_type>			value_type;
-	 		typedef Compare									key_compare;
-			typedef Alloc									allocator_type;
+			typedef Key												key_type;
+			typedef T												mapped_type;
+			typedef ft::pair<const key_type, mapped_type>			value_type;
+	 		typedef Compare											key_compare;
+			typedef Alloc											allocator_type;
 			
 			// /!\ Not used to sort but only to compare elements 
 			// in the tree and maintain the order.
@@ -108,7 +108,7 @@ namespace ft {
 
 		// Copy constructor
 		map (const map& rhs)
-		{
+		{	
 			std::cout<< "Copy constructor called" << std::endl;
 			clear();
 			insert(rhs.begin(), rhs.end());
@@ -133,17 +133,21 @@ namespace ft {
 		//------- ELEMENT ACCESS 
 		//----------------------------------------------------------
 
-		/*mapped_type& operator[](const key_type& key)
+		//-- If key matches tjhe key of an element : returns a reference to its map value
+		// Else, insert a new element with that key and default value
+		mapped_type& operator[](const key_type& k)
 		{
-			return (insert(ft::make_pair(key, mapped_type())).first)->second;
+			return (RB_Tree.insert(ft::make_pair(k, mapped_type())).first)->second;
 		}
 
-		mapped_type& at(const key_type& key)
+		//-- Returns a reference to the mappped value of the element identified with key `k`
+		//-- If `k` is not found, returns an `out of range` exception.
+		/*mapped_type& at(const key_type& k)
 		{
-			return (_tree.at(ft::make_pair(key, mapped_type())).first)->second;
-		}
+			//return (RB_Tree.at(ft::make_pair(k, mapped_type())).first)->second;
+		}*/
 
-		const mapped_type& at(const key_type& key) const
+		/*const mapped_type& at(const key_type& key) const
 		{
 			return (_tree.at(ft::make_pair(key, mapped_type())).first)->second;
 
@@ -276,12 +280,12 @@ namespace ft {
 			return (RB_Tree.lower_bound(key));
 		}
 
-		/*const_iterator lower_bound( const Key& key ) const
+		const_iterator lower_bound( const Key& key ) const
 		{
-			return (_tree.lower_bound(ft::make_pair(key, mapped_type())));
+			return (RB_Tree.lower_bound(key));
 		}
 
-		iterator upper_bound( const Key& key )
+		/*iterator upper_bound( const Key& key )
 		{
 			return (_tree.upper_bound(ft::make_pair(key, mapped_type())));
 		}
@@ -290,11 +294,11 @@ namespace ft {
 		{
 			return (_tree.upper_bound(ft::make_pair(key, mapped_type())));
 		}
-
+			*/
 		allocator_type get_allocator() const
 		{
 				return allocator_type();
-		}*/
+		}
 
 		//-------------------------------------------------------------
         //-------------- OBSERVERS  -------------------------------------

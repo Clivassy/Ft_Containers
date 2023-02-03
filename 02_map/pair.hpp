@@ -33,7 +33,7 @@ namespace ft {
 		second_type	second;
 
 		//-- Constructor by default of pair 
-		pair() : first(T1()), second(T2()) {};
+		pair() : first(), second() {};
 
 		//-- Constructor with two objects passed in argument whatever there are
 		pair(const T1& a, const T2& b) : first(a), second(b) {};
@@ -52,12 +52,12 @@ namespace ft {
 		//-- to be destroyed (no element dynamically allocated). 
 
 		//-- Overload operator
-		pair& operator= (const pair& pr)
+		/*pair& operator= (const pair& pr)
 		{
 			first = pr.first;
 			second = pr.second;
 			return (*this);
-		};
+		};*/
 	};
 	
 	//-- Takes two arguments of type T1 and T2 

@@ -1,9 +1,16 @@
+#include <iostream>
 #include "testeur.hpp"
 
-#include "map.hpp"
+#if 0 // create a real STL example
+    #include <map>
+    namespace ft = std;
+#else
+    #include "map.hpp" // create an example with my own vectp 
+#endif
+
 using namespace ft;
 
-//#include <iostream>
+
 //#include <map>
 //using namespace std;
 
@@ -88,6 +95,27 @@ int main() {
     //-- ELEMENT ACCESS
     {
         printTitle("ELEMENT ACCESS TESTS");
+        printFunctionTest("operator[]");
+        map<char,std::string> accessTest;
+
+        accessTest['a']="an element";
+        accessTest['b']="another element";
+        accessTest['c']= accessTest['b'];
+
+        std::cout << "mymap['a'] is " << accessTest['a'] << '\n';
+        std::cout << "mymap['b'] is " << accessTest['b'] << '\n';
+        std::cout << "mymap['c'] is " << accessTest['c'] << '\n';
+        std::cout << "mymap['d'] is " << accessTest['d'] << '\n';
+
+        std::cout << "mymap now contains " << accessTest.size() << " elements.\n";
+
+        //at
+        printFunctionTest("at");
+      //  accessTest.at('a') = "Testing at function";
+      //  accessTest.at('b') = "I think it is working well";
+        
+      //  std::cout << "mymap['a'] is " << accessTest['a'] << '\n';
+      //  std::cout << "mymap['b'] is " << accessTest['b'] << '\n';
     }
 
 
@@ -102,7 +130,7 @@ int main() {
         std::cout << "Size before insertion : " << insertTest.size() << std::endl;
         std::cout << "Map contains :" << std::endl;
         insertTest.insert(pair<const char, int>('A', 12));
-        insertTest.insert(pair<const char, int>('B', 6));
+        insertTest.insert(pair<const char, int>('Z', 6));
         insertTest.insert(pair<const char, int>('C', 30));
         insertTest.insert(pair<const char, int>('C', 45));
         insertTest.insert(pair<const char, int>('E', 65));
@@ -111,14 +139,14 @@ int main() {
             std::cout << it->first << " => " << it->second << '\n';
         std::cout << "Size after insertion : " << insertTest.size() << std::endl;
       
-        // insertTest.prinTree();
+        insertTest.prinTree();
 
         //-- Insert Pos + Val 
         printFunctionTest("Position Insert()");
         map<const char,int>::iterator ret = insertTest.insert(insertTest.begin(), pair<const char, int>('D', 800));
         for (map<const char,int>::iterator itPos=insertTest.begin(); itPos!= ret; ++itPos)
             std::cout << itPos->first << " => " << itPos->second << '\n';
-        std::cout << YELLOW " >>>>>> FOUD NEWLY INSERTED ELEMENT >>>>> " CLEAR << std::endl;
+        std::cout << YELLOW " >>>>>> FOUND NEWLY INSERTED ELEMENT >>>>> " CLEAR << std::endl;
         
         //-- Range Insert(3)
         printFunctionTest("Range Insert()");
@@ -126,6 +154,22 @@ int main() {
         rangeInsert.insert(insertTest.begin(), insertTest.end());
         for (map<const char,int>::iterator itRange=rangeInsert.begin(); itRange!=rangeInsert.end(); ++itRange)
             std::cout << itRange->first << " => " << itRange->second << '\n';
+    }
+    //-----------------------------------------------------------
+    //-- LOOKUP
+    {
+        printTitle("LOOKUP TESTS");
+        map<const char, int> lookupTest;
+
+        //-- count()
+        //-- find()
+        //-- equal_range()
+
+        //-- lower_bound()
+        printFunctionTest("Lower_bound()");
+
+        //-- upper_bound()
+        printFunctionTest("Upper_bound()");
     }
 
     //-----------------------------------------------------------
@@ -160,5 +204,15 @@ int main() {
     //-- ALLOCATOR
     {
         printTitle("ALLOCATOR TESTS");
+        map<int, int> m;
+        std::allocator<std::pair<const int, int>> alloc = m.get_allocator();
+        if (alloc == std::allocator<std::pair<const int, int>>()) {
+            std::cout << "The allocator is the default allocator." << std::endl;
+        } else {
+            std::cout << "The allocator is not the default allocator." << std::endl;
+        }
     }
 }
+
+
+
