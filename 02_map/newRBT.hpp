@@ -548,15 +548,20 @@ namespace ft{
         //-- Returns a pair of iterators defining the wanted range :
         //-- Firt iterator: is pointing to the first element that is not less than the key
         //-- Second element: is pointing to the first element greater than key.
-        std::pair<iterator,iterator> equal_range( const Key& key )
+        std::pair<iterator,iterator> equal_range( const value_type &pair )
         {
-            (void)key;
+            (void)pair;
+            // first = lower_bound
+            // second = upper_bound 
+            // traversing the tree until lower_bound 
+            // if lower_bound == upperbound -> return lowerbound
+            // else return l'element entre lower bound et upper bound
         }
 
-        std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+        /*std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
         {
             (void)key;
-        }
+        }*/
 
         //-- std::lower_bound
         //-- Returns an iterator pointing to the first element that is not less than key

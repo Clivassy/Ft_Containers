@@ -265,12 +265,12 @@ namespace ft {
 			return (_tree.find(key));
 		}
 
-		/*ft::pair<iterator,iterator> equal_range( const Key& key )
+		ft::pair<iterator,iterator> equal_range( const Key& key )
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
 
-		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+		/*ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}*/
