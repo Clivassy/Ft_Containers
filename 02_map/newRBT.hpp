@@ -7,6 +7,7 @@
 
 # include "./pair.hpp"
 # include "../utils/is_integral.hpp"
+#include "./testeur.hpp"
 
 #include "RBT_iterator.hpp"
 # include "../utils/reverse_iterator.hpp"
@@ -86,7 +87,7 @@ namespace ft{
 
             template <class InputIterator>
             RedBlackTree(InputIterator first, InputIterator last,
-            const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
+            const Compare& comp, const node_allocator& alloc = node_allocator()) 
             : _compare(comp), _node_alloc(alloc)
             {
                 _size = 0;
@@ -119,86 +120,135 @@ namespace ft{
         //--------------------------------
 
         // rotateLeft
-        void rotateLeft(node newNode)
+        void rotateLeft(node x)
         {
-            node y = newNode->right;
+            node y = x->right;
+		    x->right = y->left;
+		    if (y->left != 0)
+		    	y->left->parent = x;
+		    y->parent = x->parent;
+		    if (x->parent == 0 or x->parent == _root)
+		    	_root->parent = y;
+		    else if (x == x->parent->left)
+		    	x->parent->left = y;
+		    else
+		    	x->parent->right = y;
+		    y->left = x;
+		    x->parent = y;
+            /*node parent = newNode->right;
+			if (newNode == _root)
+				_root = parent;
+			if (newNode->parent != NULL)
+			{
+				if (newNode == newNode->parent->left)
+					newNode->parent->left = parent;
+				else 
+					newNode->parent->right = parent;
+			}
+			parent->parent = newNode->parent;
+			newNode->parent = parent;
+			newNode->right = parent->left;
+			if (parent->left != NULL) 
+				parent->left->parent = newNode;
+			parent->left = newNode;*/
 
-            newNode->right = y->left;
-            if (y->left != 0) {
-              y->left->parent = newNode;
+            /* node parent = newNode->right;
+
+            newNode->right = parent->left;
+            if (parent->left != 0) {
+              parent->left->parent = newNode;
             }
-            y->parent = newNode->parent;
-            if (newNode->parent == nullptr) {
-              this->_root = y;
+            parent->parent = newNode->parent;
+            if (newNode->parent == NULL) {
+              this->_root = parent;
             } else if (newNode == newNode->parent->left) {
-              newNode->parent->left = y;
+              newNode->parent->left = parent;
             } else {
-              newNode->parent->right = y;
+              newNode->parent->right = parent;
             }
-            y->left = newNode;
-            newNode->parent = y;
+            parent->left = newNode;
+            newNode->parent = parent;*/
         }
 
         // Rotate Right
-        void    rotateRight(node nodePtr)
+        void    rotateRight(node newNode)
         {         
-            node y = nodePtr->left;
+            node parent = newNode->left;
+            
+            if ( newNode == _root )
+                _root = parent;
+			if (newNode->parent != NULL)
+			{
+				if (newNode == newNode->parent->right)
+					newNode->parent->right = parent;
+				else 
+					newNode->parent->left = parent;
+			}
+			parent->parent = newNode->parent;
+			newNode->parent = parent;
+			newNode->left = parent->right;
+			if (parent->right != NULL) 
+				parent->right->parent = newNode;
+			parent->right = newNode;
 
-            nodePtr->left = y->right;
-            if (y->right != 0) {
-              y->right->parent = nodePtr;
-            }
-            y->parent = nodePtr->parent;
-            if (nodePtr->parent == nullptr) {
-              this->_root = y;
-            } else if (nodePtr == nodePtr->parent->right) {
-              nodePtr->parent->right = y;
-            } else {
-              nodePtr->parent->left = y;
-            }
-            y->right = nodePtr;
-            nodePtr->parent = y;   
+            /*nodePtr->left = parent->right;
+            if (parent->right != 0) 
+                parent->right->parent = nodePtr;
+            parent->parent = nodePtr->parent;
+            if (nodePtr->parent == NULL)
+                this->_root = parent;
+            else if (nodePtr == nodePtr->parent->right)
+                nodePtr->parent->right = parent;
+            else 
+                nodePtr->parent->left = parent;
+            parent->right = nodePtr;
+            nodePtr->parent = parent;   */
         }
 
         // insertfix
         void    checkInsertionNode(node newNode)
         {
             node ptr;
-            // while the parent of newNode (p) is RED
             while (newNode->parent->color == RED)
-            {         
+            {
                 if (newNode->parent == newNode->parent->parent->right) 
                 {
                     ptr = newNode->parent->parent->left;
-                    if (ptr->color == 1) 
+                    if (ptr)
                     {
-                        ptr->color = 0;
-                        newNode->parent->color = 0;
-                        newNode->parent->parent->color = 1;
-                        newNode = newNode->parent->parent;
-                    } 
-                    else 
+                        if (ptr->color == RED)
+                        {
+                            ptr->color = BLACK;
+                            newNode->parent->color = BLACK;
+                            newNode->parent->parent->color = RED;
+                            newNode = newNode->parent->parent;
+                        }
+                    }
+                    else
                     {
                         if (newNode == newNode->parent->left) 
                         {
                             newNode = newNode->parent;
                             rotateRight(newNode);
                         }
-                        newNode->parent->color = 0;
-                        newNode->parent->parent->color = 1;
+                        newNode->parent->color = BLACK;
+                        newNode->parent->parent->color = RED;
                         rotateLeft(newNode->parent->parent);
                     }
-                } 
+                }
                 else 
                 {
                     ptr = newNode->parent->parent->right;
-                    if (ptr->color == 1) 
-                    {
-                        ptr->color = 0;
-                        newNode->parent->color = 0;
-                        newNode->parent->parent->color = 1;
-                        newNode = newNode->parent->parent;
-                    } 
+                    if (ptr)
+                    { 
+                        if (ptr->color == RED)
+                        {
+                            ptr->color = BLACK;
+                            newNode->parent->color = BLACK;
+                            newNode->parent->parent->color = RED;
+                            newNode = newNode->parent->parent;
+                        }
+                    }
                     else 
                     {
                         if (newNode == newNode->parent->right) 
@@ -206,45 +256,18 @@ namespace ft{
                             newNode = newNode->parent;
                             rotateLeft(newNode);
                         }
-                        newNode->parent->color = 0;
-                        newNode->parent->parent->color = 1;
+                        newNode->parent->color = BLACK;
+                        newNode->parent->parent->color = RED;
                         rotateRight(newNode->parent->parent);
                     }
                 }
-                if (newNode == _root) 
+                if (newNode == _root->parent) 
                     break;
             }
-        _root->color = 0;
+        _root->parent->color = BLACK;
     }
         // delete fix
-        // TO DO ----- 
-
-        void   inOrderSearch( node traversal)
-        {
-            if (traversal == NULL)
-                return;
-            inOrderSearch(traversal->left);
-            std::cout << traversal->value.first << " " << std::endl;
-            inOrderSearch(traversal->right);
-        }
-
-        void   preOrderSearch( node traversal)
-        {
-            if (traversal == NULL)
-                return;
-            std::cout << traversal->value.first << " " << std::endl;
-            inOrderSearch(traversal->left);
-            inOrderSearch(traversal->right);
-        }
-
-        void   postOrderSearch( node traversal)
-        {
-            if (traversal == NULL)
-                return;
-            inOrderSearch(traversal->left);
-            inOrderSearch(traversal->right);
-            std::cout << traversal->value.first << " " << std::endl;
-        }
+        // TO DO -----
 
         //----------------------------------------------
         //------ ACCESSORS 
@@ -257,7 +280,7 @@ namespace ft{
 
             if (empty())
                 throw std::out_of_range("ft::map::at");
-            while ( traversal != 0 )
+            while ( traversal != 0 && traversal != _root)
             {
                 parent = traversal;
                 if (traversal->value.first == key)
@@ -266,6 +289,8 @@ namespace ft{
                     traversal =  traversal->left;
                 else if (_compare(traversal->value.first, value.first))
                     traversal =  traversal->right;
+                else
+                    return(ft::make_pair(iterator(traversal), false));
             }
             throw std::out_of_range("ft::map::at");
         }
@@ -388,17 +413,14 @@ namespace ft{
             while (currentNode != 0 and currentNode != _root)
             {
                 if (currentNode->value.first == val.first)
-                {
-                    //std::cout << "Error: key already exists in the map" << std::endl;
                     return ft::make_pair(iterator(currentNode), false);
-                }
-
                 parentNode = currentNode;
                 if (val.first < currentNode->value.first)
                     currentNode = currentNode->left;
                 else
                     currentNode = currentNode->right;
             }
+
             node    newNode = _node_alloc.allocate(1);
 		    _node_alloc.construct(newNode, Node<Val>(val));
             newNode->parent = parentNode;
@@ -411,17 +433,15 @@ namespace ft{
                 else
                     parentNode->right = newNode;
             }
-            if (newNode->parent == 0 or newNode->parent == _root)
+            if (newNode->parent == 0)// or newNode->parent == _root)
                 newNode->color = BLACK;
-            else
-            {
-               // std::cout << "Need to check RBT rules" << std::endl;
-            }
+            else if (newNode->parent->parent != 0 && newNode->parent->parent != _root)
+                checkInsertionNode(newNode);
             _size++;
             updateRootPos();
 
             // DEBEUG 
-           //printRoot();
+            // printRoot();
             //printOneNode(newNode);
             return ft::make_pair(iterator(newNode), true);
         }
@@ -477,6 +497,16 @@ namespace ft{
             tmpNodeAlloc = this->_node_alloc;
             this->_node_alloc = x._node_alloc;
             x._node_alloc = tmpNodeAlloc;
+        
+            /*node root = this->_root;
+		    size_t size = this->_size;
+		    RedBlackTree Alloc = this->_node_alloc;
+		    this->_root = x._root;
+		    this->_size = x._size;
+		    this->_node_alloc = x._node_alloc;
+		    x._root = root;
+		    x._size = size;
+		    x._node_alloc = Alloc;*/
         }
 
         //-------------------------------------------------------------
@@ -542,26 +572,6 @@ namespace ft{
             }
             return (end());
         }
-
-        //-- std::equal_range
-        //-- Returns a range containing all elements with the given key in the container.
-        //-- Returns a pair of iterators defining the wanted range :
-        //-- Firt iterator: is pointing to the first element that is not less than the key
-        //-- Second element: is pointing to the first element greater than key.
-        std::pair<iterator,iterator> equal_range( const value_type &pair )
-        {
-            (void)pair;
-            // first = lower_bound
-            // second = upper_bound 
-            // traversing the tree until lower_bound 
-            // if lower_bound == upperbound -> return lowerbound
-            // else return l'element entre lower bound et upper bound
-        }
-
-        /*std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
-        {
-            (void)key;
-        }*/
 
         //-- std::lower_bound
         //-- Returns an iterator pointing to the first element that is not less than key
@@ -662,6 +672,32 @@ namespace ft{
         //-------------- UTILS  ---------------------------------------
         //-------------------------------------------------------------
         
+        void   inOrderSearch( node traversal)
+        {
+            if (traversal == NULL)
+                return;
+            inOrderSearch(traversal->left);
+            std::cout << traversal->value.first << " " << std::endl;
+            inOrderSearch(traversal->right);
+        }
+
+        void   preOrderSearch( node traversal)
+        {
+            if (traversal == NULL)
+                return;
+            std::cout << traversal->value.first << " " << std::endl;
+            inOrderSearch(traversal->left);
+            inOrderSearch(traversal->right);
+        }
+
+        void   postOrderSearch( node traversal)
+        {
+            if (traversal == NULL)
+                return;
+            inOrderSearch(traversal->left);
+            inOrderSearch(traversal->right);
+            std::cout << traversal->value.first << " " << std::endl;
+        }
         
         void    updateRootPos()
         {
@@ -704,7 +740,10 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- ALLOCATOR  -----------------------------------
         //-------------------------------------------------------------
-
+	    allocator_type get_allocator() const
+        { 
+            return _node_alloc; 
+        }
         ///////////////////// DEBUG //////////////////
         void    printOneNode( node oneNode)
         {
@@ -747,8 +786,10 @@ namespace ft{
 				std::cout << "L----";
 				indent += "|  ";
 			}
-			std::string sColor = root->color ? "RED" : "BLACK";
-			std::cout << root->value.second << "(" << sColor << ")" << std::endl;
+            if (root->color == RED)
+                std::cout << root->value.second << REDCOLOR << "(RED)" << CLEAR << std::endl;
+            else
+                std::cout << root->value.second << "(BLACK)" << std::endl;	
 			printTreeHelper(root->left, indent, false);
 			printTreeHelper(root->right, indent, true);
 		}
@@ -769,7 +810,7 @@ namespace ft{
     
     };
     //------------ NON MEMBER FUNCTIONS 
-    
+    //-- swap 
 
 
     //----------- RELATIONNAL OPERATORS 

@@ -102,22 +102,19 @@ namespace ft {
 			const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
 		: RB_Tree(comp, alloc)
 		{
-			//std::cout<< "Range constructor called" << std::endl;
 			RB_Tree.insert(first, last);
 		}
 
 		// Copy constructor
-		map (const map& rhs)
+		map(const map<Key, T, Compare, allocator_type> &rhs) 
 		{	
-			//std::cout<< "Copy constructor called" << std::endl;
 			clear();
-			insert(rhs.begin(), rhs.end());
+			RB_Tree.insert(rhs.begin(), rhs.end());
 		}
 		
 		// DESTRUCTOR
 		~map()
-		{ 
-			clear(); 
+		{
 		}
 
 		map& operator= (const map& rhs)
@@ -142,7 +139,7 @@ namespace ft {
 
 		//-- Returns a reference to the mappped value of the element identified with key `k`
 		//-- If `k` is not found, returns an `out of range` exception.
-		mapped_type& at(const key_type& k)
+		/*mapped_type& at(const key_type& k)
 		{
 			return (RB_Tree.at(ft::make_pair(k, mapped_type())).first)->second;
 		}
@@ -151,8 +148,9 @@ namespace ft {
 		{
 			return (RB_Tree.at(ft::make_pair(key, mapped_type())).first)->second;
 
-		}
+		}*/
 
+        //-------------------------------------------------------------
 		//-------------------------------------------------------------
         //-------------- CAPACITY -------------------------------------
         //-------------------------------------------------------------
@@ -265,15 +263,20 @@ namespace ft {
 			return (RB_Tree.find(key));
 		}
 
+        //-- std::equal_range
+        //-- Returns a range containing all elements with the given key in the container.
+        //-- Returns a pair of iterators defining the wanted range :
+        //-- Firt iterator: is pointing to the first element that is not less than the key
+        //-- Second element: is pointing to the first element greater than key.
 		ft::pair<iterator,iterator> equal_range( const Key& key )
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
 
-		/*ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
-		}*/
+		}
 		
 		iterator lower_bound( const key_type& key )
 		{
@@ -318,7 +321,7 @@ namespace ft {
 
 	// NON MEMBERS FUNCTIONS 
 
-	/*template< class Key, class T, class Compare, class Alloc >
+	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
 	{
 		typename map<Key, T, Compare, Alloc>::const_iterator it = lhs.begin();
@@ -370,7 +373,7 @@ namespace ft {
 	void swap( map<Key,T,Compare,Alloc>& lhs, map<Key,T,Compare,Alloc>& rhs )
 	{
 	return (lhs.swap(rhs));
-	}*/
+	}
 }
 
 #endif
