@@ -268,15 +268,15 @@ namespace ft {
         //-- Returns a pair of iterators defining the wanted range :
         //-- Firt iterator: is pointing to the first element that is not less than the key
         //-- Second element: is pointing to the first element greater than key.
-		ft::pair<iterator,iterator> equal_range( const Key& key )
+		/*ft::pair<iterator,iterator> equal_range( const Key& key )
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
-		}
+		}*/
 
-		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+		/*ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 		{
 			return ft::make_pair(lower_bound(key), upper_bound(key));
-		}
+		}*/
 		
 		iterator lower_bound( const key_type& key )
 		{

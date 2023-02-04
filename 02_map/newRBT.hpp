@@ -171,25 +171,22 @@ namespace ft{
         }
 
         // Rotate Right
-        void    rotateRight(node newNode)
-        {         
-            node parent = newNode->left;
-            
-            if ( newNode == _root )
-                _root = parent;
-			if (newNode->parent != NULL)
-			{
-				if (newNode == newNode->parent->right)
-					newNode->parent->right = parent;
-				else 
-					newNode->parent->left = parent;
-			}
-			parent->parent = newNode->parent;
-			newNode->parent = parent;
-			newNode->left = parent->right;
-			if (parent->right != NULL) 
-				parent->right->parent = newNode;
-			parent->right = newNode;
+        void rotateRight(node x)
+	    {
+	    	node y = x->left;
+	    	x->left = y->right;
+	    	if (y->right != 0)
+	    		y->right->parent = x;
+	    	y->parent = x->parent;
+	    	if (x->parent == 0 or x->parent == _root)
+	    		_root->parent = y;
+	    	else if (x == x->parent->right)
+	    		x->parent->right = y;
+	    	else
+	    		x->parent->left = y;
+	    	y->right = x;
+	    	x->parent = y;
+	    }
 
             /*nodePtr->left = parent->right;
             if (parent->right != 0) 
@@ -203,7 +200,6 @@ namespace ft{
                 nodePtr->parent->left = parent;
             parent->right = nodePtr;
             nodePtr->parent = parent;   */
-        }
 
         // insertfix
         void    checkInsertionNode(node newNode)
