@@ -310,8 +310,8 @@ int main() {
     {
         printTitle("ALLOCATOR TESTS");
         map<int, int> m;
-        std::allocator<std::pair<const int, int>> alloc = m.get_allocator();
-        if (alloc == std::allocator<std::pair<const int, int>>()) {
+        std::allocator<std::pair<const int, int> > alloc = m.get_allocator();
+        if (alloc == std::allocator<std::pair<const int, int> >()) {
             std::cout << "The allocator is the default allocator." << std::endl;
         } else {
             std::cout << "The allocator is not the default allocator." << std::endl;
