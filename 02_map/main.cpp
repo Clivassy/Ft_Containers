@@ -172,6 +172,22 @@ int main() {
             std::cout << itRange->first << " => " << itRange->second << '\n';
 
         //-- erase()
+       /* printFunctionTest("Erase()");
+        map<char,int> eraseTest;
+        map<char,int>::iterator eraseIt;
+
+        eraseIt = eraseTest.begin();
+
+        eraseTest['a']=10;
+        eraseTest['b']=20;
+        eraseTest['c']=30;
+        eraseTest['d']=40;
+        eraseTest['e']=50;
+        eraseTest['f']=60;
+
+        eraseTest.erase(eraseIt);
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
+            std::cout << newit->first << " => " << newit->second << '\n';*/
 
         //-- swap()
         printFunctionTest("Swap()");
@@ -280,7 +296,7 @@ int main() {
         lookupTest.clear();
         
         //-- equal_range()
-         printFunctionTest("equal_range()");
+        /*printFunctionTest("equal_range()");
         lookupTest['a']= 10;
         lookupTest['b']= 20;
         lookupTest['c']= 30;
@@ -293,7 +309,7 @@ int main() {
 
         std::cout << "upper bound points to: ";
         std::cout << ret.second->first << " => " << ret.second->second << '\n';
-
+*/
 
         //-- lower_bound()
         printFunctionTest("Lower_bound()");

@@ -68,8 +68,8 @@ namespace ft{
         
         public:
             // ----  Iterators TO DO 
-            typedef ft::RBT_iterator<Val, node, Compare>        iterator;
-            typedef ft::RBT_iterator<Val, node, Compare>        const_iterator;
+            typedef ft::RBT_iterator<Val, node, Compare>                iterator;
+            typedef ft::RBT_iterator<Val, node, Compare>                const_iterator;
             typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
 	        typedef ft::reverse_Iterator<const_iterator>	            const_reverse_iterator;
 
@@ -468,7 +468,54 @@ namespace ft{
             }
         }
 
-        // erase 
+        
+
+        node deleteNode (node nodePtr)
+        {
+            (void)nodePtr;
+            // STEP 1 ) find node 
+
+            // STEP 2) 
+            // *** CASE 1 *** 
+            // node to delete has two chlidren : 
+            // ---> find its in order successor (the node with next largest value)
+            // and replace the node to delete with its successor : will have at least one child
+        
+            // *** CASE  2 ***
+            // If node tso delete has one or no children
+            // ---> replace it with its child( or with nil if it has no children)
+    
+            // STEP 3) 
+            //  --  Check RBT rules
+    
+        // erase position 
+        }
+        void erase (iterator position)
+        {
+			iterator tmp = position;
+			while (tmp + 1 != end())
+			{
+				*tmp = *(tmp + 1);
+				_node_alloc.destroy(tmp.base());
+				_node_alloc.construct(tmp.base(), *(tmp + 1));
+				tmp++;
+			}
+			_node_alloc.destroy(tmp.base());
+			_size--;
+			return (iterator(position));
+        }
+
+        // erase k
+       /* size_type erase (const key_type& k)
+        {
+
+        }*/
+        
+        // erase first, last
+        /*  void erase (iterator first, iterator last)
+        {
+
+        }*/
 
         // swap 
         void swap (RedBlackTree& x)
@@ -508,70 +555,58 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- LOOKUP -------------------------------------
         //-------------------------------------------------------------
-        // count
-        size_type count (const key_type& key) const
-        {
-            node traversal = _root;
-            node parent = NULL;
 
-            if (empty())
+        // count()
+        size_type count( const Key& key ) const
+        {
+            node foundNode = traverseTree(_root->parent, key);
+            if (foundNode == 0 or foundNode == _root)
                 return (0);
-            while ( traversal != 0)
-            {
-                parent = traversal;
-                if (traversal->value.first == key)
-                    return(1);
-                if (_compare(key, traversal->value.first))
-                    traversal =  traversal->left;
-                else if (_compare(traversal->value.first, key))
-                    traversal =  traversal->right;
-            }
-            return (0);
+            return (1);
         }
         
+        // find()
         iterator find (const key_type& key)
         {
-            node traversal = _root;
-            node parent = NULL;
-
-            if (empty())
-                return (end());
-            while ( traversal != 0)
-            {
-                parent = traversal;
-                if (traversal->value.first == key)
-                    return(iterator(traversal));
-                if (_compare(key, traversal->value.first))
-                    traversal =  traversal->left;
-                else if (_compare(traversal->value.first, key))
-                    traversal =  traversal->right;
-            }
-            return (end());
+            iterator isFound = traverseTree(_root->parent, key);
+            return(isFound);
         }
 
+        // const find()
         const_iterator find (const key_type& key) const
-        {
-            node traversal = _root;
-            node parent = NULL;
-
-            if (empty())
-                return (end());
-            while ( traversal != 0)
-            {
-                parent = traversal;
-                if (traversal->value.first == key)
-                    return(iterator(traversal));
-                if (_compare(key, traversal->value.first))
-                    traversal =  traversal->left;
-                else if (_compare(traversal->value.first, key))
-                    traversal =  traversal->right;
-            }
-            return (end());
+        {   
+            const_iterator isFound = traverseTree(_root->parent, key);
+            return (isFound);
         }
 
         //-- std::lower_bound
         //-- Returns an iterator pointing to the first element that is not less than key
         //-- (== first element greater or equal to key) 
+        /*iterator lower_bound(const key_type& key)
+			{
+				iterator it = begin();
+				iterator ite = end();
+				
+				for (; it != ite; it++)
+				{
+					if (!(_compare(it->first, key)))
+						return it;
+				}
+				return it;
+			}
+
+			const_iterator lower_bound(const key_type& key) const
+			{
+				const_iterator it = begin();
+				const_iterator ite = end();
+				
+				for (; it != ite; it++)
+				{
+					if (!(_compare(it->first, key)))
+						return it;
+				}
+				return it;
+			}*/
         iterator lower_bound( const key_type& key )
         {
             node currentNode = _root->parent;
@@ -579,10 +614,11 @@ namespace ft{
 
             while( currentNode != 0 and currentNode!= _root)
             {
-                if ( !_compare(currentNode->value.first, key))
+                if (!_compare(currentNode->value.first, key))
                 {
                     lowerBoundNode = currentNode;
                     currentNode = currentNode->left;
+                    
                 }
                 else
                 {
@@ -600,17 +636,18 @@ namespace ft{
 
             while( currentNode != 0 and currentNode!= _root)
             {
-                if (_compare(currentNode->value.first, key))
-                {
-                    currentNode = currentNode->right;
-                }
-                else
+                if (!_compare(currentNode->value.first, key))
                 {
                     lowerBoundNode = currentNode;
                     currentNode = currentNode->left;
+                    
+                }
+                else
+                {
+                    currentNode = currentNode->right;
                 }
             }
-            return iterator (lowerBoundNode);
+            return const_iterator (lowerBoundNode);
         }
 
         //-- std::upper_bound
@@ -651,8 +688,42 @@ namespace ft{
                     currentNode = currentNode->right;
                 }
             }
-            return iterator (upperBoundNode);
+            return const_iterator (upperBoundNode);
         }
+	       /* iterator upper_bound(const key_type& key)
+			{
+				iterator it = begin();
+				iterator ite = end();
+				
+				for (; it != ite; it++)
+				{
+					if (_compare(key, it->first))
+						return it;
+				}
+				return it;
+			}
+
+			const_iterator upper_bound(const key_type& key) const
+			{
+				const_iterator it = begin();
+				const_iterator ite = end();
+				
+				for (; it != ite; it++)
+				{
+					if (_compare(key, it->first))
+						return it;
+				}
+				return it;
+			}*/
+        /*ft::pair<iterator, iterator> equal_range(const key_type& key)
+	    { 
+             return ft::make_pair(lower_bound(key), upper_bound(key));
+        }
+
+	    ft::pair<const_iterator, const_iterator> equal_range(const key_type& key) const
+	    { 
+            return ft::make_pair(lower_bound(key), upper_bound(key));
+        }*/
 
         //-------------------------------------------------------------
         //-------------- OBSERVERS  -----------------------------------
@@ -667,7 +738,25 @@ namespace ft{
         //-------------------------------------------------------------
         //-------------- UTILS  ---------------------------------------
         //-------------------------------------------------------------
-        
+        node traverseTree(const node &current, const Key &search) const
+	    {
+	    	if (current == 0 || current == _root)
+	    	    return _root;
+            if (!_compare(current->value.first, search) && !_compare(search, current->value.first))
+                return current;
+            if (_compare(search, current->value.first))
+            {
+                return (traverseTree(current->left, search));
+            }
+            else
+            {
+                return (traverseTree(current->right, search));
+            }
+	    	/*if (not _compare(current->value.first, toFind) and not _compare(toFind, current->value.first))
+	    		return nodePtr;
+	    	return find_impl((_compare(toFind, current->value.first) ? current->left : current->right), toFind);*/
+	    }
+
         void   inOrderSearch( node traversal)
         {
             if (traversal == NULL)
@@ -809,7 +898,45 @@ namespace ft{
     //-- swap 
 
 
-    //----------- RELATIONNAL OPERATORS 
+    //----------- RELATIONNAL OPERATORS
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator==(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		   const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    {
+    	return lhs.size() == rhs.size()
+    		   and ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator<(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		  const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
+
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator!=(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		   const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { return not (lhs == rhs); }
+
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator>(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		  const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { return rhs < lhs; }
+
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator>=(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		   const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { return not (lhs < rhs); }
+
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    inline bool
+    operator<=(const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs,
+    		   const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { return not (rhs < lhs); }
 }
 
 

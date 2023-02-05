@@ -115,7 +115,7 @@ class random_access_iterator : ft::iterator<std::random_access_iterator_tag, T>
         return random_access_iterator<const T>(this->element); 
     }
 
-    private:
+    protected:
         pointer element;
 };
 

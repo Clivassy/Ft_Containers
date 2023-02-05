@@ -68,7 +68,8 @@ namespace ft {
 				typedef typename tree_type::iterator													iterator;
 				typedef typename tree_type::const_iterator												const_iterator;
 				typedef typename tree_type::reverse_iterator											reverse_iterator;
-				typedef typename tree_type::reverse_iterator											const_reverse_iterator;
+				typedef typename tree_type::const_reverse_iterator										const_reverse_iterator;
+
 				typedef typename tree_type::size_type													size_type;
 				typedef typename allocator_type::difference_type										difference_type;
 				typedef typename tree_type::reference													reference;
@@ -229,9 +230,9 @@ namespace ft {
 		/*void erase( iterator pos )
 		{
 			erase(pos->first);
-		}
+		}*/
 
-		void erase( iterator first, iterator last )
+		/*void erase( iterator first, iterator last )
 		{
 			_tree.range_erase(first, last);
 		}
@@ -270,12 +271,16 @@ namespace ft {
         //-- Second element: is pointing to the first element greater than key.
 		/*ft::pair<iterator,iterator> equal_range( const Key& key )
 		{
-			return ft::make_pair(lower_bound(key), upper_bound(key));
-		}*/
+			//(void)key;
+			//return ft::make_pair(lower_bound(key), upper_bound(key));
+			return (RB_Tree.equal_range(key));
+		}
 
-		/*ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
+		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 		{
-			return ft::make_pair(lower_bound(key), upper_bound(key));
+
+			return (RB_Tree.equal_range(key));
+			//return ft::make_pair(lower_bound(key), upper_bound(key));
 		}*/
 		
 		iterator lower_bound( const key_type& key )
