@@ -69,14 +69,13 @@ namespace ft{
         public:
             // ----  Iterators TO DO 
             typedef ft::RBT_iterator<Val, node, Compare>                iterator;
-            typedef ft::RBT_iterator<Val, node, Compare>                const_iterator;
+            typedef ft::RBT_iterator<const Val, node, Compare>          const_iterator;
             typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
 	        typedef ft::reverse_Iterator<const_iterator>	            const_reverse_iterator;
 
             RedBlackTree(const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
             : _compare(comp), _node_alloc(alloc)
             {
-                (void)comp;
                 _size = 0;
                 _root = _node_alloc.allocate(1); // allocate memory for one node memory
                 _node_alloc.construct(_root, Node<Val>()); // construct root node : create a new node object
@@ -794,14 +793,31 @@ namespace ft{
                 //-- ensuring that the header node is always a valid parent node.
                 _root->parent->parent = _root;
                 //-- sets the right child of the header node to be the minimum node in the tree.
-                _root->right = getMin(_root->parent);
+                _root->right = getMinFrom(_root->parent);
                 //-- sets the left child of the header node to be the maximum node in the tree.
-                _root->left = getMax(_root->parent);
+                _root->left = getMaxFrom(_root->parent);
             }
         }
 
         // returns the minimum node in the RBT
-        node getMin(const node &newNode) const
+    node getMin()
+	const
+	{ return getMinFrom(_root->parent); }
+
+	node getMax()
+	const
+	{ return getMaxFrom(_root->parent); }
+
+	node
+	getMinFrom(const node &nodePtr)
+	const
+	{ return (nodePtr != 0 and nodePtr != _root and nodePtr->left != 0 and nodePtr->left != _root ? getMinFrom(nodePtr->left) : nodePtr); }
+
+	
+	node getMaxFrom(const node &nodePtr)
+	const
+	{ return (nodePtr != 0 and nodePtr != _root and nodePtr->right != 0 and nodePtr->right != _root ? getMaxFrom(nodePtr->right) : nodePtr); }
+       /* node getMin(const node &newNode) const
         {
             if (newNode == 0 || newNode == _root)
                 return (0);
@@ -820,7 +836,7 @@ namespace ft{
             if (newNode->right == 0|| newNode->right == _root)
                 return newNode;
             return (getMin(newNode->right));
-        }
+        }*/
 
         //-------------------------------------------------------------
         //-------------- ALLOCATOR  -----------------------------------
@@ -938,7 +954,4 @@ namespace ft{
     		   const ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
     { return not (rhs < lhs); }
 }
-
-
-
 #endif

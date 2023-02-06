@@ -28,6 +28,10 @@ int		main(void)
 	printPair(it);
 	printPair(it.base());
 
+	std::cout << mp.begin()->first << " | " << mp.begin()->second << std::endl;
+	//std::cout << mp.end()->first << " | " << mp.end()->second << std::endl;
+	std::cout << mp.size() << std::endl;
+
 	it = mp.rbegin(); ite = mp.rend();
 	while (it != ite)
 		std::cout << "[rev] " << printPair(it++, false) << std::endl;

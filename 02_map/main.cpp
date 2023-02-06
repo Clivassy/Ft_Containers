@@ -42,15 +42,18 @@ int main() {
             std::cout << it->first << " => " << it->second << '\n';
         }*/
 
+
+
         printFunctionTest("Copy Construtor");
         map<char,int> copyConstructor (rangeConstructor);
        
         map<char,int>::reverse_iterator rit;
+        
         for (rit=copyConstructor.rbegin(); rit!=copyConstructor.rend(); ++rit)
             std::cout << rit->first << " => " << rit->second << '\n';
+        
+        map<char,int>::const_iterator test = rangeConstructor.end(), rit2[2];        
 
-        map<char,int>::iterator it = copyConstructor.begin(); // <-- error expected
-        (void)it;
 
     }
 

@@ -53,6 +53,11 @@ namespace ft {
 				this->_node = rhs._node; 
 				return (*this);
 			}
+
+			operator RBT_iterator<const T, node, Compare>() const 
+			{
+				return RBT_iterator<const T, node, Compare>(_node);
+			}
 			// ---------------------------------------------------------------------------
 
 			// Post-increment operator
@@ -106,7 +111,6 @@ namespace ft {
 				return _node;
 			}
 			//------------------------ Comparison Operators -----------------// 
-
 			bool operator==(const RBT_iterator &rhs) const 
 			{
 				return (this->_node == rhs._node);
