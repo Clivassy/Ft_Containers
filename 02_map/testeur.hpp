@@ -27,5 +27,4 @@ void    printFunctionTest( std::string functionName)
     std::cout << MAGENTA << "--  " << functionName << CLEAR<<  std::endl;
     std::cout << std::endl;
 }
-
 #endif

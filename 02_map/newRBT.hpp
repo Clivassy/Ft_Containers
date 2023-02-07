@@ -20,7 +20,7 @@
 
 //---------------------------------------------------
 
-namespace ft{
+namespace ft {
     template <typename Key, typename Val , class Compare = std::less<Key>, class Allocator = std::allocator<Val> >
     class RedBlackTree
     {
@@ -51,7 +51,7 @@ namespace ft{
 	        typedef const value_type &								        const_reference;    
             typedef size_t				                                    size_type;
 			typedef Allocator				                                allocator_type;
-			//typedef Node<Val>*				                                node_pointer;
+			// typedef Node<Val>*				                                node_pointer;
 			typedef const Node<Val>*			                            const_node_pointer;
     
 
@@ -59,7 +59,7 @@ namespace ft{
             typedef Node<Val>*  node;
 
             node    _root; // root of the tree
-	       // node	_leaf; // leaf
+	        // node	_leaf; // leaf
 	        size_type		_size; // number of elements in the tree
             Compare         _compare;
 	        node_allocator	_node_alloc; // allocation pour un noeud
@@ -472,49 +472,196 @@ namespace ft{
         node deleteNode (node nodePtr)
         {
             (void)nodePtr;
-            // STEP 1 ) find node 
 
-            // STEP 2) 
-            // *** CASE 1 *** 
-            // node to delete has two chlidren : 
-            // ---> find its in order successor (the node with next largest value)
-            // and replace the node to delete with its successor : will have at least one child
-        
-            // *** CASE  2 ***
-            // If node tso delete has one or no children
-            // ---> replace it with its child( or with nil if it has no children)
-    
-            // STEP 3) 
-            //  --  Check RBT rules
-    
-        // erase position 
         }
+
         void erase (iterator position)
         {
-			iterator tmp = position;
-			while (tmp + 1 != end())
-			{
-				*tmp = *(tmp + 1);
-				_node_alloc.destroy(tmp.base());
-				_node_alloc.construct(tmp.base(), *(tmp + 1));
-				tmp++;
-			}
-			_node_alloc.destroy(tmp.base());
-			_size--;
-			return (iterator(position));
+            //std::cout << "Position erase called " << std::endl;
+          //  std::cout << position->first << " => ";
+          //  std::cout << position->second << std::endl;
+            erase(position->first);
         }
 
-        // erase k
-       /* size_type erase (const key_type& k)
+        void    checkNodeDeletion(node x)
         {
+            node s;
+           /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+            std::cout << "KEY => " << x->value.first << std::endl;
+            std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+		    while (x != 0 and x != _root and x->parent != 0 and x->color == BLACK)
+		    {
+		    	if (x == x->parent->left)
+		    	{
+		    		s = x->parent->right;
+		    		if (s->color == RED)
+		    		{
+		    			s->color = BLACK;
+		    			x->parent->color = RED;
+		    			rotateLeft(x->parent);
+		    			s = x->parent->right;
+		    		}
+		    		if (s->left->color == BLACK and s->right->color == BLACK)
+		    		{
+		    			s->color = RED;
+		    			x = x->parent;
+		    		}
+		    		else
+		    		{
+		    			if (s->right->color == BLACK)
+		    			{
+		    				s->left->color = BLACK;
+		    				s->color = RED;
+		    				rotateRight(s);
+		    				s = x->parent->right;
+		    			}
+                        s->color = x->parent->color;
+		    			x->parent->color = BLACK;
+		    			s->right->color = BLACK;
+		    			rotateLeft(x->parent);
+		    			x = _root->parent;
+		    		}
+		    	}
+		    	else if (x == x->parent->right)
+		    	{
+		    		s = x->parent->left;
+		    		if (s->color == RED)
+		    		{
+		    			s->color = BLACK;
+		    			x->parent->color = RED;
+		    			rotateRight(x->parent);
+		    			s = x->parent->left;
+                        break;
+		    		}
+		    		if (s->left->color == BLACK and s->right->color == BLACK)
+		    		{
+		    			s->color = RED;
+		    			x = x->parent;
+                        break;
+		    		}
+                    else
+		    		{
+		    			if (s->left->color == BLACK)
+		    			{
+		    				s->right->color = BLACK;
+		    				s->color = RED;
+		    				rotateLeft(s);
+		    				s = x->parent->left;
+                            break;
+		    			}
 
-        }*/
+                        s->color = x->parent->color;
+		    			x->parent->color = BLACK;
+		    			s->left->color = BLACK;
+		    			rotateRight(x->parent);
+		    			x = _root->parent;
+		    		}
+		    	}
+		    if (x)
+		    	x->color = BLACK;
+		    if (_size == 0)
+		    	clear();
+        }
+    }
         
-        // erase first, last
-        /*  void erase (iterator first, iterator last)
-        {
+        void remplaceSubtrees(node oldNode, node newNode)
+	    {
+	    	if (oldNode->parent == 0)
+	    		_root->parent = newNode;
+	    	else if (oldNode == oldNode->parent->left)
+	    		oldNode->parent->left = newNode;
+	    	else
+	    		oldNode->parent->right = newNode;
+	    	if (newNode != 0)
+	    		newNode->parent = oldNode->parent;
+	    }
 
-        }*/
+        size_type erase(const key_type &key)
+	    {
+        //------------------------------------------------------------------------------------
+        // STEP 1 ) find node 
+        // STEP 2) 
+        // *** CASE 1 *** 
+        // node to delete has two chlidren : 
+        // ---> find its in order successor (the node with next largest value)
+        // and replace the node to delete with its successor : will have at least one child
+    
+        // *** CASE  2 ***
+        // If node tso delete has one or no children
+        // ---> replace it with its child( or with nil if it has no children)
+
+        // STEP 3) 
+        //  --  Check RBT rules
+        //------------------------------------------------------------------------------------
+
+           /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+            std::cout << "KEY => " << key << std::endl;
+            std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+
+	    	node current = traverseTree(_root->parent, key);
+          /*  std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+            std::cout << "KEY => " << current->value.first << std::endl;
+            std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+	    	if (current == _root)
+	    		return 0;
+	    	if (_root->parent)
+	    		_root->parent->parent = 0;
+	    	node x, y = current;
+	    	int saveColor = y->color;
+
+	    	if (current->left == 0)
+	    	{
+	    		x = current->right;
+	    		remplaceSubtrees(current, current->right);
+	    	}
+	    	else if (current->right == 0)
+	    	{
+	    		x = current->left;
+	    		remplaceSubtrees(current, current->left);
+	    	}
+	    	else
+	    	{
+	    		y = getMinFrom(current->right);
+	    		saveColor = y->color;
+	    		x = y->right;
+	    		if (x and y->parent == current)
+	    			x->parent = y;
+	    		else
+	    		{
+	    			remplaceSubtrees(y, y->right);
+	    			y->right = current->right;
+	    			if (y->right)
+	    				y->right->parent = y;
+	    		}
+	    		remplaceSubtrees(current, y);
+	    		y->left = current->left;
+	    		if (y->left)
+	    			y->left->parent = y;
+	    		y->color = current->color;
+	    	}
+	    	_node_alloc.destroy(current);
+	    	_node_alloc.deallocate(current, 1);
+	    	_size--;
+	    	if (saveColor == BLACK and x)
+            {
+              /*  std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+                std::cout << "KEY => " << x->value.first << std::endl;
+                std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+	    	    checkNodeDeletion(x);
+            }
+	    	updateRootPos();
+	    	return (1);
+	    }
+		    
+        // erase first, last
+        void erase (iterator first, iterator last)
+        {
+           /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+            std::cout << "Range erase called " << std::endl;
+            std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+            while (first != last)
+                erase(first++);
+        }
 
         // swap 
         void swap (RedBlackTree& x)
@@ -539,16 +686,6 @@ namespace ft{
             tmpNodeAlloc = this->_node_alloc;
             this->_node_alloc = x._node_alloc;
             x._node_alloc = tmpNodeAlloc;
-        
-            /*node root = this->_root;
-		    size_t size = this->_size;
-		    RedBlackTree Alloc = this->_node_alloc;
-		    this->_root = x._root;
-		    this->_size = x._size;
-		    this->_node_alloc = x._node_alloc;
-		    x._root = root;
-		    x._size = size;
-		    x._node_alloc = Alloc;*/
         }
 
         //-------------------------------------------------------------
@@ -751,9 +888,6 @@ namespace ft{
             {
                 return (traverseTree(current->right, search));
             }
-	    	/*if (not _compare(current->value.first, toFind) and not _compare(toFind, current->value.first))
-	    		return nodePtr;
-	    	return find_impl((_compare(toFind, current->value.first) ? current->left : current->right), toFind);*/
 	    }
 
         void   inOrderSearch( node traversal)
@@ -800,9 +934,10 @@ namespace ft{
         }
 
         // returns the minimum node in the RBT
-    node getMin()
-	const
-	{ return getMinFrom(_root->parent); }
+    node getMin() const
+	{ 
+        return getMinFrom(_root->parent); 
+    }
 
 	node getMax()
 	const

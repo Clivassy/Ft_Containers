@@ -25,7 +25,7 @@ void	ft_erase(MAP &mp, U param, V param2)
 
 int		main(void)
 {
-	std::list<T3> lst;
+/*	std::list<T3> lst;
 	unsigned int lst_size = 10;
 	for (unsigned int i = 0; i < lst_size; ++i)
 		lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
@@ -51,6 +51,6 @@ int		main(void)
 	mp[15] = "FOUR";
 	printSize(mp);
 	ft_erase(mp, mp.begin(), mp.end());
-
+*/
 	return (0);
 }

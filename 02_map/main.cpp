@@ -18,7 +18,7 @@ int main() {
 
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
-   {
+  /* {
         printTitle("CONSTRUCTORS TESTS");
         printFunctionTest("Default Construtor");
 
@@ -27,22 +27,20 @@ int main() {
         defaultConstructor.insert(pair<const int, int>('B', 6));
         defaultConstructor.insert(pair<const int, int>('C', 30));
         
-        /*map<char,int>::iterator it;
-        for (it=defaultConstructor.begin(); it!=defaultConstructor.end(); ++it)
-            std::cout << it->first << " => " << it->second << '\n';*/
+        map<char,int>::iterator it2;
+        for (it2=defaultConstructor.begin(); it2!=defaultConstructor.end(); ++it2)
+            std::cout << it2->first << " => " << it2->second << '\n';
 
         printFunctionTest("Range Construtor");
         map<char,int> rangeConstructor (defaultConstructor.begin(),defaultConstructor.end());
         
-       /* map<char,int>::iterator it = defaultConstructor.begin(), ite = defaultConstructor.end();
+        map<char,int>::iterator it = defaultConstructor.begin(), ite = defaultConstructor.end();
         map<char,int> mp_range(it, --(--ite));
 	    for (int i = 0; it != ite; ++it)
         {
             it->second = ++i * 5;
             std::cout << it->first << " => " << it->second << '\n';
-        }*/
-
-
+        }
 
         printFunctionTest("Copy Construtor");
         map<char,int> copyConstructor (rangeConstructor);
@@ -50,11 +48,7 @@ int main() {
         map<char,int>::reverse_iterator rit;
         
         for (rit=copyConstructor.rbegin(); rit!=copyConstructor.rend(); ++rit)
-            std::cout << rit->first << " => " << rit->second << '\n';
-        
-        map<char,int>::const_iterator test = rangeConstructor.end(), rit2[2];        
-
-
+            std::cout << rit->first << " => " << rit->second << '\n';      
     }
 
     {
@@ -122,22 +116,6 @@ int main() {
         std::cout << "mymap['d'] is " << accessTest['d'] << '\n';
 
         std::cout << "mymap now contains " << accessTest.size() << " elements.\n";
-
-        // at
-        /*printFunctionTest("at");
-        accessTest.at('a') = "I am testing my at function";
-        accessTest.at('b') = "I think it is working well";
-        
-        std::cout << "mymap['a'] is : " << accessTest['a'] << '\n';
-        std::cout << "mymap['b'] is : " << accessTest['b'] << '\n';
-        try
-        {
-            accessTest.at('y') = "I am testing my at function";
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << "Exception throwed :  " << e.what() << '\n';
-        }*/
     }
 
     //-----------------------------------------------------------
@@ -173,13 +151,11 @@ int main() {
         rangeInsert.insert(insertTest.begin(), insertTest.end());
         for (map<const char,int>::iterator itRange=rangeInsert.begin(); itRange!=rangeInsert.end(); ++itRange)
             std::cout << itRange->first << " => " << itRange->second << '\n';
-
+*/
         //-- erase()
-       /* printFunctionTest("Erase()");
+        printFunctionTest("Erase - Position");
         map<char,int> eraseTest;
         map<char,int>::iterator eraseIt;
-
-        eraseIt = eraseTest.begin();
 
         eraseTest['a']=10;
         eraseTest['b']=20;
@@ -188,12 +164,42 @@ int main() {
         eraseTest['e']=50;
         eraseTest['f']=60;
 
+
+
+        std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
+            std::cout << newit->first << " => " << newit->second << '\n';
+        
+        eraseTest.prinTree();
+        eraseIt = eraseTest.find('c');
         eraseTest.erase(eraseIt);
+        eraseTest.prinTree();
+
+       /* std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
             std::cout << newit->first << " => " << newit->second << '\n';*/
+        
+        eraseTest.prinTree();
+
+        printFunctionTest("Erase() - Size");
+        eraseTest.erase('b');
+
+        std::cout << std::endl;
+        std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
+            std::cout << newit->first << " => " << newit->second << '\n';
+        eraseTest.prinTree();
+
+        
+        printFunctionTest("Erase() - Range");
+        eraseTest.erase(eraseTest.begin(), eraseTest.find('d'));
+        std::cout << std::endl;
+        std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
+            std::cout << newit->first << " => " << newit->second << '\n';
 
         //-- swap()
-        printFunctionTest("Swap()");
+        /*printFunctionTest("Swap()");
         map<char,int> testSwap1,testSwap2;
         
         std::cout << "BEFORE SWAP " << std::endl;
@@ -299,20 +305,20 @@ int main() {
         lookupTest.clear();
         
         //-- equal_range()
-        /*printFunctionTest("equal_range()");
-        lookupTest['a']= 10;
-        lookupTest['b']= 20;
-        lookupTest['c']= 30;
+        //printFunctionTest("equal_range()");
+        //lookupTest['a']= 10;
+        //lookupTest['b']= 20;
+        //lookupTest['c']= 30;
 
-        pair<map<char,int>::iterator, map<char,int>::iterator> ret;
-        ret = lookupTest.equal_range('b');
+        //pair<map<char,int>::iterator, map<char,int>::iterator> ret;
+        //ret = lookupTest.equal_range('b');
 
-        std::cout << "lower bound points to: ";
-        std::cout << ret.first->first << " => " << ret.first->second << '\n';
+        //std::cout << "lower bound points to: ";
+        //std::cout << ret.first->first << " => " << ret.first->second << '\n';
 
-        std::cout << "upper bound points to: ";
-        std::cout << ret.second->first << " => " << ret.second->second << '\n';
-*/
+        //std::cout << "upper bound points to: ";
+        //std::cout << ret.second->first << " => " << ret.second->second << '\n';
+        
 
         //-- lower_bound()
         printFunctionTest("Lower_bound()");
@@ -380,22 +386,13 @@ int main() {
     map<const int, std::string> redBlackTreeTest;
 
     redBlackTreeTest.insert(pair<const char, std::string>(25, "Julia"));
-    std::cout << redBlackTreeTest.size() << std::endl;
     redBlackTreeTest.insert(pair<const char, std::string>(34, "Yann"));
-    std::cout << redBlackTreeTest.size() << std::endl;
     redBlackTreeTest.insert(pair<const char, std::string>(59, "Pierre"));
-    std::cout << redBlackTreeTest.size() << std::endl;
     redBlackTreeTest.insert(pair<const char, std::string>(22, "Gabriel"));
     redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
     redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
 
-    map<const int, std::string>::iterator it, ite;
-    it = redBlackTreeTest.begin();
-    ite = redBlackTreeTest.end();
-    for (int i = 0; it != ite; ++it)
-		it->second = ++i * 7;
-
-    //redBlackTreeTest.prinTree();
+    redBlackTreeTest.prinTree();*/
 }
 
 

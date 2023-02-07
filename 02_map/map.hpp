@@ -226,20 +226,20 @@ namespace ft {
 			RB_Tree.insert(first, last);
 		}
 
-		/*void erase( iterator pos )
+		void erase( iterator position )
 		{
-			erase(pos->first);
-		}*/
+			RB_Tree.erase(position);
+		}
 
-		/*void erase( iterator first, iterator last )
+		void erase( iterator first, iterator last )
 		{
-			_tree.range_erase(first, last);
+			RB_Tree.erase(first, last);
 		}
 
 		size_type erase( const Key& key )
 		{
-			return (_tree.erase_node(ft::make_pair(key, mapped_type())));
-		}*/
+			return RB_Tree.erase(key);
+		}
 
 		void swap( map& x )
 		{
@@ -321,7 +321,7 @@ namespace ft {
 		{
 			return value_compare(RB_Tree.key_comp());
 		}
-	};
+		};
 
 	// NON MEMBERS FUNCTIONS 
 
