@@ -656,11 +656,30 @@ namespace ft {
         // erase first, last
         void erase (iterator first, iterator last)
         {
+            size_type i = 0;
+			node tmp = first.get_node();
+			if (first == begin() && last == end())
+			{
+				clear();
+				return;
+			}
+			for (iterator it = first; it != last; it++)
+				i++;
+			while (i)
+			{
+				erase(tmp->value.first);
+				i--;
+			}
            /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
             std::cout << "Range erase called " << std::endl;
             std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
+           /* if (first == begin() && last == end())
+				{
+					clear();
+					return;
+				}
             while (first != last)
-                erase(first++);
+                erase(first++);*/
         }
 
         // swap 

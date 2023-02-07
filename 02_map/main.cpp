@@ -192,10 +192,12 @@ int main() {
 
         
         printFunctionTest("Erase() - Range");
-        eraseTest.erase(eraseTest.begin(), eraseTest.find('d'));
+        eraseTest.erase(eraseTest.begin(), eraseTest.end());
         std::cout << std::endl;
+        map<char,int>::iterator it1 = eraseTest.begin()++; 
+        std::cout << it1->first << std::endl;
         std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
-        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
+        for (map<char,int>::iterator newit = eraseTest.begin()++; newit!=eraseTest.end(); ++newit)
             std::cout << newit->first << " => " << newit->second << '\n';
 
         //-- swap()
