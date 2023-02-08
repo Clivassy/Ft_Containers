@@ -10,6 +10,7 @@ static int iter = 0;
 template <typename MAP, typename U>
 void	ft_erase(MAP &mp, U param)
 {
+	(void)param;
 	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
 	mp.erase(param);
 	printSize(mp);
@@ -34,7 +35,7 @@ int		main(void)
 
 	ft_erase(mp, ++mp.begin());
 
-	/*ft_erase(mp, mp.begin());
+	ft_erase(mp, mp.begin());
 	ft_erase(mp, --mp.end());
 
 	ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
@@ -50,7 +51,7 @@ int		main(void)
 	mp[14] = "THREE";
 	mp[15] = "FOUR";
 	printSize(mp);
-	ft_erase(mp, mp.begin(), mp.end());*/
+	ft_erase(mp, mp.begin(), mp.end());
 
 	return (0);
 }

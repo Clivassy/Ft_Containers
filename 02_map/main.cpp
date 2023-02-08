@@ -14,11 +14,12 @@ using namespace ft;
 //#include <map>
 //using namespace std;
 
-int main() {
+int main() 
+{
 
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
-  /* {
+     {
         printTitle("CONSTRUCTORS TESTS");
         printFunctionTest("Default Construtor");
 
@@ -26,35 +27,45 @@ int main() {
         defaultConstructor.insert(pair<const int, int>('A', 12));
         defaultConstructor.insert(pair<const int, int>('B', 6));
         defaultConstructor.insert(pair<const int, int>('C', 30));
+        defaultConstructor.insert(pair<const int, int>('D', 6));
+        defaultConstructor.insert(pair<const int, int>('E', 30));
+        defaultConstructor.insert(pair<const int, int>('B', 6));
+        defaultConstructor.insert(pair<const int, int>('F', 30));
+        defaultConstructor.insert(pair<const int, int>('G', 6));
+        defaultConstructor.insert(pair<const int, int>('E', 30));
+        defaultConstructor.insert(pair<const int, int>('E', 30));
+        defaultConstructor.insert(pair<const int, int>('j', 30));
+        defaultConstructor.insert(pair<const int, int>('y', 30));
+        defaultConstructor.insert(pair<const int, int>('l', 30));
         
+        
+        std::cout << YELLOW "<<<<<< MAP CONTENT >>>>>>" CLEAR << std::endl;
         map<char,int>::iterator it2;
         for (it2=defaultConstructor.begin(); it2!=defaultConstructor.end(); ++it2)
             std::cout << it2->first << " => " << it2->second << '\n';
 
-        printFunctionTest("Range Construtor");
-        map<char,int> rangeConstructor (defaultConstructor.begin(),defaultConstructor.end());
-        
-        map<char,int>::iterator it = defaultConstructor.begin(), ite = defaultConstructor.end();
-        map<char,int> mp_range(it, --(--ite));
-	    for (int i = 0; it != ite; ++it)
-        {
-            it->second = ++i * 5;
-            std::cout << it->first << " => " << it->second << '\n';
-        }
+       /* printFunctionTest("Range Construtor");
+        map<char,int> rangeConstructor (defaultConstructor.begin(), defaultConstructor.end());
+        std::cout << YELLOW "<<<<<< MAP CONTENT >>>>>>" CLEAR << std::endl;
+        map<char,int>::iterator it;
+        for (it=defaultConstructor.begin(); it!=defaultConstructor.end(); ++it)
+            std::cout << it->first << " => " << it->second << '\n';*/
 
-        printFunctionTest("Copy Construtor");
+        
+
+      /*  printFunctionTest("Copy Construtor");
         map<char,int> copyConstructor (rangeConstructor);
        
         map<char,int>::reverse_iterator rit;
         
         for (rit=copyConstructor.rbegin(); rit!=copyConstructor.rend(); ++rit)
-            std::cout << rit->first << " => " << rit->second << '\n';      
+            std::cout << rit->first << " => " << rit->second << '\n';      */
     }
 
-    {
+   // {
     //-----------------------------------------------------------
     //-- ITERATORS
-        printTitle("ITERATORS TESTS");
+   /*     printTitle("ITERATORS TESTS");
         printFunctionTest("Begin and End");
 
         map<char, int> iteratorTest;
@@ -153,7 +164,7 @@ int main() {
             std::cout << itRange->first << " => " << itRange->second << '\n';
 */
         //-- erase()
-        printFunctionTest("Erase - Position");
+        /*printFunctionTest("Erase - Position");
         map<char,int> eraseTest;
         map<char,int>::iterator eraseIt;
 
@@ -167,38 +178,44 @@ int main() {
 
 
         std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
-        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
-            std::cout << newit->first << " => " << newit->second << '\n';
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); newit++)
+            std::cout << newit->first << " => " << newit->second << '\n';*/
         
-        eraseTest.prinTree();
+       /* eraseTest.prinTree();
         eraseIt = eraseTest.find('c');
         eraseTest.erase(eraseIt);
-        eraseTest.prinTree();
+        eraseTest.prinTree();*/
 
        /* std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
             std::cout << newit->first << " => " << newit->second << '\n';*/
         
-        eraseTest.prinTree();
+       // eraseTest.prinTree();
+       // printFunctionTest("Erase() - Range");
+        
+        //eraseTest.erase(eraseTest.begin(), eraseTest.end()--);
+        /*eraseIt =  eraseTest.end()--;
+        eraseIt--;
+        std::cout << eraseIt->first << "=> " << eraseIt->second << std::endl;
+        eraseIt = eraseTest.begin()++;
+        eraseIt++;
+        std::cout << eraseIt->first << "=> " << eraseIt->second << std::endl;*/
 
-        printFunctionTest("Erase() - Size");
-        eraseTest.erase('b');
-
-        std::cout << std::endl;
+    /*   std::cout << std::endl;
         std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
             std::cout << newit->first << " => " << newit->second << '\n';
-        eraseTest.prinTree();
+        eraseTest.prinTree();*/
 
         
-        printFunctionTest("Erase() - Range");
+      /*  printFunctionTest("Erase() - Range");
         eraseTest.erase(eraseTest.begin(), eraseTest.end());
         std::cout << std::endl;
         map<char,int>::iterator it1 = eraseTest.begin()++; 
         std::cout << it1->first << std::endl;
         std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin()++; newit!=eraseTest.end(); ++newit)
-            std::cout << newit->first << " => " << newit->second << '\n';
+            std::cout << newit->first << " => " << newit->second << '\n';*/
 
         //-- swap()
         /*printFunctionTest("Swap()");
@@ -380,10 +397,10 @@ int main() {
         } else {
             std::cout << "The allocator is not the default allocator." << std::endl;
         }
-    }
+    }*/
     //-----------------------------------------------------------
     //-- RED BLACK TREE TESTS
-    printTitle("RED BLACK TREE TESTS");
+    /*  printTitle("RED BLACK TREE TESTS");
 
     map<const int, std::string> redBlackTreeTest;
 

@@ -39,6 +39,7 @@ namespace ft {
 			// in the tree and maintain the order.
 			//class value_compare : public std::binary_function<value_type, value_type, bool>
 			class value_compare : public std::less<value_type>
+			//-- > what is the difference : seems to be working with both
 			{
 				// Declaring 'map' as a friend of 'value_compare' class
 				// 'map' has access to the private and protected members of 'value compare' class.
@@ -60,15 +61,17 @@ namespace ft {
 					value_compare(Compare c): comp(c) { }
 			};
 
-			//-------------------------------------------------------
-
 			public: 
+			//-- Define RBT type ------------------------------------------------------
 				typedef typename ft::RedBlackTree< key_type, value_type, key_compare, allocator_type>	tree_type;
-			// --- TO DO --- IN PROGRESS
+
+			//-- Define iterators ------------------------------------------------------
 				typedef typename tree_type::iterator													iterator;
 				typedef typename tree_type::const_iterator												const_iterator;
 				typedef typename tree_type::reverse_iterator											reverse_iterator;
-				typedef typename tree_type::const_reverse_iterator									const_reverse_iterator;	
+				typedef typename tree_type::const_reverse_iterator										const_reverse_iterator;	
+
+			//-- Define other types ------------------------------------------------------
 				typedef typename tree_type::size_type													size_type;
 				typedef typename allocator_type::difference_type										difference_type;
 				typedef typename tree_type::reference													reference;
@@ -90,7 +93,6 @@ namespace ft {
 		: RB_Tree(comp, alloc)
 		{
 			// Here need to initialize the Red black tree.
-			//std::cout<< "Default constructor called" << std::endl;
 		}
 
 		// Initializes the internal red-black tree data member 
@@ -114,7 +116,7 @@ namespace ft {
 		
 		// DESTRUCTOR
 		~map()
-		{
+		{ // all is destructed in RBT
 		}
 
 		map& operator= (const map& rhs)

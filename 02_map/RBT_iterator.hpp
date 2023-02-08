@@ -19,7 +19,6 @@ namespace ft {
 			typedef typename std::bidirectional_iterator_tag	iterator_category;
 			typedef typename iterator::difference_type			difference_type;
 			typedef typename iterator::pointer					pointer;
-			//typedef value_type*									pointer;
 			typedef typename iterator::reference				reference;
 			typedef node										node_pointer;
 
@@ -46,13 +45,13 @@ namespace ft {
 			// DESTRUCTOR
 			~RBT_iterator() {}
 
-			RBT_iterator & operator=(RBT_iterator const &rhs) 
+			/*RBT_iterator & operator=(RBT_iterator const &rhs) 
 			{
 				if (*this == rhs)
 					return (*this);
 				this->_node = rhs._node; 
 				return (*this);
-			}
+			}*/
 
 			operator RBT_iterator<const T, node, Compare>() const 
 			{
@@ -122,7 +121,7 @@ namespace ft {
 			}
 
 		// ------------------------------------------------------------------------------------
-		protected:
+		/*protected:
 			// If the current node has a right child:
 			// the iterator goes to the leftmost node in the right subtree.
 			// If the current node does not have a right child and has a parent, 
@@ -172,7 +171,7 @@ namespace ft {
 					}
 				}
 				return (tmp);
-			}
+			}*/
 	};
 }
 #endif

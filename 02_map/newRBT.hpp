@@ -36,6 +36,7 @@ namespace ft {
                 Node(): left(0), right(0), parent(0), color(RED){}
                 Node(const T &data) : value(data), left(0), right(0), parent(0), color(RED){}
             };
+
             //-- create a new type of allocator that is bound to the 'Node' type nd uses the same 
             // memoryressource as the original 'allocator_type'.
             typedef typename Allocator::template rebind<Node<Val> >::other   node_allocator;
@@ -43,7 +44,6 @@ namespace ft {
         public:
         	typedef Key					                                    key_type;
             typedef Compare											        key_compare;
-			//typedef Compare				                                    compare_type;
             typedef Val												        value_type;
             typedef Val*			                                        pointer;
             typedef const value_type *								        const_pointer;
@@ -51,23 +51,18 @@ namespace ft {
 	        typedef const value_type &								        const_reference;    
             typedef size_t				                                    size_type;
 			typedef Allocator				                                allocator_type;
-			// typedef Node<Val>*				                                node_pointer;
 			typedef const Node<Val>*			                            const_node_pointer;
-    
 
         protected:
             typedef Node<Val>*  node;
 
-            node    _root; // root of the tree
-	        // node	_leaf; // leaf
-	        size_type		_size; // number of elements in the tree
+            node            _root;
+	        size_type		_size;
             Compare         _compare;
-	        node_allocator	_node_alloc; // allocation pour un noeud
-
-	       
+	        node_allocator	_node_alloc;
         
         public:
-            // ----  Iterators TO DO 
+            //-- Define iterators
             typedef ft::RBT_iterator<Val, node, Compare>                iterator;
             typedef ft::RBT_iterator<const Val, node, Compare>          const_iterator;
             typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
@@ -77,8 +72,8 @@ namespace ft {
             : _compare(comp), _node_alloc(alloc)
             {
                 _size = 0;
-                _root = _node_alloc.allocate(1); // allocate memory for one node memory
-                _node_alloc.construct(_root, Node<Val>()); // construct root node : create a new node object
+                _root = _node_alloc.allocate(1);
+                _node_alloc.construct(_root, Node<Val>());
                 _root->parent = 0;
                 _root->right = _root;
                 _root->left = _root;
@@ -107,7 +102,6 @@ namespace ft {
 		    	return (*this);
 		    }
 
-
             ~RedBlackTree()
             {
                 clear();
@@ -118,7 +112,7 @@ namespace ft {
         //-- RED BLACK TREE OPERATIONS
         //--------------------------------
 
-        // rotateLeft
+        //-- RotateLeft
         void rotateLeft(node x)
         {
             node y = x->right;
@@ -134,42 +128,9 @@ namespace ft {
 		    	x->parent->right = y;
 		    y->left = x;
 		    x->parent = y;
-            /*node parent = newNode->right;
-			if (newNode == _root)
-				_root = parent;
-			if (newNode->parent != NULL)
-			{
-				if (newNode == newNode->parent->left)
-					newNode->parent->left = parent;
-				else 
-					newNode->parent->right = parent;
-			}
-			parent->parent = newNode->parent;
-			newNode->parent = parent;
-			newNode->right = parent->left;
-			if (parent->left != NULL) 
-				parent->left->parent = newNode;
-			parent->left = newNode;*/
-
-            /* node parent = newNode->right;
-
-            newNode->right = parent->left;
-            if (parent->left != 0) {
-              parent->left->parent = newNode;
-            }
-            parent->parent = newNode->parent;
-            if (newNode->parent == NULL) {
-              this->_root = parent;
-            } else if (newNode == newNode->parent->left) {
-              newNode->parent->left = parent;
-            } else {
-              newNode->parent->right = parent;
-            }
-            parent->left = newNode;
-            newNode->parent = parent;*/
         }
 
-        // Rotate Right
+        //-- Rotate Right
         void rotateRight(node x)
 	    {
 	    	node y = x->left;
@@ -187,21 +148,62 @@ namespace ft {
 	    	x->parent = y;
 	    }
 
-            /*nodePtr->left = parent->right;
-            if (parent->right != 0) 
-                parent->right->parent = nodePtr;
-            parent->parent = nodePtr->parent;
-            if (nodePtr->parent == NULL)
-                this->_root = parent;
-            else if (nodePtr == nodePtr->parent->right)
-                nodePtr->parent->right = parent;
-            else 
-                nodePtr->parent->left = parent;
-            parent->right = nodePtr;
-            nodePtr->parent = parent;   */
+    void insertFix(node k)
+	{   
+		    node u;
+		    while (k->parent->color == RED)
+		    {
+		    	if (k->parent == k->parent->parent->right)
+		    	{
+		    		u = k->parent->parent->left;
+		    		if (u != 0 and u != _root and u->color == RED)
+		    		{
+		    			u->color = BLACK;
+		    			k->parent->color = BLACK;
+		    			k->parent->parent->color = RED;
+		    			k = k->parent->parent;
+		    		}
+		    		else
+		    		{
+		    			if (k == k->parent->left)
+		    			{
+		    				k = k->parent;
+		    				rotateRight(k);
+		    			}
+		    			k->parent->color = BLACK;
+		    			k->parent->parent->color = RED;
+		    			rotateLeft(k->parent->parent);
+		    		}
+		    	}
+		    	else
+		    	{
+		    		u = k->parent->parent->right;
+		    		if (u != 0 and u != _root and u->color == RED)
+		    		{
+		    			u->color = BLACK;
+		    			k->parent->color = BLACK;
+		    			k->parent->parent->color = RED;
+		    			k = k->parent->parent;
+		    		}
+		    		else
+		    		{
+		    			if (k == k->parent->right)
+		    			{
+		    				k = k->parent;
+		    				rotateLeft(k);
+		    			}
+		    			k->parent->color = BLACK;
+		    			k->parent->parent->color = RED;
+		    			rotateRight(k->parent->parent);
+		    		}
+		    	}
+		    	if (k == _root->parent)
+		    		break;
+		    }
+		    _root->parent->color = BLACK;
+	}
 
-        // insertfix
-        void    checkInsertionNode(node newNode)
+        /*void    checkInsertionNode(node newNode)
         {
             node ptr;
             while (newNode->parent->color == RED)
@@ -260,14 +262,13 @@ namespace ft {
                     break;
             }
         _root->parent->color = BLACK;
-    }
-        // delete fix
-        // TO DO -----
+    }*/
 
         //----------------------------------------------
         //------ ACCESSORS 
         //----------------------------------------------
-        ft::pair<iterator, bool> at(const value_type &value)
+        //- AT = > Not To DO 
+        /*ft::pair<iterator, bool> at(const value_type &value)
         {
             node traversal = _root;
             node parent;
@@ -307,7 +308,7 @@ namespace ft {
                     traversal =  traversal->right;
             }
             throw std::out_of_range("ft::map::at");          
-        }
+        }*/
 
         //----------------------------------------------
         //------ ITERATORS --- From RBT_Iterators
@@ -399,8 +400,34 @@ namespace ft {
             }
         }
 
-        // Insert
         ft::pair<iterator, bool> insert(const value_type &val)
+	    {
+	    	node x = _root->parent, y = 0;
+	    	while (x != 0 and x != _root)
+	    	{
+	    		if (not _compare(val.first, x->value.first) and not _compare(x->value.first, val.first))
+	    			return ft::make_pair(iterator(x), false);
+	    		y = x;
+	    		x = (_compare(val.first, x->value.first) ? x->left : x->right);
+	    	}
+	    	node nodePtr = _node_alloc.allocate(1);
+	    	_node_alloc.construct(nodePtr, Node<Val>(val));
+	    	nodePtr->parent = y;
+	    	if (y == 0)
+	    		_root->parent = nodePtr;
+	    	else
+	    		_compare(nodePtr->value.first, y->value.first) ? y->left = nodePtr : y->right = nodePtr;
+	    	if (nodePtr->parent == 0 or nodePtr->parent == _root)
+	    		nodePtr->color = BLACK;
+	    	else if (nodePtr->parent->parent != 0 and nodePtr->parent->parent != _root)
+	    		insertFix(nodePtr);
+	    	updateRootPos();
+	    	_size++;
+	    	return ft::make_pair(iterator(nodePtr), true);
+	    }
+
+        // Insert
+        /*ft::pair<iterator, bool> insert(const value_type &val)
         {
             node currentNode = _root->parent;
             node parentNode = 0;
@@ -428,7 +455,7 @@ namespace ft {
                 else
                     parentNode->right = newNode;
             }
-            if (newNode->parent == 0)// or newNode->parent == _root)
+            if (newNode->parent == 0 )//or newNode->parent == _root)
                 newNode->color = BLACK;
             else if (newNode->parent->parent != 0 && newNode->parent->parent != _root)
                 checkInsertionNode(newNode);
@@ -439,7 +466,7 @@ namespace ft {
             // printRoot();
             //printOneNode(newNode);
             return ft::make_pair(iterator(newNode), true);
-        }
+        }*/
 
         //-- Insert `val` at given `position` in the map
         //-- Returns an iterator pointing to the newly inserted element.
@@ -454,28 +481,20 @@ namespace ft {
                     break;
                 Found++;
             }
-			return Found;
+			return (Found);
         }
 
         template <class InputIterator>  
         void insert (InputIterator first, InputIterator last)
         {
-            while ( first != last)
+            while (first != last)
             {
                 insert(*first);
                 first++;
             }
         }
 
-        
-
-        node deleteNode (node nodePtr)
-        {
-            (void)nodePtr;
-
-        }
-
-        void erase (iterator position)
+        void erase(iterator position)
         {
             //std::cout << "Position erase called " << std::endl;
           //  std::cout << position->first << " => ";
@@ -599,7 +618,7 @@ namespace ft {
             std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
 
 	    	node current = traverseTree(_root->parent, key);
-          /*  std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+          /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
             std::cout << "KEY => " << current->value.first << std::endl;
             std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
 	    	if (current == _root)
@@ -656,31 +675,22 @@ namespace ft {
         // erase first, last
         void erase (iterator first, iterator last)
         {
-            size_type i = 0;
-			node tmp = first.get_node();
-			if (first == begin() && last == end())
-			{
-				clear();
-				return;
-			}
-			for (iterator it = first; it != last; it++)
-				i++;
-			while (i)
-			{
-				erase(tmp->value.first);
-				i--;
-			}
-           /* std::cout << CYAN "--------------------------------" CLEAR << std::endl;
+			/*std::cout << CYAN "--------------------------------" CLEAR << std::endl;
             std::cout << "Range erase called " << std::endl;
             std::cout << CYAN "--------------------------------" CLEAR << std::endl;*/
-           /* if (first == begin() && last == end())
-				{
-					clear();
-					return;
-				}
-            while (first != last)
-                erase(first++);*/
+            if (first == begin() && last == end())
+			{
+                	this->clear();
+                    return;
+			}
+            else
+            {
+                while (first != last)
+                    erase(first++);
+            }
+            return;
         }
+
 
         // swap 
         void swap (RedBlackTree& x)
@@ -1067,6 +1077,51 @@ namespace ft {
     //------------ NON MEMBER FUNCTIONS 
     //-- swap 
 
+    //-- Increment and decrement operators
+    template <typename T>
+    T increase(T &x)
+    {
+    	if (x->right != 0) 
+    	{
+    		x = x->right;
+    		while (x->left != 0)
+    			x = x->left;
+    	}
+    	else
+    	{
+    		T y = x->parent;
+    		while (x == y->right)
+    		{
+    			x = y;
+    			y = y->parent;
+    		}
+    		if (x->right != y)
+    			x = y;
+    	}
+    	return x;
+    }
+
+    template <typename T>
+    T decrease(T &x)
+    {
+    	T y;
+    	if (x->left != 0) 
+    	{
+    		y = x->left;
+    		while (y->right != 0)
+    			y = y->right;
+    	}
+    	else
+    	{
+    		y = x->parent;
+    		while (x == y->left)
+    		{
+    			x = y;
+    			y = y->parent;
+    		}
+    	}
+    	return y;
+    }
 
     //----------- RELATIONNAL OPERATORS
     template <typename _Key, typename _Val, class _Compare, class _Allocator>
