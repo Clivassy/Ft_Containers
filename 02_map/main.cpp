@@ -9,13 +9,13 @@
 #endif
 
 using namespace ft;
-
-
-//#include <map>
-//using namespace std;
+#include <chrono>
+using namespace std::chrono;
 
 int main() 
 {
+    //-- PERFORMANCE TEST
+    auto start = high_resolution_clock::now();
 
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
@@ -25,18 +25,18 @@ int main()
 
         map<char, int> defaultConstructor;
         defaultConstructor.insert(pair<const int, int>('A', 12));
-        defaultConstructor.insert(pair<const int, int>('B', 6));
+        defaultConstructor.insert(pair<const int, int>('B', 696));
         defaultConstructor.insert(pair<const int, int>('C', 30));
-        defaultConstructor.insert(pair<const int, int>('D', 6));
+        defaultConstructor.insert(pair<const int, int>('D', 256));
         defaultConstructor.insert(pair<const int, int>('E', 30));
         defaultConstructor.insert(pair<const int, int>('B', 6));
-        defaultConstructor.insert(pair<const int, int>('F', 30));
-        defaultConstructor.insert(pair<const int, int>('G', 6));
-        defaultConstructor.insert(pair<const int, int>('E', 30));
-        defaultConstructor.insert(pair<const int, int>('E', 30));
-        defaultConstructor.insert(pair<const int, int>('j', 30));
-        defaultConstructor.insert(pair<const int, int>('y', 30));
-        defaultConstructor.insert(pair<const int, int>('l', 30));
+        defaultConstructor.insert(pair<const int, int>('F', 388));
+        defaultConstructor.insert(pair<const int, int>('G', 60));
+        defaultConstructor.insert(pair<const int, int>('E', 21));
+        defaultConstructor.insert(pair<const int, int>('E', 301));
+        defaultConstructor.insert(pair<const int, int>('j', 302));
+        defaultConstructor.insert(pair<const int, int>('y', 303));
+        defaultConstructor.insert(pair<const int, int>('l', 304));
         
         
         std::cout << YELLOW "<<<<<< MAP CONTENT >>>>>>" CLEAR << std::endl;
@@ -44,28 +44,30 @@ int main()
         for (it2=defaultConstructor.begin(); it2!=defaultConstructor.end(); ++it2)
             std::cout << it2->first << " => " << it2->second << '\n';
 
-       /* printFunctionTest("Range Construtor");
+        printFunctionTest("Range Construtor");
         map<char,int> rangeConstructor (defaultConstructor.begin(), defaultConstructor.end());
         std::cout << YELLOW "<<<<<< MAP CONTENT >>>>>>" CLEAR << std::endl;
         map<char,int>::iterator it;
         for (it=defaultConstructor.begin(); it!=defaultConstructor.end(); ++it)
-            std::cout << it->first << " => " << it->second << '\n';*/
-
+            std::cout << it->first << " => " << it->second << '\n';
         
 
-      /*  printFunctionTest("Copy Construtor");
+        printFunctionTest("Copy Construtor");
         map<char,int> copyConstructor (rangeConstructor);
-       
+            for (it=copyConstructor.begin(); it!=copyConstructor.end(); ++it)
+            std::cout << it->first << " => " << it->second << '\n';
+
+        std::cout << std::endl;
+        std::cout << YELLOW << "<<<<< MAP Copy constructor reverse content >>>>>>" << CLEAR << std::endl;
         map<char,int>::reverse_iterator rit;
-        
         for (rit=copyConstructor.rbegin(); rit!=copyConstructor.rend(); ++rit)
-            std::cout << rit->first << " => " << rit->second << '\n';      */
+            std::cout << rit->first << " => " << rit->second << '\n';
     }
 
-   // {
+    {
     //-----------------------------------------------------------
     //-- ITERATORS
-   /*     printTitle("ITERATORS TESTS");
+        printTitle("ITERATORS TESTS");
         printFunctionTest("Begin and End");
 
         map<char, int> iteratorTest;
@@ -162,9 +164,9 @@ int main()
         rangeInsert.insert(insertTest.begin(), insertTest.end());
         for (map<const char,int>::iterator itRange=rangeInsert.begin(); itRange!=rangeInsert.end(); ++itRange)
             std::cout << itRange->first << " => " << itRange->second << '\n';
-*/
-        //-- erase()
-        /*printFunctionTest("Erase - Position");
+    }
+    {  //-- erase()
+        printFunctionTest("Erase - Position");
         map<char,int> eraseTest;
         map<char,int>::iterator eraseIt;
 
@@ -175,57 +177,43 @@ int main()
         eraseTest['e']=50;
         eraseTest['f']=60;
 
-
-
         std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); newit++)
-            std::cout << newit->first << " => " << newit->second << '\n';*/
+            std::cout << newit->first << " => " << newit->second << '\n';
         
-       /* eraseTest.prinTree();
         eraseIt = eraseTest.find('c');
         eraseTest.erase(eraseIt);
-        eraseTest.prinTree();*/
 
-       /* std::cout << YELLOW "<<<<<< MAP BEFORE ERASE >>>>>>" CLEAR << std::endl;
-        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
-            std::cout << newit->first << " => " << newit->second << '\n';*/
-        
-       // eraseTest.prinTree();
-       // printFunctionTest("Erase() - Range");
-        
-        //eraseTest.erase(eraseTest.begin(), eraseTest.end()--);
-        /*eraseIt =  eraseTest.end()--;
-        eraseIt--;
-        std::cout << eraseIt->first << "=> " << eraseIt->second << std::endl;
-        eraseIt = eraseTest.begin()++;
-        eraseIt++;
-        std::cout << eraseIt->first << "=> " << eraseIt->second << std::endl;*/
+        std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); newit++)
+            std::cout << newit->first << " => " << newit->second << '\n';
 
-    /*   std::cout << std::endl;
+        printFunctionTest("Erase - Value");
+        eraseTest.erase('e');
+        std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
+        for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); newit++)
+            std::cout << newit->first << " => " << newit->second << '\n';
+
+        printFunctionTest("Erase() - Range");
+        eraseTest.erase(eraseTest.begin(), eraseTest.end());
+
+        std::cout << std::endl;
         std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
         for (map<char,int>::iterator newit = eraseTest.begin(); newit!=eraseTest.end(); ++newit)
             std::cout << newit->first << " => " << newit->second << '\n';
-        eraseTest.prinTree();*/
-
+        if (eraseTest.empty())
+            std::cout << GREEN << "<<<<< SUCCESS : Map is empty >>>>>>" << CLEAR << std::endl;
+        else
+            std::cout << REDCOLOR << "<<<< FAILURE >>>>>" << CLEAR << std::endl;
         
-      /*  printFunctionTest("Erase() - Range");
-        eraseTest.erase(eraseTest.begin(), eraseTest.end());
-        std::cout << std::endl;
-        map<char,int>::iterator it1 = eraseTest.begin()++; 
-        std::cout << it1->first << std::endl;
-        std::cout << YELLOW "<<<<<< MAP AFTER ERASE >>>>>>" CLEAR << std::endl;
-        for (map<char,int>::iterator newit = eraseTest.begin()++; newit!=eraseTest.end(); ++newit)
-            std::cout << newit->first << " => " << newit->second << '\n';*/
-
         //-- swap()
-        /*printFunctionTest("Swap()");
+        printFunctionTest("Swap()");
         map<char,int> testSwap1,testSwap2;
         
         std::cout << "BEFORE SWAP " << std::endl;
         testSwap1['x']=100;
         testSwap1['y']=200;
 
-        
         testSwap2['a']=11;
         testSwap2['b']=22;
         testSwap2['c']=33;
@@ -324,20 +312,16 @@ int main()
         lookupTest.clear();
         
         //-- equal_range()
-        //printFunctionTest("equal_range()");
-        //lookupTest['a']= 10;
-        //lookupTest['b']= 20;
-        //lookupTest['c']= 30;
-
-        //pair<map<char,int>::iterator, map<char,int>::iterator> ret;
-        //ret = lookupTest.equal_range('b');
-
-        //std::cout << "lower bound points to: ";
-        //std::cout << ret.first->first << " => " << ret.first->second << '\n';
-
-        //std::cout << "upper bound points to: ";
-        //std::cout << ret.second->first << " => " << ret.second->second << '\n';
-        
+        printFunctionTest("equal_range()");
+        lookupTest['a']= 10;
+        lookupTest['b']= 20;
+        lookupTest['c']= 30;
+        pair<map<char,int>::iterator, map<char,int>::iterator> ret;
+        ret = lookupTest.equal_range('b');
+        std::cout << "lower bound points to: ";
+        std::cout << ret.first->first << " => " << ret.first->second << '\n';
+        std::cout << "upper bound points to: ";
+        std::cout << ret.second->first << " => " << ret.second->second << '\n';
 
         //-- lower_bound()
         printFunctionTest("Lower_bound()");
@@ -397,21 +381,30 @@ int main()
         } else {
             std::cout << "The allocator is not the default allocator." << std::endl;
         }
-    }*/
+    }
     //-----------------------------------------------------------
     //-- RED BLACK TREE TESTS
-    /*  printTitle("RED BLACK TREE TESTS");
+   {
+        printTitle("RED BLACK TREE TESTS");
 
-    map<const int, std::string> redBlackTreeTest;
+        map<const int, std::string> redBlackTreeTest;
 
-    redBlackTreeTest.insert(pair<const char, std::string>(25, "Julia"));
-    redBlackTreeTest.insert(pair<const char, std::string>(34, "Yann"));
-    redBlackTreeTest.insert(pair<const char, std::string>(59, "Pierre"));
-    redBlackTreeTest.insert(pair<const char, std::string>(22, "Gabriel"));
-    redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
-    redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
+        redBlackTreeTest.insert(pair<const char, std::string>(25, "Julia"));
+        redBlackTreeTest.insert(pair<const char, std::string>(34, "Yann"));
+        redBlackTreeTest.insert(pair<const char, std::string>(59, "Pierre"));
+        redBlackTreeTest.insert(pair<const char, std::string>(22, "Gabriel"));
+        redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
+        redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
 
-    redBlackTreeTest.prinTree();*/
+        //-- Print Red Black Tree for debeug
+        // redBlackTreeTest.prinTree();
+   } 
+
+    //-----------------------------------------------------------
+    //-- PERFORMANCE TESTS
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 }
 
 

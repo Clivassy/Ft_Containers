@@ -1,0 +1,267 @@
+
+[0;36m--------------------------------[0m
+[0;32m         CONSTRUCTORS TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  Default Construtor[0m
+
+[33m<<<<<< MAP CONTENT >>>>>>[0m
+A => 12
+B => 696
+C => 30
+D => 256
+E => 30
+F => 388
+G => 60
+j => 302
+l => 304
+y => 303
+
+[35m--  Range Construtor[0m
+
+[33m<<<<<< MAP CONTENT >>>>>>[0m
+A => 12
+B => 696
+C => 30
+D => 256
+E => 30
+F => 388
+G => 60
+j => 302
+l => 304
+y => 303
+
+[35m--  Copy Construtor[0m
+
+A => 12
+B => 696
+C => 30
+D => 256
+E => 30
+F => 388
+G => 60
+j => 302
+l => 304
+y => 303
+
+[33m<<<<< MAP Copy constructor reverse content >>>>>>[0m
+y => 303
+l => 304
+j => 302
+G => 60
+F => 388
+E => 30
+D => 256
+C => 30
+B => 696
+A => 12
+
+[0;36m--------------------------------[0m
+[0;32m         ITERATORS TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  Begin and End[0m
+
+A => 100
+B => 200
+C => 300
+
+[35m--  Rbegin and Rend[0m
+
+C => 300
+B => 200
+A => 100
+
+[0;36m--------------------------------[0m
+[0;32m         CAPACITY TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  Empty()[0m
+
+Map is empty
+Map is NOT empty
+
+[35m--  Size()[0m
+
+Size of Map: 2
+Max size of Map: 230584300921369395
+
+[0;36m--------------------------------[0m
+[0;32m         ELEMENT ACCESS TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  operator[][0m
+
+mymap['a'] is an element
+mymap['b'] is another element
+mymap['c'] is another element
+mymap['d'] is 
+mymap now contains 4 elements.
+
+[0;36m--------------------------------[0m
+[0;32m         MODIFIERS TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  Insert() with Val[0m
+
+Size before insertion : 0
+Map contains :
+A => 12
+C => 30
+E => 65
+F => 85
+Z => 6
+Size after insertion : 5
+
+[35m--  Position Insert()[0m
+
+A => 12
+C => 30
+[33m >>>>>> FOUND NEWLY INSERTED ELEMENT >>>>> [0m
+
+[35m--  Range Insert()[0m
+
+A => 12
+C => 30
+D => 800
+E => 65
+F => 85
+Z => 6
+
+[35m--  Erase - Position[0m
+
+[33m<<<<<< MAP BEFORE ERASE >>>>>>[0m
+a => 10
+b => 20
+c => 30
+d => 40
+e => 50
+f => 60
+[33m<<<<<< MAP AFTER ERASE >>>>>>[0m
+a => 10
+b => 20
+d => 40
+e => 50
+f => 60
+
+[35m--  Erase - Value[0m
+
+[33m<<<<<< MAP AFTER ERASE >>>>>>[0m
+a => 10
+b => 20
+d => 40
+f => 60
+
+[35m--  Erase() - Range[0m
+
+
+[33m<<<<<< MAP AFTER ERASE >>>>>>[0m
+[0;32m<<<<< SUCCESS : Map is empty >>>>>>[0m
+
+[35m--  Swap()[0m
+
+BEFORE SWAP 
+MAP (1)  contains:
+SIZE 1 = 2
+x => 100
+y => 200
+
+MAP (2) contains:
+SIZE 2 = 3
+a => 11
+b => 22
+c => 33
+AFTER  SWAP 
+MAP (1)  contains:
+a => 11
+b => 22
+c => 33
+SIZE 1 = 3
+
+MAP (2) contains:
+x => 100
+y => 200
+SIZE 2 = 3
+
+[35m--  Clear()[0m
+
+The map contains:
+x => 100
+y => 200
+z => 300
+
+The map contains:
+a => 1101
+b => 2202
+
+[0;36m--------------------------------[0m
+[0;32m         LOOKUP TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  Count()[0m
+
+a is an element of mymap.
+b is not an element of mymap.
+c is an element of mymap.
+d is not an element of mymap.
+e is not an element of mymap.
+f is an element of mymap.
+g is not an element of mymap.
+
+[35m--  Count()[0m
+
+a => 50
+b => 100
+c => 150
+d => 200
+-----------------
+a => 50
+b => 100
+
+[35m--  equal_range()[0m
+
+lower bound points to: b => 20
+upper bound points to: c => 30
+
+[35m--  Lower_bound()[0m
+
+a => 20
+b => 40
+[33m >>>>>> FOUND LOWER BOUND ELEMENT : KEY = c >>>>> [0m
+
+[35m--  Upper_bound()[0m
+
+a => 20
+b => 40
+c => 60
+[33m >>>>>> FOUND LOWER BOUND ELEMENT : KEY = o >>>>> [0m
+
+[0;36m--------------------------------[0m
+[0;32m         OBSERVERS TESTS        [0m
+[0;36m--------------------------------[0m
+
+
+[35m--  key_comp()[0m
+
+4 is not less than 5
+
+[35m--  key_comp()[0m
+
+4,"four" is less than 5,"five"
+
+[0;36m--------------------------------[0m
+[0;32m         ALLOCATOR TESTS        [0m
+[0;36m--------------------------------[0m
+
+The allocator is the default allocator.
+
+[0;36m--------------------------------[0m
+[0;32m         RED BLACK TREE TESTS        [0m
+[0;36m--------------------------------[0m
+

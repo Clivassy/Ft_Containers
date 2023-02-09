@@ -52,6 +52,7 @@ namespace ft {
             typedef size_t				                                    size_type;
 			typedef Allocator				                                allocator_type;
 			typedef const Node<Val>*			                            const_node_pointer;
+            typedef std::ptrdiff_t									        difference_type;
 
         protected:
             typedef Node<Val>*  node;
@@ -816,7 +817,7 @@ namespace ft {
         }
 
         //-- std::upper_bound
-        iterator upper_bound( const Key& key )
+        /*iterator upper_bound( const Key& key )
         {
             node currentNode = _root->parent;
             node upperBoundNode = _root;
@@ -854,8 +855,8 @@ namespace ft {
                 }
             }
             return const_iterator (upperBoundNode);
-        }
-	       /* iterator upper_bound(const key_type& key)
+        }*/
+	        iterator upper_bound(const key_type& key)
 			{
 				iterator it = begin();
 				iterator ite = end();
@@ -879,8 +880,8 @@ namespace ft {
 						return it;
 				}
 				return it;
-			}*/
-        /*ft::pair<iterator, iterator> equal_range(const key_type& key)
+			}
+        ft::pair<iterator, iterator> equal_range(const key_type& key)
 	    { 
              return ft::make_pair(lower_bound(key), upper_bound(key));
         }
@@ -888,7 +889,7 @@ namespace ft {
 	    ft::pair<const_iterator, const_iterator> equal_range(const key_type& key) const
 	    { 
             return ft::make_pair(lower_bound(key), upper_bound(key));
-        }*/
+        }
 
         //-------------------------------------------------------------
         //-------------- OBSERVERS  -----------------------------------
