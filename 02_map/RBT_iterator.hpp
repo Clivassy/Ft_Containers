@@ -1,7 +1,7 @@
 #ifndef RBT_ITERATOR_HPP
 # define RBT_ITERATOR_HPP
 
-#include "newRBT.hpp"
+#include "RedBlackTree.hpp"
 #include "../utils/iterator_traits.hpp"
 
 namespace ft {
@@ -121,7 +121,7 @@ namespace ft {
 			}
 
 		// ------------------------------------------------------------------------------------
-		/*protected:
+		protected:
 			// If the current node has a right child:
 			// the iterator goes to the leftmost node in the right subtree.
 			// If the current node does not have a right child and has a parent, 
@@ -171,7 +171,7 @@ namespace ft {
 					}
 				}
 				return (tmp);
-			}*/
+			}
 	};
 }
 #endif

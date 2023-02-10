@@ -8,22 +8,22 @@
 #include "./pair.hpp"
 #include "../utils/random_access_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
-#include "newRBT.hpp"
+#include "RedBlackTree.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/is_integral.hpp"
 //#include "./RedBlackTree.hpp"
 
 namespace ft {
-	/*--------------------------------------------------------
-	1. 'Key': Type of the key in the map (used to sort and organize elements in the map)
-	2. 'T': Type of the value stored in the map.
-	3. 'Compare': use default std::less<Key> (built-in comparison object)
-		-> Compare two key using '<'
-		-> Map will be ordered in ascending order.
-	4. 'Alloc': Type of allocator object used to allocate memory. 
-		-> by default here it is built-in allocator of std:: 
-	NB: keys are 'const' (cannot be modified after insertion)
-	--------------------------------------------------------*/
+	/*------------------------------------------------------------------------------------
+		(1) 'Key': Type of the key in the map (used to sort and organize elements in the map)
+		(2) 'T': Type of the value stored in the map.
+		(3) 'Compare': use default std::less<Key> (built-in comparison object)
+			-> Compare two key using '<'
+			-> Map will be ordered in ascending order.
+		(4) 'Alloc': Type of allocator object used to allocate memory. 
+			-> by default here it is built-in allocator of std:: 
+		NB: keys are 'const' (cannot be modified after insertion)
+	-------------------------------------------------------------------------------------*/
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> > >
 	class map
 	{
@@ -133,7 +133,7 @@ namespace ft {
 			{
 				return (RB_Tree.insert(ft::make_pair(k, mapped_type())).first)->second;
 			}
-        	//-------------------------------------------------------------
+
 			//-------------------------------------------------------------
         	//-------------- CAPACITY -------------------------------------
         	//-------------------------------------------------------------
@@ -172,7 +172,6 @@ namespace ft {
 
 			const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
 
-
 			//-------------------------------------------------------------
         	//-------------- MODIFIERS  ------------------------------------
         	//-------------------------------------------------------------
@@ -182,21 +181,22 @@ namespace ft {
 					RB_Tree.clear();
 			}
 
-			//--- Inserts the given value into th map
+			//--- Inserts the given value into the map
 			//--- Returns a pair.
-			//--- 'iterator': pointing the the inserted element(or element htat prevented insertion).
-			//--- 'bool': wether the insertion succeed or not.
+			//--- `iterator`: pointing the the inserted element(or element that prevented insertion).
+			//--- `bool`: wether the insertion succeed or not.
 			ft::pair<iterator, bool> insert( const_reference &value )
 			{
 				return RB_Tree.insert(value);
 			}
 
-			// DEBEUG 
+			//-------------------------------------------------------------
+        	//-------------- DEBEUG  ------------------------------------
+        	//-------------------------------------------------------------
 			void	prinTree()
 			{
 				RB_Tree.printTree();
 			}
-
 
 			iterator insert( iterator pos, const value_type& value )
 			{
@@ -295,8 +295,8 @@ namespace ft {
 				return key_compare();
 			}
 
-			// Returns a boolean value indicating wether 
-			// the first argument is less than the second.
+			//-- Returns a boolean value 
+			//	--> Indicate wether the first argument is less than the second.
 			value_compare value_comp() const
 			{
 				return value_compare(RB_Tree.key_comp());
@@ -308,24 +308,29 @@ namespace ft {
 
 	// NON MEMBERS FUNCTIONS 
 
-	//-- Swap TO DO 
+	//-- Swap 
+	template< class Key, class T, class Compare, class Alloc >
+	void swap( map<Key,T,Compare,Alloc>& lhs, map<Key,T,Compare,Alloc>& rhs )
+	{
+		return (lhs.swap(rhs));
+	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
 	{
-		typename map<Key, T, Compare, Alloc>::const_iterator it = lhs.begin();
-		typename map<Key, T, Compare, Alloc>::const_iterator it2 = rhs.begin();
+		typename map<Key, T, Compare, Alloc>::const_iterator itBegin1 = lhs.begin();
+		typename map<Key, T, Compare, Alloc>::const_iterator itBegin2 = rhs.begin();
 		
 		if (lhs.size() != rhs.size())
 			return false;
-		while (it != lhs.end())
+		while (itBegin1 != lhs.end())
 		{
-			if (*it != *it2)
-				return false;
-			it++;
-			it2++;
+			if (*itBegin1 != *itBegin2)
+				return (false);
+			itBegin1++;
+			itBegin2++;
 		}
-		return true;
+		return (true);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
@@ -357,12 +362,5 @@ namespace ft {
 	{
 		return (!(lhs < rhs));
 	}
-
-	template< class Key, class T, class Compare, class Alloc >
-	void swap( map<Key,T,Compare,Alloc>& lhs, map<Key,T,Compare,Alloc>& rhs )
-	{
-	return (lhs.swap(rhs));
-	}
 }
-
 #endif
