@@ -689,47 +689,6 @@ namespace ft {
         }
 
         // returns the minimum node in the RBT
-    node getMin() const
-	{ 
-        return getMinFrom(_root->parent); 
-    }
-
-	node getMax() const
-	{ 
-        return getMaxFrom(_root->parent); 
-    }
-
-	node
-	getMinFrom(const node &nodePtr)
-	const
-	{ return (nodePtr != 0 and nodePtr != _root and nodePtr->left != 0 and nodePtr->left != _root ? getMinFrom(nodePtr->left) : nodePtr); }
-
-	
-	node getMaxFrom(const node &nodePtr)
-	const
-	{ return (nodePtr != 0 and nodePtr != _root and nodePtr->right != 0 and nodePtr->right != _root ? getMaxFrom(nodePtr->right) : nodePtr); }
-        
-        
-       /* node getMinFrom(const node &newNode) const
-        {
-            if (newNode == 0 || newNode == _root)
-                return (0);
-            if (newNode->left == 0 || newNode->left == _root)
-            {
-                return newNode;
-            }
-
-            return (getMin(newNode->left));
-        }
-
-        node getMax(const node &newNode) const
-        {
-            if (newNode == 0 || newNode == _root)
-                return (0);
-            if (newNode->right == 0|| newNode->right == _root)
-                return newNode;
-            return (getMax(newNode->right));
-        }*/
 
         //-------------------------------------------------------------
         //-------------- ALLOCATOR  -----------------------------------
@@ -743,6 +702,32 @@ namespace ft {
         //-------------- UTILS  ---------------------------------------
         //-------------------------------------------------------------
         private:
+            node getMin() const
+	        { 
+                return getMinFrom(_root->parent); 
+            }
+    
+	        node getMax() const
+	        { 
+                return getMaxFrom(_root->parent); 
+            }
+    
+            node getMinFrom (const node &nodePtr) const
+            {
+                if (nodePtr != 0 && nodePtr != _root && nodePtr->left != 0 && nodePtr->left != _root)
+                    return getMinFrom(nodePtr->left);
+                else
+                    return (nodePtr);
+            }
+    
+	        node getMaxFrom(const node &nodePtr) const
+            {
+                if (nodePtr != 0 && nodePtr != _root && nodePtr->right != 0 && nodePtr->right != _root)
+                    return getMaxFrom(nodePtr->right);
+                else
+                    return (nodePtr);
+            }
+            
             node traverseTree(const node &current, const Key &search) const
 	        {
 	        	if (current == 0 || current == _root)
@@ -840,6 +825,7 @@ namespace ft {
 	        { 
                 printTreeHelper(_root->parent, "", true);
             }
+
 };
     
     //----------- RELATIONNAL OPERATORS

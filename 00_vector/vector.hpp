@@ -1,7 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
  
-// Officials libraries
+//- Officials libraries
 # include <iostream>
 # include <algorithm>
 # include <cstddef>
@@ -10,7 +10,7 @@
 # include <memory>
 # include <stdexcept>
 
-// Personnal librairies
+//-- Personnal librairies
 # include "../utils/random_access_iterator.hpp"
 # include "../utils/iterator_traits.hpp"
 # include "../utils/equal.hpp"
@@ -19,12 +19,11 @@
 # include "../utils/reverse_iterator.hpp"
 # include "../utils/lexicographical_compare.hpp"
 
-//test
 namespace ft
 {   
-    // T : for the type of element the vector will hold
-    // Allocator : default allocator for std containers
-    // => used to allocate and deallocate memory.
+    //--`T` : for the type of element the vector will hold
+    // `Allocator` : default allocator for std containers
+    // --> used to allocate and deallocate memory.
     template <class T, class Allocator = std::allocator <T> >
     class vector 
     {
@@ -32,13 +31,13 @@ namespace ft
             typedef typename Allocator::pointer 			        pointer;
             typedef typename Allocator::const_pointer		        const_pointer;
             typedef Allocator                                       allocator_type;
-            // represent the nb of element between two iterators
             typedef std::ptrdiff_t							        difference_type;
             typedef typename allocator_type::size_type              size_type;
             typedef T										        value_type;
 	        typedef typename Allocator::reference			        reference;
 	        typedef typename Allocator::const_reference		        const_reference;
-        
+
+        // ----------------- Iterators ----------------------------------------
             typedef ft::random_access_iterator<T>			iterator;
 	        typedef ft::random_access_iterator<const T> 	const_iterator;
             typedef ft::reverse_Iterator<iterator>			reverse_iterator;
@@ -49,10 +48,10 @@ namespace ft
         // ----------------------
         // ( 1 ) CONSTRUCTORS 
 
-            // Constructor by default
-            // Construct an empty container, with no element in it.
-            // Initialize object _alloc : with default std::allocator if no custom allocator is spécified.
-            // Initialize object _alloc : with custom allocator is it is specified.  
+            //-- Constructor by default
+            //-- Construct an empty container, with no element in it.
+            //-- Initialize object _alloc : with default std::allocator if no custom allocator is spécified.
+            //-- Initialize object _alloc : with custom allocator is it is specified.  
             explicit vector( const allocator_type& alloc = allocator_type()): 
             _alloc(alloc), _start(NULL), _end(NULL), _end_capacity(NULL)
             { 
@@ -62,9 +61,9 @@ namespace ft
                 // the current memory block without resizing. 
             }
 
-            // Fill constructor
-            // Construct a T vector object allocating memory for N elements.
-            // Construct a type T object in the allocated storage pointed by _end.
+            //-- Fill constructor
+            //-- Construct a T vector object allocating memory for N elements.
+            //-- Construct a type T object in the allocated storage pointed by _end.
             explicit vector(size_type n, const T &val = T(), const allocator_type& alloc = allocator_type())
             {   
                 (void)alloc;
@@ -80,10 +79,10 @@ namespace ft
 				}
             }
 
-            // Copy constructor
-            // Initialize values to null
-            // Allocate memory with allocator
-            // Copy each value in the new vector (from begin to end)
+            //-- Copy constructor
+            //-- Initialize values to null
+            //-- Allocate memory with allocator
+            //-- Copy each value in the new vector (from begin to end)
             vector (const vector& x)
             {
                 _alloc = x._alloc;
@@ -92,10 +91,11 @@ namespace ft
                 _end_capacity = NULL;
                 this->insert(this->begin(), x.begin(), x.end());
             }
-            // Range Constructor 
-            // It is enabled only if the type of the input iterators 
-            // is not an integral type (i.e., a type that is used to represent integers, 
-            // such as int or long long).
+
+            //-- Range Constructor 
+            //-- It is enabled only if the type of the input iterators 
+            //-- is not an integral type (i.e., a type that is used to represent integers, 
+            //-- such as int or long long).
             template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
@@ -115,8 +115,8 @@ namespace ft
             }
 
         // ( 2 ) DESTRUCTOR
-        // Destruct all elements in the vector
-        // Free memory
+        //-- Destruct all elements in the vector
+        //-- Free memory
         ~vector()
 	    {
 		    clear();
@@ -124,7 +124,7 @@ namespace ft
 	    }
 
        // ( 3 ) ASSIGNMENT OPERATOR=
-       // Clear before copying element ensure the container is empty and has size 0
+       //--Clear before copying element ensure the container is empty and has size 0
         vector<T, Allocator> &operator=(const vector<T, Allocator> &rhs)
 	    {
 		    if (*this != rhs)
@@ -135,9 +135,11 @@ namespace ft
 		    return (*this);
 	    }
 
-        // UTILS 
+	    //-------------------------------------------------------------
+        //-------------- UTILS ----------------------------------------
+        //-------------------------------------------------------------
 
-        // Calculate the number of elements between two input iterators.
+        //-- Calculate the number of elements between two input iterators.
         template <class InputIterator>
 	    difference_type distance(InputIterator first, InputIterator last)
 	    {
@@ -150,55 +152,61 @@ namespace ft
 	    	return (distance);
 	    }
 
-        // ( 4 ) ITERATORS
-        // Returns an iterator pointing to the first element in the vector
+	    //-------------------------------------------------------------
+        //-------------- ITERATORS ------------------------------------
+        //-------------------------------------------------------------
+
+        //-- Returns an iterator pointing to the first element in the vector
         iterator    begin() { return (iterator(_start));}
 
-        // Returns an iterator pointing to the last element in the vector
+        //-- Returns an iterator pointing to the last element in the vector
         iterator	end(){ return (iterator(_end));}
         
-        // Same as begin() with const_iterator type
+        //-- Same as begin() with const_iterator type
         const_iterator begin() const { return (_start);}
         
-        // Same as end() with const_iterator type
+        //-- Same as end() with const_iterator type
         const_iterator end() const { return (_end); }
         
-        // Reverse iterators
-        // Returns an iterator pointing to the last element in the vector
+        //-- Reverse iterators
+        //-- Returns an iterator pointing to the last element in the vector
         reverse_iterator rbegin() { return reverse_iterator(end()); }
         
-        // Same as rbegin() with const_iterator type
+        //-- Same as rbegin() with const_iterator type
 	    const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
-        // Returns an iterator pointing to the first element in the vector
+        //-- Returns an iterator pointing to the first element in the vector
 	    reverse_iterator rend() { return reverse_iterator(begin()); }
 
-        // Same as rend() with const_iterator type
+        //-- Same as rend() with const_iterator type
 	    const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
         
-        // ( 5 ) CAPACITY
 
-        // Returns current size of the vector
+	    //-------------------------------------------------------------
+        //-------------- CAPACITY -------------------------------------
+        //-------------------------------------------------------------
+
+        //-- Returns current size of the vector
         size_type size() const
         { 
             return size_type(_end - _start);
         }
 
-        // Return maximum size of the vector = getter accessing _alloc
-        // Maximum size == maximum number of elements the vector can hold
-        // == Memory allocated to stock vector elements
+        //-- Return maximum size of the vector = getter accessing _alloc
+        //-- Maximum size == maximum number of elements the vector can hold
+        //-- == Memory allocated to stock vector elements
         size_type max_size() const 
         {
             return (_alloc.max_size());
         }
 
-        // Change size of the vector.
-        // If n < vector size :
-        // content is reduce to its first n element removing those beyond by destroying them.
-        // Else, is n >= vector size : 
-        // content is expandes by inserting at the end as many element as needed to reach size of n. 
-        // NB : val argument is optionnal
-        // if val is specified, the new element are initialized as copies of val
+        //-- Change size of the vector.
+        //-- If n < vector size :
+        //-- content is reduce to its first n element removing those beyond by destroying them.
+        //-- Else, is n >= vector size : 
+        //-- content is expandes by inserting at the end as many element as needed to reach size of n. 
+        //-- NB : val argument is optionnal
+        //-- if val is specified, the new element are initialized as copies of val
         void resize(size_type n, T val = T())
         {
 		    if (n > max_size())
@@ -215,31 +223,31 @@ namespace ft
 		       insert(end(), n - size(), val);
 	    }
 
-        // Returns current capacity of the vector
-        // Vector capacity == amount of memory the vector has allocated
-        // to store its elements
+        //-- Returns current capacity of the vector
+        //-- Vector capacity == amount of memory the vector has allocated
+        //-- to store its elements
         size_type capacity() const
         {
             return size_type(_end_capacity - _start); 
         }
 
-        // Returns true : if the container is empty
-        // Returns false : if the conatiner is not empty
-        // If the pointer start and end of vecto are equal
-        // the container has no element
+        //-- Returns true : if the container is empty
+        //-- Returns false : if the conatiner is not empty
+        //-- If the pointer start and end of vecto are equal
+        //-- the container has no element
         bool	empty()const
         {
 			return (this->_start == this->_end);
 		}
 
-        // Change capacity of the vector
-        // IF n IS NOT > max_size()
-        // AND IF n IS > capacity()
+        //-- Change capacity of the vector
+        //-- IF n IS NOT > max_size()
+        //-- AND IF n IS > capacity()
 	    void reserve(size_type n)
 	    {
 	    	if (n > max_size())
-	    		throw std::length_error("vector::reserve");
-			if (n > capacity())
+	    	    throw std::length_error("vector::reserve");
+			if  (n > capacity())
 			{
                 // Save pointers to the current memory block and its size and capacity
 				pointer prev_start = _start;
@@ -263,17 +271,19 @@ namespace ft
 	        }
         }
 
-        // ( 6 ) ELEMENT ACCESS 
-        
-        // Returns a reference to the element at the specified position in the vector
+	    //-------------------------------------------------------------
+        //-------------- ELEMENT ACCESS -------------------------------
+        //-------------------------------------------------------------
+
+        //-- Returns a reference to the element at the specified position in the vector
         reference operator[](size_type n) { return *(_start + n); }
         
-        // Same as operator with a const_reference return type
+        //-- Same as operator with a const_reference return type
         const_reference operator[](size_type n) const { return *(_start + n); }
 
-        // Returns a reference to the element at the specified position in the vector
-        // Unlike the operaror [], it at check specified position is in valid range of vector.
-        // IF NOT it returns an "out of range" exception
+        //-- Returns a reference to the element at the specified position in the vector
+        //-- Unlike the operaror [], it at check specified position is in valid range of vector.
+        //-- IF NOT it returns an "out of range" exception
         reference at (size_type n)
         { 
             if (n >= this->size())
@@ -281,7 +291,7 @@ namespace ft
             return ((*this)[n]);
         }
 
-        // Same as at with a const_reference as return type
+        //-- Same as at with a const_reference as return type
         const_reference at (size_type n) const
         {
             if (n >= this->size())
@@ -289,22 +299,24 @@ namespace ft
             return ((*this)[n]);
         }
 
-        // Returns a reference to the first element in the vector 
+        //-- Returns a reference to the first element in the vector 
         reference front(){ return *_start; }
 
-        // Same as front with a const_reference as return type
+        //-- Same as front with a const_reference as return type
         const_reference front() const { return *_start; }
 
-        // Returns a reference to the last element in the vector  
+        //-- Returns a reference to the last element in the vector  
 	    reference back(){ return *(_end - 1); }
 
-	    // Same as back with a const_reference as return type
+	    //-- Same as back with a const_reference as return type
         const_reference back() const{ return *(_end - 1); }
 
-        // ( 7 ) MODIFIERS
+	    //-------------------------------------------------------------
+        //--------------  MODIFIERS --- -------------------------------
+        //-------------------------------------------------------------
         
-        // Assign
-        // Fill the vector with each elements in the range between first and last.
+        //-- Assign
+        //-- Fill the vector with each elements in the range between first and last.
         template <class InputIterator>  
         void assign (InputIterator first, InputIterator last
         , typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
@@ -325,7 +337,7 @@ namespace ft
             }
         }
 
-        // fill the vector with a specified number of copies of a single value. 
+        //-- fill the vector with a specified number of copies of a single value. 
         void assign (size_type n, const T &val)
         {
 		    clear();
@@ -353,8 +365,8 @@ namespace ft
             }
         }
 
-        // push back()
-        // Add a new element at the end of the current vector
+        //-- push back()
+        //-- Add a new element at the end of the current vector
         void push_back (const value_type& val) 
         {
             // check if the end of the vector has
@@ -378,7 +390,7 @@ namespace ft
            _alloc.destroy(--_end);
         }
 
-        // insert
+
         iterator insert (iterator position, const value_type& val)
         {
             difference_type insertionPosition = distance(begin(), position);     
