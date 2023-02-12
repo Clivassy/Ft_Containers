@@ -1,10 +1,13 @@
+#ifndef STACK_HPP
+#define STACK_HPP
+
 #include "../00_vector/vector.hpp"
 #include <deque>
 #include <list>
 
 namespace ft 
 {
-    template <class T, class Container = std::deque<T> > 
+    template <class T, class Container = ft::vector<T> > 
     class stack
     {
         public:
@@ -16,8 +19,9 @@ namespace ft
             Container c;
 
         public:
-            explicit stack(const Container& = Container())
+            explicit stack(const Container& container = Container()) : c(container)
             { }
+
             bool empty() const { return c.empty(); }
 
             size_type size() const { return c.size(); }
@@ -29,52 +33,68 @@ namespace ft
             void push(const value_type& x) { c.push_back(x); }
 
             void pop() { c.pop_back(); }
+
+            //-------------------------------------------------------------
+            //--------------  RELATIONNAL OPERATORS -----------------------
+            //-------------------------------------------------------------
+            //-- Need to access to private members of the stack such as vector elements.
+            //-- Defining inside the class with friend keyword 
+            // --> Allow comparison between elements stored in different vectors. 
+            template <class X, class Y>
+            friend bool operator==(const stack<X, Y> &x, const stack<X, Y> &y);
+
+            template <class X, class Y>
+            friend bool operator< (const stack<X, Y> &x, const stack<X, Y> &y);
+
+             template <class X, class Y>
+            friend bool operator!=(const stack<X, Y> &x, const stack<X, Y> &y);
+
+            template <class X, class Y>
+            friend bool operator> (const stack<X, Y>& x, const stack<X, Y> &y);
+
+            template <class X, class Y>
+            friend bool operator>=(const stack<X, Y>& x, const stack<X, Y> &y);
+    
+            template <class X, class Y>
+            friend bool operator<=(const stack<X, Y>& x, const stack<X, Y> &y);
+        
     };
+    
+    // -- Define relationnal operators inside the class could be sufficient
+    // -- But defining them also outside provide a more flexible and maintainable implementation.
+    template <class X, class Y>
+    bool operator==(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    {
+        return(lhs.c == rhs.c);
+    }
 
-        template <class T, class Container>
-        bool operator==(const stack<T, Container>& x, const stack<T, Container>& y)
-        {
-            if (x.size() != y.size())
-                return (false);
-            stack temp1(*x);
-            stack temp2(*y);
-            while (!temp1.empty() && !temp2.empty())
-            {
-                if (temp1.top() != temp2.top())
-                    return (false);
-                temp1.pop();
-                temp2.pop();
-            }
-            return (true);
-        }
+    template <class X, class Y>
+    bool operator!=(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    {
+        return (lhs.c != rhs.c );
+    }
 
-        template <class T, class Container>
-        bool operator< (const stack<T, Container>& x, const stack<T, Container>& y)
-        { 
-
-        }
-        
-        template <class T, class Container>
-        bool operator!=(const stack<T, Container>& x, const stack<T, Container>& y)
-        {
-
-        }
-        
-        template <class T, class Container>
-        bool operator> (const stack<T, Container>& x, const stack<T, Container>& y)
-        {
-
-        }
-        
-        template <class T, class Container>
-        bool operator>=(const stack<T, Container>& x, const stack<T, Container>& y)
-        {
-
-        }
-        
-        template <class T, class Container>
-        bool operator<=(const stack<T, Container>& x, const stack<T, Container>& y)
-        {
-
-        }
+    template <class X, class Y>
+    bool operator<(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    { 
+        return (lhs.c < rhs.c);
+    }
+    
+    template <class X, class Y>
+    bool operator<=(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    {
+        return (lhs.c <= rhs.c);
+    }
+    template <class X, class Y>
+    bool operator>(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    {
+        return (lhs.c > rhs.c);
+    }
+    
+    template <class X, class Y>
+    bool operator>=(const ft::stack<X, Y>& lhs, const ft::stack<X, Y> &rhs)
+    {
+        return (lhs.c >= rhs.c);
+    }
 }
+#endif
