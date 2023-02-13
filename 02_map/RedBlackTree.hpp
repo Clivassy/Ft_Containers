@@ -453,7 +453,7 @@ namespace ft {
 
         void erase(iterator position)
         {
-            erase(position->first);
+           erase(position->first);
         }
 
         //------------------------------------------------------------------------------------

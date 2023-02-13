@@ -282,7 +282,6 @@ namespace ft {
 
 			ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const
 			{
-
 				return (RB_Tree.equal_range(key));
 			}
 

@@ -51,9 +51,9 @@ namespace ft {
         }
 
         set(const set<Key,Compare,Allocator>& x)
+        :  RB_Tree(x.begin(), x.end(), x.value_comp(), x.RB_Tree.get_allocator())
         {
-            clear();
-	    	RB_Tree.insert(x.begin(), x.end());
+
         }
 
         //--------------------------------------------------
@@ -78,14 +78,45 @@ namespace ft {
         //--------------------------------------------------
 	    //-- ITERATORS 
 
-	    iterator begin() { return RB_Tree.begin();} 
-	    const_iterator begin() const { return RB_Tree.begin(); }
-	    iterator end() { return RB_Tree.end(); }
-	    const_iterator end() const { return RB_Tree.end(); }
-	    reverse_iterator rbegin() { return reverse_iterator(RB_Tree.end()); }
-	    const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.end()); }
-	    reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
-	    const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
+	    iterator begin() 
+        { 
+            return RB_Tree.begin();
+        }
+
+	    const_iterator begin() const 
+        { 
+            return RB_Tree.begin(); 
+        }
+
+	    iterator end() 
+        { 
+            return RB_Tree.end(); 
+        }
+	    
+        const_iterator end() const 
+        { 
+            return RB_Tree.end(); 
+        }
+	    
+        reverse_iterator rbegin() 
+        { 
+            return reverse_iterator(RB_Tree.end()); 
+        }
+
+	    const_reverse_iterator rbegin() const 
+        { 
+            return const_reverse_iterator(RB_Tree.end()); 
+        }
+	    
+        reverse_iterator rend() 
+        { 
+            return reverse_iterator (RB_Tree.begin()); 
+        }
+
+	    const_reverse_iterator rend() const 
+        { 
+            return const_reverse_iterator (RB_Tree.begin()); 
+        }
 
         //--------------------------------------------------
 	    //-- CAPACITY 
@@ -105,10 +136,14 @@ namespace ft {
         //--------------------------------------------------
 	    //-- MODIFIERS 
 
-        pair<iterator,bool> insert(const value_type& x);
-        iterator insert(iterator position, const value_type& x)
+        pair<iterator,bool> insert(const value_type& x)
         { 
-            return RB_Tree.insert(position, x);
+            return RB_Tree.insert(x);
+        }
+        
+	    iterator insert(iterator position, const value_type& x)
+	    { 
+            return RB_Tree.insert(position, x); 
         }
 
         template <class InputIterator>
@@ -117,19 +152,25 @@ namespace ft {
             RB_Tree.insert(first, last);
         }
 
-        void erase(iterator position) 
+        size_type erase(const value_type & x)
         { 
-            
+            return RB_Tree.erase(x);
         }
 
-        size_type erase(const key_type& x)
-        { }
+        void erase(iterator position) 
+        { 
+            RB_Tree.erase(position);
+        }
 
         void erase(iterator first, iterator last)
-        { }
+        { 
+            RB_Tree.erase(first, last);
+        }
 
-        void swap(set<Key,Compare,Allocator>&)
-        { }
+        void swap(set<Key,Compare,Allocator>& x)
+        { 
+            RB_Tree.swap(x.RB_Tree);
+        }
 
 		void clear()
 		{
@@ -139,65 +180,121 @@ namespace ft {
 
         //--------------------------------------------------
 	    //-- OBSERVERS
-
-       /* key_compare key_comp() const
+        key_compare key_comp() const
         { 
             return key_compare();
         }
 
-        value_compare value_comp() const;
+        value_compare value_comp() const
         {
-            value_compare(RB_Tree.key_comp());
+            return value_compare(RB_Tree.key_comp());
         }
 
         // set operations:
 
-        iterator find(const key_type& x) const
-        { }
+        iterator find(const key_type& x)
+        { 
+            return (RB_Tree.find(x));
+        }
+
+        const_iterator find(const key_type& x) const
+        { 
+            return (RB_Tree.find(x));
+        }
 
         size_type count(const key_type& x) const
-        { }
+        { 
+            return (RB_Tree.count(x));
+        }
 
-        iterator lower_bound(const key_type& x) const
-        { }
+        iterator lower_bound(const key_type& x)
+        { 
+            return (RB_Tree.lower_bound(x));
+        }
+        
+        const_iterator lower_bound(const key_type& x) const
+        { 
+            return (RB_Tree.lower_bound(x));
+        }
 
-        iterator upper_bound(const key_type& x) const
-        { }
+        iterator upper_bound(const key_type& x)
+        { 
+            return (RB_Tree.upper_bound(x));
+        }
 
-        pair<iterator,iterator> equal_range(const key_type& x) const
-        { }*/
+        const_iterator upper_bound(const key_type& x) const
+        { 
+            return (RB_Tree.upper_bound(x));
+        }
+
+        pair<iterator,iterator> equal_range(const key_type& x)
+        { 
+            return (RB_Tree.equal_range(x));
+        }
+        
+        pair<const_iterator, const_iterator> equal_range(const key_type& x) const
+        { 
+            return (RB_Tree.equal_range(x));
+        }
 
     protected:
 		tree_type	RB_Tree;
+    
+	template <class _T, class _Compare, class _Allocator>
+	friend
+	bool
+	operator==(const set<_T, _Compare, _Allocator>& lhs,
+			   const set<_T, _Compare, _Allocator>& rhs);
+
+	template <class _T, class _Compare, class _Allocator>
+	friend
+	bool
+	operator<(const set<_T, _Compare, _Allocator>& lhs,
+			  const set<_T, _Compare, _Allocator>& rhs);
+
     };
     
-   /* template <class Key, class Compare, class Allocator>
+    template <class Key, class Compare, class Allocator>
     bool operator==(const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
-    
+    { 
+        return (x.RB_Tree == y.RB_Tree);
+    }
+
     template <class Key, class Compare, class Allocator>
     bool operator< (const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
+    { 
+        return (x.RB_Tree < y.RB_Tree);
+    }
     
     template <class Key, class Compare, class Allocator>
     bool operator!=(const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
-    
+    { 
+        return not (x == y);
+    }
+
     template <class Key, class Compare, class Allocator>
     bool operator> (const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
+    { 
+        return (y < x);
+    }
     
     template <class Key, class Compare, class Allocator>
     bool operator>=(const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
+    { 
+        return not (x < y);
+    }
     
     template <class Key, class Compare, class Allocator>
     bool operator<=(const set<Key,Compare,Allocator>& x, const set<Key,Compare,Allocator>& y)
-    { }
+    { 
+        return not (y < x);
+    }
     
     // specialized algorithms:
     template <class Key, class Compare, class Allocator>
     void swap(set<Key,Compare,Allocator>& x, set<Key,Compare,Allocator>& y)
-    { }*/
+    { 
+        x.swap(y);
+    }
 }
 #endif
