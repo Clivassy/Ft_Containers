@@ -52,6 +52,10 @@ namespace ft {
 					{
 						return comp(lhs.first, rhs.first);
 					}
+					bool operator()(const key_type& x, const value_type& y) const
+					{ return comp(x, y.first); }
+					bool operator()(const value_type& x, const key_type& y) const
+					{ return comp(x.first, y); }
 
 				protected:
 					Compare comp;
@@ -59,7 +63,7 @@ namespace ft {
 			};
 
 			public: 
-					typedef typename ft::RedBlackTree< key_type, value_type, key_compare, allocator_type>	tree_type;
+					typedef typename ft::RedBlackTree< key_type, value_type, value_compare, allocator_type>	tree_type;
 			//-- Define RBT type ------------------------------------------------------
 			//-- `key_type`: Key
 			//-- `value_type`: pair of key and value
@@ -87,8 +91,11 @@ namespace ft {
 			// Default constructor
 			// Construct an empty map container object. 
 			// Initialize the internal RB Tree.
-			map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+			/*map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
 			: RB_Tree(comp, alloc)
+			{ }*/
+			map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+			: RB_Tree(value_compare(comp), alloc)
 			{ }
 
 			// Initializes the internal red-black tree data member 
@@ -98,17 +105,33 @@ namespace ft {
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last,
 				const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
-			: RB_Tree(comp, alloc)
+			: RB_Tree(first, last, value_compare(comp), alloc)
 			{
 				RB_Tree.insert(first, last);
 			}
 
+			// SAVE 
+			/*template <class InputIterator>
+			map(InputIterator first, InputIterator last,
+				const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
+			: RB_Tree(comp, alloc)
+			{
+				RB_Tree.insert(first, last);
+			}*/
+
 			// Copy constructor
-			map(const map<Key, T, Compare, allocator_type> &rhs) 
+			map(const map<Key, T, Compare, allocator_type> &rhs)
+			:RB_Tree(rhs.begin(), rhs.end(), value_compare(rhs.value_comp()), rhs.RB_Tree.get_allocator())
+			{ 
+			}
+
+			
+			//SAVE
+			/*map(const map<Key, T, Compare, allocator_type> &rhs)
 			{	
 				clear();
 				RB_Tree.insert(rhs.begin(), rhs.end());
-			}
+			}*/
 
 			// DESTRUCTOR
 			//-- No need to destroy anything because all is destroyed in Red Black Tree
@@ -185,7 +208,8 @@ namespace ft {
 			//--- Returns a pair.
 			//--- `iterator`: pointing the the inserted element(or element that prevented insertion).
 			//--- `bool`: wether the insertion succeed or not.
-			ft::pair<iterator, bool> insert( const_reference &value )
+			// ft::pair<iterator, bool> insert( const_reference &value )
+			ft::pair<iterator, bool> insert( const value_type &value )
 			{
 				return RB_Tree.insert(value);
 			}

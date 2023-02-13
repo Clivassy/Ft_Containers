@@ -21,7 +21,7 @@
 //---------------------------------------------------
 
 namespace ft {
-    template <typename Key, typename Val , class Compare = std::less<Key>, class Allocator = std::allocator<Val> >
+    template <typename Key, typename Val = Key , class Compare = std::less<Key>, class Allocator = std::allocator<Val> >
     class RedBlackTree
     {
         private:
@@ -74,7 +74,7 @@ namespace ft {
             //--------------------------------
 
             //-- Defaut constructor
-            RedBlackTree(const Compare& comp = Compare(), const node_allocator& alloc = node_allocator()) 
+            RedBlackTree(const Compare& comp, const node_allocator& alloc) 
             : _compare(comp), _node_alloc(alloc)
             {
                 _size = 0;
@@ -88,7 +88,7 @@ namespace ft {
             //-- Range constructor 
             template <class InputIterator>
             RedBlackTree(InputIterator first, InputIterator last,
-            const Compare& comp, const node_allocator& alloc = node_allocator()) 
+            const Compare& comp, const node_allocator& alloc) 
             : _compare(comp), _node_alloc(alloc)
             {
                 _size = 0;
@@ -396,10 +396,10 @@ namespace ft {
 
             while (currentNode != 0 and currentNode != _root)
             {
-                if (currentNode->value.first == val.first)
+                if (!_compare(val, currentNode->value) && !_compare(currentNode->value, val))
                     return ft::make_pair(iterator(currentNode), false);
                 parentNode = currentNode;
-                if (_compare(val.first,currentNode->value.first))
+                if (_compare(val,currentNode->value))
                     currentNode = currentNode->left;
                 else
                     currentNode = currentNode->right;
@@ -411,7 +411,7 @@ namespace ft {
                 _root->parent = newNode;
             else
             {
-                if (_compare(newNode->value.first, parentNode->value.first))
+                if (_compare(newNode->value, parentNode->value))
                     parentNode->left = newNode;
                 else
                     parentNode->right = newNode;
@@ -544,7 +544,6 @@ namespace ft {
         {
             node            tmpRoot = NULL;
             size_type       tmpSize;
-            Compare         tmpComp;
 	        node_allocator	tmpNodeAlloc;
 
             tmpRoot = this->_root;
@@ -554,10 +553,6 @@ namespace ft {
             tmpSize = this->_size;
             this->_size = x._size;
             x._size = tmpSize;
-
-            tmpComp = this->_compare;
-            this->_compare = x._compare;
-            x._compare = tmpComp;
 
             tmpNodeAlloc = this->_node_alloc;
             this->_node_alloc = x._node_alloc;
@@ -596,7 +591,19 @@ namespace ft {
         //-- (== first element greater or equal to key) 
         iterator lower_bound(const key_type& key)
 		{
-			iterator it = begin();
+            node nodePtr = _root->parent, ret = _root;
+		    while (nodePtr != 0 and nodePtr != _root)
+		    {
+		    	if (!_compare(nodePtr->value, key))
+		    	{
+		    		ret = nodePtr;
+		    		nodePtr = nodePtr->left;
+		    	}
+		    	else
+		    		nodePtr = nodePtr->right;
+		    }
+		    return iterator(ret);
+		/*	iterator it = begin();
 			iterator ite = end();
 			
 			while ( it != ite )
@@ -605,12 +612,12 @@ namespace ft {
 					return it;
                 it++;
 			}
-			return it;
+			return it;*/
 		}
 
 		const_iterator lower_bound(const key_type& key) const
 		{
-			const_iterator it = begin();
+			/*const_iterator it = begin();
 			const_iterator ite = end();
 			
 			while (it != ite)
@@ -619,13 +626,38 @@ namespace ft {
 					return it;
                 it++;
 			}
-			return it;
+			return it;*/
+            node nodePtr = _root->parent, ret = _root;
+		    while (nodePtr != 0 and nodePtr != _root)
+		    {
+		    	if (!_compare(nodePtr->value, key))
+		    	{
+		    		ret = nodePtr;
+		    		nodePtr = nodePtr->left;
+		    	}
+		    	else
+		    		nodePtr = nodePtr->right;
+		    }
+		    return const_iterator(ret);
 		}
 
         //-- std::upper_bound
 	    iterator upper_bound(const key_type& key)
 		{
-			iterator it = begin();
+
+        node nodePtr = _root->parent, ret = _root;
+		while (nodePtr != 0 and nodePtr != _root)
+		{
+			if (_compare(key, nodePtr->value))
+			{
+				ret = nodePtr;
+				nodePtr = nodePtr->left;
+			}
+			else
+				nodePtr = nodePtr->right;
+		}
+		return iterator(ret);
+			/*iterator it = begin();
 			iterator ite = end();
 			
             while ( it != ite )
@@ -634,11 +666,25 @@ namespace ft {
 					return (it);
                 it++;
 			}
-			return (it);
+			return (it);*/
 		}
+
 		const_iterator upper_bound(const key_type& key) const
 		{
-			const_iterator it = begin();
+            node nodePtr = _root->parent, ret = _root;
+		    while (nodePtr != 0 and nodePtr != _root)
+		    {
+		    	if (_compare(key, nodePtr->value))
+		    	{
+		    		ret = nodePtr;
+		    		nodePtr = nodePtr->left;
+		    	}
+		    	else
+		    		nodePtr = nodePtr->right;
+		    }
+		    return const_iterator(ret);
+
+			/*const_iterator it = begin();
 			const_iterator ite = end();
 
 			while ( it != ite )
@@ -647,7 +693,7 @@ namespace ft {
 					return (it);
                 it++;
 			}
-			return (it);
+			return (it);*/
 		}
 
         //-- Equal_range
@@ -732,9 +778,9 @@ namespace ft {
 	        {
 	        	if (current == 0 || current == _root)
 	        	    return _root;
-                if (!_compare(current->value.first, search) && !_compare(search, current->value.first))
+                if (!_compare(current->value, search) && !_compare(search, current->value))
                     return current;
-                if (_compare(search, current->value.first))
+                if (_compare(search, current->value))
                 {
                     return (traverseTree(current->left, search));
                 }
@@ -744,7 +790,7 @@ namespace ft {
                 }
 	        }
 
-            void   inOrderSearch( node traversal)
+            /*void   inOrderSearch( node traversal)
             {
                 if (traversal == NULL)
                     return;
@@ -769,7 +815,7 @@ namespace ft {
                 inOrderSearch(traversal->left);
                 inOrderSearch(traversal->right);
                 std::cout << traversal->value.first << " " << std::endl;
-            }
+            }*/
         
             void    printOneNode( node oneNode)
             {

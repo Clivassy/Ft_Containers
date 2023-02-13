@@ -344,7 +344,6 @@ int main()
         for (map<char,int>::iterator it=lookupTest.begin(); it!=itup; ++it)
             std::cout << it->first << " => " << it->second << '\n';
         std::cout << YELLOW " >>>>>> FOUND LOWER BOUND ELEMENT : KEY = " << itup->first << " >>>>> " CLEAR << std::endl;
-
     }
 
     //-----------------------------------------------------------
@@ -400,7 +399,7 @@ int main()
         // redBlackTreeTest.prinTree();
    } 
 
-    //-----------------------------------------------------------
+    //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
