@@ -258,7 +258,27 @@ namespace ft
         //-- Change capacity of the vector
         //-- IF n IS NOT > max_size()
         //-- AND IF n IS > capacity()
-	    void reserve(size_type n)
+        void reserve(size_type n)
+	    {
+	    	if (n > max_size())
+	    		throw std::length_error("vector::reserve");
+	    	if (n > capacity())
+	    	{
+	    		pointer newStart = _alloc.allocate(n);
+	    		pointer newFinish = newStart;
+	    		for (iterator it = begin(); it < end(); it++)
+	    		{
+	    			_alloc.construct(newFinish, *it);
+	    			_alloc.destroy(&(*it));
+	    			newFinish++;
+	    		}
+	    		_alloc.deallocate(_start, capacity());
+	    		_start = newStart;
+	    		_end = newFinish;
+	    		_end_capacity = _start + n;
+	    	}
+	    }
+	    /*void reserve(size_type n)
 	    {
 	    	if (n > max_size())
 	    	    throw std::length_error("vector::reserve");
@@ -284,7 +304,7 @@ namespace ft
                 // Deallocate the old memory block
 				_alloc.deallocate(prev_start - prev_size, prev_capacity);
 	        }
-        }
+        }*/
 
 	    //-------------------------------------------------------------
         //-------------- ELEMENT ACCESS -------------------------------
@@ -443,9 +463,9 @@ namespace ft
         size_type inputRange = distance(first, last);
           // number of elements between position and vector last element
         size_type distanceFromEnd = distance(position, end());
-        
+
           ft::vector<value_type> save(position, end());
-    
+
           // is the actual vector sufficient to insert all range elements
         if (capacity() < size() + inputRange)
         {
