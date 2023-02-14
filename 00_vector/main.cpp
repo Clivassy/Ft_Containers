@@ -1,11 +1,12 @@
+#include <iostream>
+#if 1 // create a real STL example
+    #include <vector>
+    namespace ft = std;
+#else
+    #include "vector.hpp" // create an example with my own vectp 
+#endif
 
-#include "./vector.hpp"
 using namespace ft;
-
-//#include <iostream>
-//#include <vector>
-//using namespace std;
-
 #include <chrono>
 using namespace std::chrono;
 
@@ -130,7 +131,7 @@ int main() {
   vec.resize(12);
 
   std::cout << "vec contains:";
-  for (int i=0;i<vec.size();i++)
+  for (size_t i=0;i<vec.size();i++)
     std::cout << ' ' << vec[i];
   std::cout << '\n';
 
@@ -193,7 +194,7 @@ int main() {
 
   // ELEMENT ACCESS 
   /////////////////////////////////////////////////////////////
-  /*std::cout << std::endl;
+  std::cout << std::endl;
   std::cout << "------- ELEMENT ACCESS TESTS--------" << std::endl;
   std::cout << std::endl;
 
@@ -467,12 +468,71 @@ int main() {
   for (vector<int>::iterator it = SwapBar.begin(); it!=SwapBar.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
+
+  //-- MORE
+  {
+      vector<int>			test(3, 3);
+	    cout << "self assignation test\n";
+	    vector<vector<int> >	self_assign;
+	    vector<vector<int> >	*ptr = &self_assign;
+	    vector<vector<int> >	*ptr2 = &self_assign;
+	    *ptr = *ptr2;
+
+	    cout << std::boolalpha << (*ptr == *ptr2) << '\n';
+      self_assign.assign(4, test);
+	    vector<vector<int> > JOHN;
+	    vector<vector<int> > BOB(5, test);
+	    cout << "BOB(5, test(test, 5)) : \n";
+	    for (size_t i = 0; i < BOB.size(); i++)
+	    {
+	    	for (size_t j = 0; j < BOB[i].size(); j++)
+	    		cout << BOB[i][j] << ' ';
+	    	cout << '\n';
+	    }
+	    vector<vector<int> > MIKE(BOB);
+
+	    cout << "\nCTORS\n";
+	    cout << "Empty is empty ? " << std::boolalpha << JOHN.empty() << '\n';
+	    cout << "BOB is empty? " << BOB.empty() << '\n';
+
+	    cout << "Size of JOHN " << JOHN.size() << std::endl;
+	    cout << "Size of BOB " << BOB.size() << std::endl;
+	    cout << "Size of MIKE " << MIKE.size() << std::endl;
+
+	    size_t	bob_resize = 2;
+	    cout << "\nRESIZE\n";
+	    BOB.resize(bob_resize);
+	    cout << "Size of JOHN " << JOHN.size() << std::endl;
+	    if (JOHN.capacity() >= JOHN.size())
+	    	cout << "Capacity of JOHN is sufficient\n";
+	    else
+	    	std::cerr << "THERE IS A PROBLEM ON LINE 53\n";
+	    cout << "Size of BOB " << BOB.size() << std::endl;
+	    if (BOB.capacity() >= bob_resize)
+	    	cout << "Capacity of BOB is sufficient\n";
+	    else
+	    	std::cerr << "THERE IS A PROBLEM ON LINE 58\n";
+	    cout << "Size of MIKE " << MIKE.size() << std::endl;
+	    if (MIKE.capacity() >= MIKE.size())
+	    	cout << "Capacity of MIKE is sufficient\n";
+	    else
+		  std::cerr << "THERE IS A PROBLEM ON LINE 63\n";
+
+      size_t	mike_resize = 9;
+	    bob_resize = 0;
+
+	    BOB.resize(bob_resize);
+	    cout << "BOB is empty now ? " << BOB.empty() << '\n';
+	    MIKE.resize(mike_resize, test);
+	    cout << "Size of JOHN " << JOHN.size() << std::endl;
+  }
+
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
  
   std::cout << "Time taken by function: "
          << duration.count() << " microseconds" << std::endl;
-         */
+
   return (0);
 }
 

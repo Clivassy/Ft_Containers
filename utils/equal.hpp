@@ -9,7 +9,7 @@
 # include <cstring>
 
 namespace ft{
-	
+
 	template <typename T>
 	bool equal(const T *first1, const T *last1, const T *first2)
 	// this function can be used only with a signe type T, it operates on raw pointers
@@ -39,5 +39,4 @@ namespace ft{
 			return (true);
 	}
 }
-
 #endif

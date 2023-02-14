@@ -207,7 +207,19 @@ namespace ft
         //-- content is expandes by inserting at the end as many element as needed to reach size of n. 
         //-- NB : val argument is optionnal
         //-- if val is specified, the new element are initialized as copies of val
-        void resize(size_type n, T val = T())
+        void resize(size_type n, T v = T())
+	    {
+		if (n > max_size())
+			throw std::length_error("vector::resize");
+		if (n > size())
+			insert(end(), n - size(), v);
+		while (n < size())
+		{
+			_end--;
+			_alloc.destroy(_end);
+		}
+	}
+        /*void resize(size_type n, T val = T())
         {
 		    if (n > max_size())
 		    	throw (std::length_error("vector::resize"));
@@ -221,7 +233,7 @@ namespace ft
             }
             else
 		       insert(end(), n - size(), val);
-	    }
+	    }*/
 
         //-- Returns current capacity of the vector
         //-- Vector capacity == amount of memory the vector has allocated
@@ -237,7 +249,10 @@ namespace ft
         //-- the container has no element
         bool	empty()const
         {
-			return (this->_start == this->_end);
+            if (size() == 0)
+                return(true);
+            else
+                return (false);
 		}
 
         //-- Change capacity of the vector
@@ -390,7 +405,6 @@ namespace ft
            _alloc.destroy(--_end);
         }
 
-
         iterator insert (iterator position, const value_type& val)
         {
             difference_type insertionPosition = distance(begin(), position);     
@@ -421,42 +435,42 @@ namespace ft
 		    this->insert(position, tmp.begin(), tmp.end());
         }
 
-        template <class InputIterator>    
-        void insert (iterator position, InputIterator first, InputIterator last,
-        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+      template <class InputIterator>    
+      void insert (iterator position, InputIterator first, InputIterator last,
+      typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+      {
+        // number of element in the input range
+        size_type inputRange = distance(first, last);
+          // number of elements between position and vector last element
+        size_type distanceFromEnd = distance(position, end());
+        
+          ft::vector<value_type> save(position, end());
+    
+          // is the actual vector sufficient to insert all range elements
+        if (capacity() < size() + inputRange)
         {
-		    // number of element in the input range
-		    size_type inputRange = distance(first, last);
-            // number of elements between position and vector last element
-		    size_type distanceFromEnd = distance(position, end());
-		    
-            ft::vector<value_type> save(position, end());
-
-            // is the actual vector sufficient to insert all range elements
-		    if (capacity() < size() + inputRange)
-		    {
-		    	if (size() == 0)
-		    		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
-		    	else
-		    	{
-                    //make sure that the container has enough space to insert the new elements, 
-                    //and also some extra space for future insertions
-		    		size_type i = 2; // to at least double the vector size capacity
-		    		while (size() * i < inputRange + size())
-		    			i++;
-		    		reserve(size() * i);
-		    	}
-		    }
-		    for (size_type i = 0; i < distanceFromEnd; i++)
-		    	erase(end() - 1);
-		    for (size_type i = 0; i < inputRange; i++)
-		    {
-		    	push_back(*first);
-		    	first++;
-		    }
-		    for (iterator it = save.begin(); it < save.end(); it++)
-		    	push_back(*it);
+        	if (size() == 0)
+        		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
+        	else
+        	{
+                  //make sure that the container has enough space to insert the new elements, 
+                  //and also some extra space for future insertions
+        		size_type i = 2; // to at least double the vector size capacity
+        		while (size() * i < inputRange + size())
+        			i++;
+        		reserve(size() * i);
+        	}
         }
+        for (size_type i = 0; i < distanceFromEnd; i++)
+        	erase(end() - 1);
+        for (size_type i = 0; i < inputRange; i++)
+        {
+        	push_back(*first);
+        	first++;
+        }
+        for (iterator it = save.begin(); it < save.end(); it++)
+        	push_back(*it);
+      } 
 
         // Erase
         // erase a single element from the vector
@@ -539,7 +553,7 @@ namespace ft
     {
       if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
             return( false );
-        return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+        return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
     }
 
     // Operator != 

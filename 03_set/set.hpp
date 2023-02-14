@@ -27,10 +27,10 @@ namespace ft {
         typedef typename tree_type::const_reference const_reference;
 
         //-- Iterators
-        typedef typename tree_type::iterator                    iterator;
-        typedef typename tree_type::const_iterator              const_iterator;
-        typedef typename tree_type::reverse_iterator            reverse_iterator;
-        typedef typename tree_type::const_reverse_iterator      const_reverse_iterator;
+        typedef typename tree_type::const_iterator                  iterator;
+        typedef typename tree_type::const_iterator                  const_iterator;
+        typedef typename tree_type::const_reverse_iterator          reverse_iterator;
+        typedef typename tree_type::const_reverse_iterator          const_reverse_iterator;
 
 
         typedef typename tree_type::size_type                   size_type;
@@ -78,45 +78,14 @@ namespace ft {
         //--------------------------------------------------
 	    //-- ITERATORS 
 
-	    iterator begin() 
-        { 
-            return RB_Tree.begin();
-        }
-
-	    const_iterator begin() const 
-        { 
-            return RB_Tree.begin(); 
-        }
-
-	    iterator end() 
-        { 
-            return RB_Tree.end(); 
-        }
-	    
-        const_iterator end() const 
-        { 
-            return RB_Tree.end(); 
-        }
-	    
-        reverse_iterator rbegin() 
-        { 
-            return reverse_iterator(RB_Tree.end()); 
-        }
-
-	    const_reverse_iterator rbegin() const 
-        { 
-            return const_reverse_iterator(RB_Tree.end()); 
-        }
-	    
-        reverse_iterator rend() 
-        { 
-            return reverse_iterator (RB_Tree.begin()); 
-        }
-
-	    const_reverse_iterator rend() const 
-        { 
-            return const_reverse_iterator (RB_Tree.begin()); 
-        }
+		iterator begin() { return RB_Tree.begin(); }
+		const_iterator begin() const { return RB_Tree.begin(); }
+		iterator end() { return RB_Tree.end(); }
+		const_iterator end() const { return RB_Tree.end(); }
+		reverse_iterator rbegin() { return reverse_iterator(RB_Tree.rbegin()); }
+		const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.rbegin()); }
+		reverse_iterator rend() { return reverse_iterator(RB_Tree.rend()); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.rend()); }
 
         //--------------------------------------------------
 	    //-- CAPACITY 
@@ -143,13 +112,22 @@ namespace ft {
         
 	    iterator insert(iterator position, const value_type& x)
 	    { 
-            return RB_Tree.insert(position, x); 
+            (void)position;
+            insert(x);
+			iterator Found = begin();
+            while( begin() != end())
+            {
+                if (*Found == x)
+                    break;
+                Found++;
+            }
+			return (Found);
         }
 
         template <class InputIterator>
         void insert(InputIterator first, InputIterator last)
         {
-            RB_Tree.insert(first, last);
+           RB_Tree.insert(first, last);
         }
 
         size_type erase(const value_type & x)
@@ -159,12 +137,25 @@ namespace ft {
 
         void erase(iterator position) 
         { 
-            RB_Tree.erase(position);
+            const value_type &found = *position;
+            RB_Tree.erase(found);
         }
 
         void erase(iterator first, iterator last)
         { 
-            RB_Tree.erase(first, last);
+            if (first == begin() && last == end())
+			{
+                this->clear();
+                return;
+			}
+            else
+            {
+                while (first != last)
+                {
+                    erase(*first++);
+                }
+            }
+            return;
         }
 
         void swap(set<Key,Compare,Allocator>& x)

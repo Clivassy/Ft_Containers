@@ -430,15 +430,7 @@ namespace ft {
         iterator insert (iterator position, const value_type& val)
         {
             (void)position;
-            insert(val);
-			iterator Found = begin();
-            while( begin() != end())
-            {
-                if (*Found == val)
-                    break;
-                Found++;
-            }
-			return (Found);
+            return(insert(val).first);
         }
 
         template <class InputIterator>  
@@ -449,6 +441,7 @@ namespace ft {
                 insert(*first);
                 first++;
             }
+            return;
         }
 
         void erase(iterator position)
@@ -528,13 +521,13 @@ namespace ft {
         {
             if (first == begin() && last == end())
 			{
-                	this->clear();
-                    return;
+                this->clear();
+                return;
 			}
             else
             {
-                while (first != last)
-                    erase(first++);
+            while (first != last)
+                erase(first++);
             }
             return;
         }
@@ -816,7 +809,7 @@ namespace ft {
                 inOrderSearch(traversal->right);
                 std::cout << traversal->value.first << " " << std::endl;
             }*/
-        
+        public:
             void    printOneNode( node oneNode)
             {
                 std::cout << std::endl;

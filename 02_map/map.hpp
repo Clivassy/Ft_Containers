@@ -52,10 +52,14 @@ namespace ft {
 					{
 						return comp(lhs.first, rhs.first);
 					}
-					bool operator()(const key_type& x, const value_type& y) const
-					{ return comp(x, y.first); }
-					bool operator()(const value_type& x, const key_type& y) const
-					{ return comp(x.first, y); }
+					bool operator()(const key_type& lhs, const value_type& rhs) const
+					{ 
+						return comp(lhs, rhs.first); 
+					}
+					bool operator()(const value_type& lhs, const key_type& rhs) const
+					{ 
+						return comp(lhs.first, rhs); 
+					}
 
 				protected:
 					Compare comp;
@@ -179,7 +183,7 @@ namespace ft {
 			//-------------------------------------------------------------
         	//-------------- ITERATORS  ------------------------------------
         	//-------------------------------------------------------------
-			iterator begin() { return RB_Tree.begin(); }
+			/*iterator begin() { return RB_Tree.begin(); }
 
 			const_iterator begin() const { return RB_Tree.begin(); }
 
@@ -193,7 +197,23 @@ namespace ft {
 
 			reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
 
-			const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }*/
+
+			iterator begin() { return RB_Tree.begin(); }
+
+			const_iterator begin() const { return RB_Tree.begin(); }
+
+			iterator end() { return RB_Tree.end(); }
+
+			const_iterator end() const { return RB_Tree.end(); }
+
+			reverse_iterator rbegin() { return reverse_iterator(RB_Tree.rbegin()); }
+
+			const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.rbegin()); }
+
+			reverse_iterator rend() { return reverse_iterator(RB_Tree.rend()); }
+
+			const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.rend()); }
 
 			//-------------------------------------------------------------
         	//-------------- MODIFIERS  ------------------------------------
@@ -228,7 +248,8 @@ namespace ft {
 			}
 
 			template< class InputIterator >
-			void insert(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
+			void insert(InputIterator first, InputIterator last)
+			//void insert(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
 			{
 				RB_Tree.insert(first, last);
 			}

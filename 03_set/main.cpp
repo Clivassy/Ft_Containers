@@ -17,6 +17,7 @@ int main()
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
     set<int> testConstructor;
-    
+    set<int>::iterator ite = testConstructor.begin();
+	*ite = 42;
     return (0);
 }
