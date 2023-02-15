@@ -1,5 +1,8 @@
 #include <iostream>
-#if 1 // create a real STL example
+#include <chrono>
+#include "../utils/testeur.hpp"
+
+#if 0 // create a real STL example
     #include <vector>
     namespace ft = std;
 #else
@@ -7,25 +10,24 @@
 #endif
 
 using namespace ft;
-#include <chrono>
 using namespace std::chrono;
 
 int main() {
 
-  // CONSTRUCTORS 
-  //////////////////////////////////////////////////////////////
+  //-----------------------------------------------------------
+  //-- CONSTRUCTORS
   auto start = high_resolution_clock::now();
   std::cout << std::endl;
 
-  std::cout << "------- CONSTRUCTORS TEST--------" << std::endl;
-  std::cout << std::endl;
-
+  printTitle("CONSTRUCTORS TESTS");
   //---------- Default constructor 
+  printFunctionTest("Default Construtor");
   vector<int> vec;
   if (vec.empty())
     std::cout << "Constructor by Default has been created and: is empty." << std::endl;
 
   //---------- Fill constructor
+  printFunctionTest("Fill Construtor");
   vector<int> vecFill(5, 42);
   std::cout << "Fill Constructor has been created and contains:" << std::endl;
   for (int i = 0; i < 5; i++) {
@@ -33,9 +35,9 @@ int main() {
   }
   std::cout << std::endl;
 
-  //---------- Range constuctor 
+  //---------- Range constuctor
+  printFunctionTest("Range Construtor");
   vector<int> rangeConstructor;
-
   rangeConstructor.push_back(1);
   rangeConstructor.push_back(2);
   rangeConstructor.push_back(3);
@@ -48,21 +50,19 @@ int main() {
   std::cout << '\n';
 
   //--------- Copy Constructor
-  
+  printFunctionTest("Copy Construtor");
   vector<int> copy(rangeConstructor);
   std::cout << "Copy constuctor has been created and contains: " << std::endl;
   for (unsigned i = 0; i < copy.size(); i++)
     std::cout << copy[i] << ' ';
   std::cout << '\n';
 
-  // ITERATORS
-  //////////////////////////////////////////////////////////////
-
-  std::cout << std::endl;
-  std::cout << "------- ITERATORS TEST--------" << std::endl;
-  std::cout << std::endl;
+  //-----------------------------------------------------------
+  //-- ITERATORS
+  printTitle("ITERATORS TESTS");
 
   //------ Begin - end --------
+  printFunctionTest("Begin End");
   vector<int> iteratorTest;
   for (int i=1; i<=5; i++) iteratorTest.push_back(i);
 
@@ -72,6 +72,7 @@ int main() {
   std::cout << '\n';
 
   //------ Rbegin - Rend ------
+  printFunctionTest("Rbegin Rend");
   std::cout << std::endl;
   vector<int> ReverItTest (5);
   int i = 0;
@@ -86,14 +87,12 @@ int main() {
     std::cout << ' ' << *it;
   std::cout << '\n';
 
-  //////////////////////////////////////////////////////////////
-  // CAPACITY
-  std::cout << std::endl;
-  std::cout << "------- CAPACITY TESTS--------" << std::endl;
+  //-----------------------------------------------------------
+  //-- CAPACITY
+  printTitle("CAPACITY TESTS");
 
   //--------- size()
-  std::cout << std::endl;
-  std::cout << "------- Size() ------" << std::endl;
+  printFunctionTest("Size");
   std::cout << "0. size: " << vec.size() << '\n';
 
   for (int i=0; i<10; i++) vec.push_back(i);
@@ -108,9 +107,7 @@ int main() {
   vec.clear();
 
   //--------- max_size()
-  std::cout << std::endl;
-  std::cout << "------- max_size()--------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("max_size");
 
   for (int i=0; i<100; i++) vec.push_back(i);
 
@@ -121,9 +118,7 @@ int main() {
   vec.clear();
 
   //--------- resize()
-  std::cout << std::endl;
-  std::cout << "-------Resize() --------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("resize");
 
   for (int i=1;i<10;i++) vec.push_back(i);
   vec.resize(5);
@@ -136,18 +131,13 @@ int main() {
   std::cout << '\n';
 
   vec.clear();
-  
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- Capacity() --------" << std::endl;
-  std::cout << std::endl;
 
+  //-------------------------------------------------------------
+  printFunctionTest("capacity");
   std::cout << "capacity: " << vec.capacity() << "\n";
 
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- Empty() --------" << std::endl;
-  std::cout << std::endl;
+  //-------------------------------------------------------------
+  printFunctionTest("Empty");
 
   for (int i=0; i<10; i++) vec.push_back(i);
   if (vec.empty())
@@ -163,12 +153,10 @@ int main() {
   
    vec.clear();
   
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- reserve() --------" << std::endl;
-  std::cout << std::endl;
+  //-------------------------------------------------------------
+  printFunctionTest("Reserve");
 
- vector<int>::size_type sz;
+  vector<int>::size_type sz;
   vector<int> foo;
   sz = foo.capacity();
   std::cout << "making foo grow:\n";
@@ -192,15 +180,12 @@ int main() {
     }
   }
 
-  // ELEMENT ACCESS 
-  /////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- ELEMENT ACCESS TESTS--------" << std::endl;
-  std::cout << std::endl;
+  //-----------------------------------------------------------
+  //-- ELEMENT ACCESS
+  printTitle("ELEMENT ACCESS TESTS");
 
   //-------- Operator[]
-  std::cout << "------- Operator[] --------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("Operator[]");
   vector<int> operatorTest (10);
 
   vector<int>::size_type sze = operatorTest.size();
@@ -221,9 +206,7 @@ int main() {
   std::cout << '\n';
 
   //-------- at()
-  std::cout << std::endl;
-  std::cout << "------- at() --------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("at");
   vector<int> myvector (10);
 
   for (unsigned i=0; i<myvector.size(); i++)
@@ -237,9 +220,7 @@ int main() {
   myvector.clear();
 
   //-------- front()
-  std::cout << std::endl;
-  std::cout << "------- Front() --------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("Front");
   myvector.push_back(78);
   myvector.push_back(16);
 
@@ -247,10 +228,8 @@ int main() {
   std::cout << "myvector.front() is now " << myvector.front() << '\n';
   myvector.clear();
 
-  std::cout << std::endl;
   //-------- back()
-  std::cout << "------- Back() --------" << std::endl;
-  std::cout << std::endl;
+  printFunctionTest("Back");
   
   myvector.push_back(10);
 
@@ -265,15 +244,9 @@ int main() {
 
   myvector.clear();
 
-  //////////////////////////////////////////////////////////////
-  // MODIFIERS
-  std::cout << std::endl;
-  std::cout << "------- MODIFIERS TESTS--------" << std::endl;
-
-  // MODIFIERS 
-  std::cout << std::endl;
-  std::cout << "------- Assign()--------" << std::endl;
-  std::cout << std::endl;
+  //-----------------------------------------------------------
+  //-- MODIFIERS
+  printFunctionTest("Assign");
 
   vector<int> first;
   vector<int> second;
@@ -294,8 +267,7 @@ int main() {
   std::cout << "Size of third: " << int (third.size()) << '\n';
 
   //----------- PushBack() 
-  std::cout << std::endl;
-  std::cout << "------- Pushback() --------" << std::endl;
+  printFunctionTest("Pushback");
   myvector.push_back(1);
   myvector.push_back(2);
   myvector.push_back(3);
@@ -314,8 +286,7 @@ int main() {
    myvector.clear();
 
   //----------- PopBack() 
-  std::cout << std::endl;
-  std::cout << "------- PopBack() --------" << std::endl;
+  printFunctionTest("PopBack");
   int sum (0);
   myvector.push_back (100);
   myvector.push_back (200);
@@ -330,8 +301,7 @@ int main() {
   myvector.clear();
 
   //----------- Insert() 
-  std::cout << std::endl;
-  std::cout << "------- insert() --------" << std::endl;
+  printFunctionTest("Insert");
   vector<int>::iterator Insertit;
 
   myvector.push_back(100);
@@ -360,7 +330,7 @@ int main() {
   std::cout << std::endl;
 
 //----------- erase() 
-  std::cout << "------- erase()--------" << std::endl;
+  printFunctionTest("Erase");
   // set some values (from 1 to 10)
   for (int i=1; i<=10; i++) myvector.push_back(i);
 
@@ -377,8 +347,7 @@ int main() {
   myvector.clear();
   
 //----------- Swap() 
-  std::cout << std::endl;
-  std::cout << "------- swap() --------" << std::endl;
+  printFunctionTest("Swap");
   vector<int> foo1 (3,100);
   vector<int> bar1 (5,200);
 
@@ -395,7 +364,7 @@ int main() {
   std::cout << '\n';
 
   std::cout << std::endl;
-  std::cout << "------- CLEAR TEST--------" << std::endl;
+  printFunctionTest("Clear");
   myvector.push_back (100);
   myvector.push_back (200);
   myvector.push_back (300);
@@ -415,10 +384,9 @@ int main() {
   std::cout << '\n';
   myvector.clear();
 
-  //////////////////////////////////////////////////////////////
-  // GET_ALLOCATOR
-  std::cout << std::endl;
-  std::cout << "------- GET ALLOCATOR TEST--------" << std::endl;
+  //-----------------------------------------------------------
+  //-- GET ALLOCATOR 
+  printTitle("GET ALLOCATOR TEST");
   int * p;
   unsigned int index;
 
@@ -436,9 +404,10 @@ int main() {
   for (index=0; index<5; index++) myvector.get_allocator().destroy(&p[index]);
   myvector.get_allocator().deallocate(p,5);
 
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- COMPARISON OPERATORS TESTS--------" << std::endl;
+
+  //-----------------------------------------------------------
+  //-- COMPARISON OPERATORS TESTS
+  printTitle("COMPARISON OPERATORS TESTS");
   
   vector<int> one (3,100);   // three ints with a value of 100
   vector<int> two (2,200);   // two ints with a value of 200
@@ -450,9 +419,9 @@ int main() {
   if (one<=two) std::cout << "foo is less than or equal to bar\n";
   if (one>=two) std::cout << "foo is greater than or equal to bar\n";
 
-  //////////////////////////////////////////////////////////////
-  std::cout << std::endl;
-  std::cout << "------- SWAP TEMPLATE TESTS--------" << std::endl;
+  //-----------------------------------------------------------
+  //-- SWAP TEMPLATE TESTS
+  printTitle("SWAP TEMPLATE TESTS");
   i =0;
   vector<int> SwapFoo (3,100);   
   vector<int> SwapBar (5,200);  
@@ -469,64 +438,6 @@ int main() {
     std::cout << ' ' << *it;
   std::cout << '\n';
 
-  //-- MORE
-  {
-      vector<int>			test(3, 3);
-	    cout << "self assignation test\n";
-	    vector<vector<int> >	self_assign;
-	    vector<vector<int> >	*ptr = &self_assign;
-	    vector<vector<int> >	*ptr2 = &self_assign;
-	    *ptr = *ptr2;
-
-	    cout << std::boolalpha << (*ptr == *ptr2) << '\n';
-      self_assign.assign(4, test);
-	    vector<vector<int> > JOHN;
-	    vector<vector<int> > BOB(5, test);
-	    cout << "BOB(5, test(test, 5)) : \n";
-	    for (size_t i = 0; i < BOB.size(); i++)
-	    {
-	    	for (size_t j = 0; j < BOB[i].size(); j++)
-	    		cout << BOB[i][j] << ' ';
-	    	cout << '\n';
-	    }
-	    vector<vector<int> > MIKE(BOB);
-
-	    cout << "\nCTORS\n";
-	    cout << "Empty is empty ? " << std::boolalpha << JOHN.empty() << '\n';
-	    cout << "BOB is empty? " << BOB.empty() << '\n';
-
-	    cout << "Size of JOHN " << JOHN.size() << std::endl;
-	    cout << "Size of BOB " << BOB.size() << std::endl;
-	    cout << "Size of MIKE " << MIKE.size() << std::endl;
-
-	    size_t	bob_resize = 2;
-	    cout << "\nRESIZE\n";
-	    BOB.resize(bob_resize);
-	    cout << "Size of JOHN " << JOHN.size() << std::endl;
-	    if (JOHN.capacity() >= JOHN.size())
-	    	cout << "Capacity of JOHN is sufficient\n";
-	    else
-	    	std::cerr << "THERE IS A PROBLEM ON LINE 53\n";
-	    cout << "Size of BOB " << BOB.size() << std::endl;
-	    if (BOB.capacity() >= bob_resize)
-	    	cout << "Capacity of BOB is sufficient\n";
-	    else
-	    	std::cerr << "THERE IS A PROBLEM ON LINE 58\n";
-	    cout << "Size of MIKE " << MIKE.size() << std::endl;
-	    if (MIKE.capacity() >= MIKE.size())
-	    	cout << "Capacity of MIKE is sufficient\n";
-	    else
-		  std::cerr << "THERE IS A PROBLEM ON LINE 63\n";
-
-      size_t	mike_resize = 9;
-	    bob_resize = 0;
-
-	    BOB.resize(bob_resize);
-	    cout << "BOB is empty now ? " << BOB.empty() << '\n';
-	    MIKE.resize(mike_resize, test);
-	    cout << "Size of JOHN " << JOHN.size() << std::endl;
-  }
-
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
  
@@ -535,4 +446,3 @@ int main() {
 
   return (0);
 }
-

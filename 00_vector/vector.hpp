@@ -136,23 +136,6 @@ namespace ft
 	    }
 
 	    //-------------------------------------------------------------
-        //-------------- UTILS ----------------------------------------
-        //-------------------------------------------------------------
-
-        //-- Calculate the number of elements between two input iterators.
-        template <class InputIterator>
-	    difference_type distance(InputIterator first, InputIterator last)
-	    {
-	    	difference_type distance = 0;
-	    	while (first != last)
-	    	{
-	    		first++;
-	    		distance++;
-	    	}
-	    	return (distance);
-	    }
-
-	    //-------------------------------------------------------------
         //-------------- ITERATORS ------------------------------------
         //-------------------------------------------------------------
 
@@ -207,33 +190,21 @@ namespace ft
         //-- content is expandes by inserting at the end as many element as needed to reach size of n. 
         //-- NB : val argument is optionnal
         //-- if val is specified, the new element are initialized as copies of val
-        void resize(size_type n, T v = T())
-	    {
-		if (n > max_size())
-			throw std::length_error("vector::resize");
-		if (n > size())
-			insert(end(), n - size(), v);
-		while (n < size())
-		{
-			_end--;
-			_alloc.destroy(_end);
-		}
-	}
-        /*void resize(size_type n, T val = T())
+        void resize(size_type n, T val = T())
         {
 		    if (n > max_size())
 		    	throw (std::length_error("vector::resize"));
             else if (n < size())
             {
-              while (n < size()) 
+                while (n < size()) 
 		        {
 		    	    _end--;
 		    	    _alloc.destroy(_end);
 		        }
             }
             else
-		       insert(end(), n - size(), val);
-	    }*/
+		        insert(end(), n - size(), val);
+	    }
 
         //-- Returns current capacity of the vector
         //-- Vector capacity == amount of memory the vector has allocated
@@ -245,7 +216,7 @@ namespace ft
 
         //-- Returns true : if the container is empty
         //-- Returns false : if the conatiner is not empty
-        //-- If the pointer start and end of vecto are equal
+        //-- If the pointer start and end of vector are equal
         //-- the container has no element
         bool	empty()const
         {
@@ -278,34 +249,6 @@ namespace ft
 	    		_end_capacity = _start + n;
 	    	}
 	    }
-	    /*void reserve(size_type n)
-	    {
-	    	if (n > max_size())
-	    	    throw std::length_error("vector::reserve");
-			if  (n > capacity())
-			{
-                // Save pointers to the current memory block and its size and capacity
-				pointer prev_start = _start;
-				pointer prev_end = _end;
-				size_type prev_size = size();
-				size_type prev_capacity = capacity();
-				
-                // Allocate a new memory block of size n
-				_start = _alloc.allocate( n );
-				_end_capacity = _start + n;
-				_end = _start;
-				while (prev_start != prev_end)
-				{
-                    // Copy the elements from the old memory block to the new one
-					_alloc.construct(_end, *prev_start);
-					_end++;
-					prev_start++;
-				}
-                // Deallocate the old memory block
-				_alloc.deallocate(prev_start - prev_size, prev_capacity);
-	        }
-        }*/
-
 	    //-------------------------------------------------------------
         //-------------- ELEMENT ACCESS -------------------------------
         //-------------------------------------------------------------
@@ -455,42 +398,42 @@ namespace ft
 		    this->insert(position, tmp.begin(), tmp.end());
         }
 
-      template <class InputIterator>    
-      void insert (iterator position, InputIterator first, InputIterator last,
-      typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
-      {
-        // number of element in the input range
-        size_type inputRange = distance(first, last);
-          // number of elements between position and vector last element
-        size_type distanceFromEnd = distance(position, end());
-
-          ft::vector<value_type> save(position, end());
-
-          // is the actual vector sufficient to insert all range elements
-        if (capacity() < size() + inputRange)
+        template <class InputIterator>    
+        void insert (iterator position, InputIterator first, InputIterator last,
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
         {
-        	if (size() == 0)
-        		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
-        	else
-        	{
-                  //make sure that the container has enough space to insert the new elements, 
-                  //and also some extra space for future insertions
-        		size_type i = 2; // to at least double the vector size capacity
-        		while (size() * i < inputRange + size())
-        			i++;
-        		reserve(size() * i);
-        	}
-        }
-        for (size_type i = 0; i < distanceFromEnd; i++)
-        	erase(end() - 1);
-        for (size_type i = 0; i < inputRange; i++)
-        {
-        	push_back(*first);
-        	first++;
-        }
-        for (iterator it = save.begin(); it < save.end(); it++)
-        	push_back(*it);
-      } 
+          // number of element in the input range
+          size_type inputRange = distance(first, last);
+            // number of elements between position and vector last element
+          size_type distanceFromEnd = distance(position, end());
+
+            ft::vector<value_type> save(position, end());
+
+            // is the actual vector sufficient to insert all range elements
+          if (capacity() < size() + inputRange)
+          {
+          	if (size() == 0)
+          		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
+          	else
+          	{
+                    //make sure that the container has enough space to insert the new elements, 
+                    //and also some extra space for future insertions
+          		size_type i = 2; // to at least double the vector size capacity
+          		while (size() * i < inputRange + size())
+          			i++;
+          		reserve(size() * i);
+          	}
+          }
+          for (size_type i = 0; i < distanceFromEnd; i++)
+          	erase(end() - 1);
+          for (size_type i = 0; i < inputRange; i++)
+          {
+          	push_back(*first);
+          	first++;
+          }
+          for (iterator it = save.begin(); it < save.end(); it++)
+          	push_back(*it);
+        } 
 
         // Erase
         // erase a single element from the vector
@@ -559,6 +502,25 @@ namespace ft
 
             return allocator_type(_alloc); 
         }
+
+        private:      
+	        //-------------------------------------------------------------
+            //-------------- UTILS ----------------------------------------
+            //-------------------------------------------------------------
+
+            //-- Calculate the number of elements between two input iterators.
+            template <class InputIterator>
+	        difference_type distance(InputIterator first, InputIterator last)
+	        {
+	        	difference_type distance = 0;
+	        	while (first != last)
+	        	{
+	        		first++;
+	        		distance++;
+	        	}
+	        	return (distance);
+	        }
+
         protected:
             allocator_type _alloc; 
             pointer _start; 

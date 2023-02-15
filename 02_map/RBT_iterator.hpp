@@ -45,13 +45,6 @@ namespace ft {
 			// DESTRUCTOR
 			~RBT_iterator() {}
 
-			/*RBT_iterator & operator=(RBT_iterator const &rhs) 
-			{
-				if (*this == rhs)
-					return (*this);
-				this->_node = rhs._node; 
-				return (*this);
-			}*/
 
 			operator RBT_iterator<const T, node, Compare>() const 
 			{

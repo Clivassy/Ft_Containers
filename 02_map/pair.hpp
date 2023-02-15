@@ -51,14 +51,6 @@ namespace ft {
 		//-- ~pair() {};
 		//-- No destructor needed here : because the pair class does not hold objects that need
 		//-- to be destroyed (no element dynamically allocated). 
-
-		//-- Overload operator
-		/*pair& operator= (const pair& pr)
-		{
-			first = pr.first;
-			second = pr.second;
-			return (*this);
-		};*/
 	};
 	
 	//-- Takes two arguments of type T1 and T2 

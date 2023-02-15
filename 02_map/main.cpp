@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include "../utils/testeur.hpp"
 
 #if 0 // create a real STL example
@@ -9,7 +10,6 @@
 #endif
 
 using namespace ft;
-#include <chrono>
 using namespace std::chrono;
 
 int main() 
@@ -19,7 +19,7 @@ int main()
 
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
-    /* {
+    /*{
         printTitle("CONSTRUCTORS TESTS");
         printFunctionTest("Default Construtor");
 
@@ -395,14 +395,14 @@ int main()
         redBlackTreeTest.insert(pair<const char, std::string>(22, "Gabriel"));
         redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
         redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
-        redBlackTreeTest.prinTree();
-        map<const int, std::string>::iterator it;
-        it = redBlackTreeTest.end();
-        std::cout << "end" << it->second << std::endl;
-        it--;
-        std::cout << it->second << std::endl;
-        it--;
-        std::cout << it->second << std::endl;
+   //     redBlackTreeTest.prinTree();
+   //     map<const int, std::string>::iterator it;
+   //     it = redBlackTreeTest.end();
+   //     std::cout << "end" << it->second << std::endl;
+   //     it--;
+   //     std::cout << it->second << std::endl;
+   //     it--;
+   //     std::cout << it->second << std::endl;
         //-- Print Red Black Tree for debeug
         // redBlackTreeTest.prinTree();
    } 

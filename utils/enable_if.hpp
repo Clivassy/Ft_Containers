@@ -1,7 +1,8 @@
 #ifndef ENABLE_IF_HPP
 # define ENABLE_IF_HPP
 
-namespace ft {
+namespace ft 
+{
 	// 'B': bolean value that determines whether specialization should be 
 	// enable or not.
 	// 'T' : type used if specialization is enabled

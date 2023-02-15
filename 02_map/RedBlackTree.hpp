@@ -725,6 +725,7 @@ namespace ft {
                 //-- sets the left child of the header node to be the maximum node in the tree.
                 _root->left = getMaxFrom(_root->parent);
             }
+            printOneNode(_root);
         }
 
         // returns the minimum node in the RBT
@@ -820,6 +821,9 @@ namespace ft {
                 else
                     std::cout << " Red" << std::endl;
                 std::cout << "   Node value : " << oneNode->value.first << std::endl;
+                std::cout << "   Node parent value : " << oneNode->parent->value.first << std::endl;
+                std::cout << "   Node left value : " << oneNode->left->value.first << std::endl;
+                std::cout << "   Node right value : " << oneNode->right->value.first << std::endl;
                 std::cout << "| ------------------------------------ |"<< std::endl;
             }
 
