@@ -83,6 +83,17 @@ int main() {
     std::cout << ' ' << *it;
   std::cout << '\n';
 
+  //------ Comparison const? non const iterators ------
+  printFunctionTest("Comparison const non const iterators");
+  vector<int>::const_iterator itConst;
+
+  vector<int>::iterator itNormal;
+
+  itConst = ReverItTest.begin();
+  itNormal = ReverItTest.begin();
+
+  if (itConst == itNormal)
+    std::cout << GREEN << "<<<<<< SUCCESS >>>>>>>" << CLEAR << std::endl;
   //-----------------------------------------------------------
   //-- CAPACITY
   printTitle("CAPACITY TESTS");
@@ -347,6 +358,16 @@ int main() {
   vector<int> foo1 (3,100);
   vector<int> bar1 (5,200);
 
+  std::cout << REDCOLOR << " <<< BEFORE SWAP >>>>>>" << CLEAR << std::endl;
+  std::cout << "foo contains:";
+  for (unsigned i=0; i<foo1.size(); i++)
+    std::cout << ' ' << foo1[i];
+  std::cout << '\n';
+
+  std::cout << "bar contains:";
+  for (unsigned i=0; i<bar1.size(); i++)
+    std::cout << ' ' << bar1[i];
+  std::cout << '\n';
   foo.swap(bar1);
 
   std::cout << "foo contains:";

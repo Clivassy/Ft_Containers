@@ -162,6 +162,7 @@ int main()
         for (map<const char,int>::iterator itRange=rangeInsert.begin(); itRange!=rangeInsert.end(); ++itRange)
             std::cout << itRange->first << " => " << itRange->second << '\n';
     }
+    
     {  //-- erase()
         printFunctionTest("Erase - Position");
         map<char,int> eraseTest;

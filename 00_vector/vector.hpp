@@ -249,6 +249,7 @@ namespace ft
 	    		_end_capacity = _start + n;
 	    	}
 	    }
+        
 	    //-------------------------------------------------------------
         //-------------- ELEMENT ACCESS -------------------------------
         //-------------------------------------------------------------
@@ -381,6 +382,7 @@ namespace ft
                     reserve(capacity() * 2 );
             }
 		    _alloc.construct(_end, val);
+
 		    iterator it = end();
 		    for (size_type i = 0; i < elementsToMove; i++)
             {
@@ -402,37 +404,46 @@ namespace ft
         void insert (iterator position, InputIterator first, InputIterator last,
         typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
         {
-          // number of element in the input range
-          size_type inputRange = distance(first, last);
-            // number of elements between position and vector last element
-          size_type distanceFromEnd = distance(position, end());
 
+            //-- STEP 0)
+            //-- Save numbers of elements to be added to the vector.
+            //-- Save numbers of elements from position to vector end.
+            //-- Save content of elements from position to vector end.
+            size_type inputRange = distance(first, last);
+            size_type distanceFromEnd = distance(position, end());
             ft::vector<value_type> save(position, end());
 
-            // is the actual vector sufficient to insert all range elements
-          if (capacity() < size() + inputRange)
-          {
-          	if (size() == 0)
-          		reserve(size() + inputRange); // increase the capacity by the number of elements to be inserted
-          	else
-          	{
-                    //make sure that the container has enough space to insert the new elements, 
-                    //and also some extra space for future insertions
-          		size_type i = 2; // to at least double the vector size capacity
-          		while (size() * i < inputRange + size())
-          			i++;
-          		reserve(size() * i);
-          	}
-          }
-          for (size_type i = 0; i < distanceFromEnd; i++)
-          	erase(end() - 1);
-          for (size_type i = 0; i < inputRange; i++)
-          {
-          	push_back(*first);
-          	first++;
-          }
-          for (iterator it = save.begin(); it < save.end(); it++)
-          	push_back(*it);
+            //-- STEP 1)
+            //-- If vector capacity if not sufficient to hold new elements
+            //  --> reserve much more memory (memory needed x2)
+            if (capacity() < size() + inputRange)
+            {
+          	    if (size() == 0)
+          	    	reserve(inputRange);
+          	    else
+          	    {
+          	    	size_type i = 2;
+          	    	while (size() * i < inputRange + size())
+          	    		i++;
+          	    	reserve(size() * i);
+          	    }
+            }
+            //-- STEP 2)
+            //-- Erase elements from end to position to insert new ones.
+            for (size_type i = 0; i < distanceFromEnd; i++)
+            	erase(end() - 1);
+
+            //-- STEP 3)
+            //-- Add new range of element at from first to last at `position`
+            for (size_type i = 0; i < inputRange; i++)
+            {
+            	push_back(*first);
+            	first++;
+            }
+            //-- STEP 4)
+            //-- Add old elements stocked in `save` vector at vector end.
+            for (iterator it = save.begin(); it < save.end(); it++)
+            	push_back(*it);
         } 
 
         // Erase
@@ -444,10 +455,10 @@ namespace ft
                 // base() function returns a pointer 
                 // to the first element of the dynamic array,
                 // same as _start but way much faster  
-				for (pointer x = position.base() + 1, y = position.base(); x != _end; ++x)
+				for (pointer currentPos = position.base() + 1, nextElement = position.base(); currentPos != _end; ++currentPos)
                 {
-                	*y = *x;
-                    y++;
+                	*nextElement = *currentPos;
+                    nextElement++;
 				}
 			}
 			_alloc.destroy(--_end); // destruction of the last element of the vector
