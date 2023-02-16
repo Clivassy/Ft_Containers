@@ -1,12 +1,17 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
+//-- Test with other undelying containers
+//#include <deque>
+//#include <list>
+//-----------------------------------------
+
+//-- Default underlying container : vector
 #include "../00_vector/vector.hpp"
-#include <deque>
-#include <list>
 
 namespace ft 
 {
+    //template <class T, class Container = ft::vector<T> > 
     template <class T, class Container = ft::vector<T> > 
     class stack
     {
@@ -21,7 +26,13 @@ namespace ft
         public:
             explicit stack(const Container& container = Container()) : c(container)
             { }
-
+            
+            stack &operator=(const stack &other)
+			{
+				c = other.c;
+				return (*this);
+			};
+			
             bool empty() const { return c.empty(); }
 
             size_type size() const { return c.size(); }
@@ -46,7 +57,7 @@ namespace ft
             template <class X, class Y>
             friend bool operator< (const stack<X, Y> &x, const stack<X, Y> &y);
 
-             template <class X, class Y>
+            template <class X, class Y>
             friend bool operator!=(const stack<X, Y> &x, const stack<X, Y> &y);
 
             template <class X, class Y>
@@ -59,7 +70,6 @@ namespace ft
             friend bool operator<=(const stack<X, Y>& x, const stack<X, Y> &y);
         
     };
-    
     // -- Define relationnal operators inside the class could be sufficient
     // -- But defining them also outside provide a more flexible and maintainable implementation.
     template <class X, class Y>

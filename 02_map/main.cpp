@@ -1,5 +1,4 @@
 #include <iostream>
-#include <chrono>
 #include "../utils/testeur.hpp"
 
 #if 0 // create a real STL example
@@ -10,16 +9,14 @@
 #endif
 
 using namespace ft;
-using namespace std::chrono;
 
 int main() 
 {
     //-- PERFORMANCE TEST
-    auto start = high_resolution_clock::now();
 
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
-    /*{
+    {
         printTitle("CONSTRUCTORS TESTS");
         printFunctionTest("Default Construtor");
 
@@ -380,7 +377,7 @@ int main()
         } else {
             std::cout << "The allocator is not the default allocator." << std::endl;
         }
-    }*/
+    }
     //-----------------------------------------------------------
     //-- RED BLACK TREE TESTS
    {

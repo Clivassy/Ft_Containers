@@ -1,7 +1,4 @@
-#include "stack.hpp"
 #include <iostream>
-#include <deque>
-#include "../00_vector/vector.hpp"
 #include "../utils/testeur.hpp"
 
 #if 0 // create a real STL example
@@ -11,28 +8,22 @@
     #include "stack.hpp" // create an example with my own vectp 
 #endif
 
-#include <chrono>
 using namespace ft;
-using namespace std::chrono;
+
 
 int main()
 {
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
-   /* printTitle("CONSTRUCTORS TESTS");
-    printFunctionTest("Default Construtor");
-
-    std::deque<int> mydeque(3,100);          // deque with 3 elements
-    vector<int> myvector (2,200);        // vector with 2 eleme
-    stack<int> first;                    // empty stack
-    stack<int> second(mydeque);         // stack initialized to copy of deque
-    stack<int,vector<int> > third;  // empty stack using vector
-    stack<int,vector<int> > fourth (myvector);
-
-    std::cout << "size of first: " << first.size() << '\n';
-    std::cout << "size of second: " << second.size() << '\n';
-    std::cout << "size of third: " << third.size() << '\n';
-    std::cout << "size of fourth: " << fourth.size() << '\n';*/
+    {
+        printTitle("CONSTRUCTORS TESTS");
+        printFunctionTest("Default Construtor");
+        stack<int>test1;
+        std::cout << GREEN << " <<<<<<< SUCCESS >>>>>>>>>" << std::endl;
+        printFunctionTest("Copy Construtor");
+        stack<int>test2(test1);
+        std::cout << GREEN << " <<<<<<< SUCCESS >>>>>>>>>" << std::endl;
+    }
 
     printTitle("MEMBERS FUNCTIONS TESTS");
     //-----------------------------------------------------------
@@ -64,6 +55,7 @@ int main()
 
         //-------------------------------------------------------
         //-- Top()
+        printFunctionTest("Top");
         {
             stack<int> mystack;
 
@@ -76,6 +68,7 @@ int main()
         }
         //-------------------------------------------------------
         //-- Push()
+        printFunctionTest("Push");
         {
             stack<int> mystack;
 
@@ -91,6 +84,7 @@ int main()
         }
         //-------------------------------------------------------
         //-- Pop()
+        printFunctionTest("Pop");
         {
             stack<int> mystack;
 
@@ -103,6 +97,11 @@ int main()
             }
             std::cout << '\n';
         }
+
+        //-------------------------------------------------------
+        //-- TESTING STACK CANNOT BE ITERATE 
+            stack<int>::iterator;
+
     return (0);
     }
 }

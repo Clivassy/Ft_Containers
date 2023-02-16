@@ -1,5 +1,4 @@
 #include <iostream>
-#include <chrono>
 #include "../utils/testeur.hpp"
 
 #if 0 // create a real STL example
@@ -10,14 +9,11 @@
 #endif
 
 using namespace ft;
-using namespace std::chrono;
 
 int main() {
 
   //-----------------------------------------------------------
   //-- CONSTRUCTORS
-  auto start = high_resolution_clock::now();
-  std::cout << std::endl;
 
   printTitle("CONSTRUCTORS TESTS");
   //---------- Default constructor 
@@ -437,12 +433,6 @@ int main() {
   for (vector<int>::iterator it = SwapBar.begin(); it!=SwapBar.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
-
-  auto stop = high_resolution_clock::now();
-  auto duration = duration_cast<microseconds>(stop - start);
- 
-  std::cout << "Time taken by function: "
-         << duration.count() << " microseconds" << std::endl;
 
   return (0);
 }

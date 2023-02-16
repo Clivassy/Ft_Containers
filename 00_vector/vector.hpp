@@ -315,7 +315,7 @@ namespace ft
             }
         }
 
-        //-- fill the vector with a specified number of copies of a single value. 
+        //-- Fill the vector with a specified number of copies of a single value. 
         void assign (size_type n, const T &val)
         {
 		    clear();

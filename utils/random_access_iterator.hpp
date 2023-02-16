@@ -4,11 +4,12 @@
 #include "iterator_traits.hpp"
 
 namespace ft {
-    
+
+//-- random_access_iterator_tag -> used to identify iterators that belong to the random access category
 template <typename T>
-class random_access_iterator : ft::iterator<std::random_access_iterator_tag, T>
+class random_access_iterator
 {
-    // random_access_iterator_tag -> used to identify iterators that belong to the random access category
+
     public:	
 
     typedef typename ft::iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;

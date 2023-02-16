@@ -725,7 +725,6 @@ namespace ft {
                 //-- sets the left child of the header node to be the maximum node in the tree.
                 _root->left = getMaxFrom(_root->parent);
             }
-            printOneNode(_root);
         }
 
         // returns the minimum node in the RBT
@@ -810,8 +809,8 @@ namespace ft {
                 inOrderSearch(traversal->right);
                 std::cout << traversal->value.first << " " << std::endl;
             }*/
-        public:
-            void    printOneNode( node oneNode)
+        private:
+           /* void    printOneNode( node oneNode)
             {
                 std::cout << std::endl;
                 std::cout << "| ------------------------------------ |"<< std::endl;
@@ -867,7 +866,7 @@ namespace ft {
             void printTree()
 	        { 
                 printTreeHelper(_root->parent, "", true);
-            }
+            }*/
 
 };
     
