@@ -234,13 +234,6 @@ namespace ft {
 				return RB_Tree.insert(value);
 			}
 
-			//-------------------------------------------------------------
-        	//-------------- DEBEUG  ------------------------------------
-        	//-------------------------------------------------------------
-			void	prinTree()
-			{
-				RB_Tree.printTree();
-			}
 
 			iterator insert( iterator pos, const value_type& value )
 			{
@@ -345,7 +338,14 @@ namespace ft {
 			{
 				return value_compare(RB_Tree.key_comp());
 			}
-
+			//-------------------------------------------------------------
+        	//-------------- DEBEUG  ------------------------------------
+        	//-------------------------------------------------------------
+		private:
+			void	prinTree()
+			{
+				RB_Tree.printTree();
+			}
 		protected:
 			tree_type	RB_Tree;
 	};

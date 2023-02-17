@@ -41,6 +41,15 @@ namespace ft {
 			// Create new iterator intitialized with 'src' value.
 			// /!\ both iterator will point to the same node in the tree.
 			RBT_iterator(RBT_iterator const &src) : _node(src._node) {}
+
+			//-- Overload operator
+			RBT_iterator & operator=(RBT_iterator const & rhs) 
+			{
+				if (this == &rhs)
+					return (*this);
+				_node = rhs._node; 
+				return *this;
+			}
 			
 			// DESTRUCTOR
 			~RBT_iterator() {}

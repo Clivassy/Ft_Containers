@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../utils/testeur.hpp"
+#include <time.h>
 
 #if 0 // create a real STL example
     #include <vector>
@@ -11,7 +12,8 @@
 using namespace ft;
 
 int main() {
-
+  clock_t t;
+  t = clock();
   //-----------------------------------------------------------
   //-- CONSTRUCTORS
 
@@ -454,6 +456,12 @@ int main() {
   for (vector<int>::iterator it = SwapBar.begin(); it!=SwapBar.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
+  
+  //-- Complexity test
+  //t = clock() - t;
+  //double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+  //printTitle("COMPLEXITY TESTS");
+  //std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
 
   return (0);
 }
