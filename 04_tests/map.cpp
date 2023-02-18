@@ -1,11 +1,12 @@
 #include <iostream>
 #include "../utils/testeur.hpp"
+#include "../utils/RedBlackTree.hpp"
 
 #if 0 // create a real STL example
     #include <map>
     namespace ft = std;
 #else
-    #include "map.hpp" // create an example with my own vectp 
+    #include "../02_map/map.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;
@@ -397,13 +398,14 @@ int main()
         redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
    //     redBlackTreeTest.prinTree();
 
-   } 
+   }
     //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
-   /* RedBlackTree<int, ft::pair <int, int> > rbt2();
-    RedBlackTree<int, ft::pair <int, int> >::iterator testA(rbt2.base());
-    ft::map<int, int>::iterator                                 testB;
-    ft::map<int, int>::iterator                                 testC(rbt2.base());*/
+    //    ft::RedBlackTree<int, ft::pair <int, int> > test() ;
+    //  RedBlackTree<int, ft::pair <int, int> >::iterator testA(rbt2.base());
+     //   ft::map<int, int>::iterator                                 testB;
+
+    //  ft::map<int, int>::iterator                                 testC(rbt2.base());
 }
 
 

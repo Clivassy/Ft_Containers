@@ -6,7 +6,7 @@
     #include <vector>
     namespace ft = std;
 #else
-    #include "vector.hpp" // create an example with my own vectp 
+    #include "../00_vector/vector.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;
