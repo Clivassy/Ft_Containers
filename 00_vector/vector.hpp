@@ -125,14 +125,15 @@ namespace ft
 
        // ( 3 ) ASSIGNMENT OPERATOR=
        //--Clear before copying element ensure the container is empty and has size 0
-        vector<T, Allocator> &operator=(const vector<T, Allocator> &rhs)
+       	vector<T, Allocator> &operator=(const vector<T, Allocator> &rhs)
 	    {
 		    if (*this != rhs)
 		    {
-                vector<T, Allocator> tmp(rhs);
-                this->swap(tmp);
+		    	clear();
+		    	this->reserve(rhs.size());
+		    	insert(begin(), rhs.begin(), rhs.end());
 		    }
-		    return (*this);
+		    return *this;
 	    }
 
 	    //-------------------------------------------------------------
@@ -477,10 +478,8 @@ namespace ft
         }
 
         // swap 
-        void	swap(vector &x)
+        void	swap(vector<T, Allocator>  &x)
         {
-            if (x == *this)
-			    return;	
 			pointer save_start = x._start;
 			pointer save_end = x._end;
 			pointer save_end_capacity = x._end_capacity;
@@ -542,7 +541,7 @@ namespace ft
     // RELATIONNAL OPERATORS
     // Operator == 
     template <class T, class Alloc>  
-    bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
             return( false );
@@ -551,35 +550,35 @@ namespace ft
 
     // Operator != 
     template <class T, class Alloc>  
-    bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         return(!(lhs == rhs));
     }
 
     // Operator <
     template <class T, class Alloc>  
-    bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     { 
         return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
     }
 
     // Operator <=
     template <class T, class Alloc>  
-    bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         return (!(lhs > rhs));    
     }
 
     // Operator >
     template <class T, class Alloc>  
-    bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         return (rhs < lhs);
     }
 
     // Operator =>
     template <class T, class Alloc>  
-    bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    inline bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         return (!(lhs < rhs));   
     }	

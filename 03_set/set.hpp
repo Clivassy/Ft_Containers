@@ -4,7 +4,7 @@
 #include "../02_map/map.hpp"
 #include "../utils/random_access_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
-#include "../02_map/RedBlackTree.hpp"
+#include "../utils/RedBlackTree.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/is_integral.hpp"
 

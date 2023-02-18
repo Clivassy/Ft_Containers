@@ -5,10 +5,10 @@
 #include <iostream>
 
 // Personnal librairies
-#include "./pair.hpp"
+#include "../utils/pair.hpp"
 #include "../utils/random_access_iterator.hpp"
 #include "../utils/reverse_iterator.hpp"
-#include "RedBlackTree.hpp"
+#include "../utils/RedBlackTree.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/is_integral.hpp"
 //#include "./RedBlackTree.hpp"

@@ -869,7 +869,11 @@ namespace ft {
             }*/
 
 };
-    
+    template <typename _Key, typename _Val, class _Compare, class _Allocator>
+    void
+    swap(ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs, ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)
+    { lhs.swap(rhs); }
+
     //----------- RELATIONNAL OPERATORS
     template <typename _Key, typename _Val, class _Compare, class _Allocator>
     inline bool

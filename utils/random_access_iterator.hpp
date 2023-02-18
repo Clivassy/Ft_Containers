@@ -136,17 +136,17 @@ class random_access_iterator
     //----------------------------------------------------------------------------------------------------------
     //-- RELATIONNAL OPERATORS    
     // Returns true if the pointer of lhs is equal at rhs, otherwise false. 
-    /*template<typename T>
+    template<typename T>
     inline bool operator==(const ft::random_access_iterator<T> &lhs, const ft::random_access_iterator<T> &rhs)
-    { return lhs.base() == rhs.base(); }    */
+    { return lhs.base() == rhs.base(); } 
 
     template<typename T1, typename T2>
     inline bool operator==(const ft::random_access_iterator<T1> &lhs, const ft::random_access_iterator<T2> &rhs)
     { return lhs.base() == rhs.base(); }
     
- /*   template<typename T>
+    template<typename T>
     inline bool operator!=(const ft::random_access_iterator<T> &lhs, const ft::random_access_iterator<T> &rhs)
-    { return lhs.base() != rhs.base(); }  */ 
+    { return lhs.base() != rhs.base(); }
 
     template<typename T1, typename T2>
     inline bool operator!=(const ft::random_access_iterator<T1> &lhs, const ft::random_access_iterator<T2> &rhs)

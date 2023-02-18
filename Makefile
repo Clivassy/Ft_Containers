@@ -3,11 +3,11 @@
 NAME = container
 
 # Sources
-SRCS = ./main.cpp
-#SRCS = ./vector.cpp
-#SRCS = ./stack.cpp
-#SRCS = ./map.cpp
-#SRCS = ./set.cpp
+SRCS = ./04_tests/main_sujet.cpp
+SRCS = ./04_tests/vector.cpp
+SRCS = ./04_tests/stack.cpp
+SRCS = ./04_tests/map.cpp
+SRCS = ./04_tests/set.cpp
 
 # Header/s
 HEADER = ./00_vector/vector.hpp
@@ -15,6 +15,7 @@ HEADER += ./01_stack/stack.hpp
 HEADER += ./02_map/map.hpp
 HEADER += ./03_set/set.hpp
 HEADER += ./utils/testeur.hpp
+HEADER += ./utils/equal.hpp
 
 OBJS = ${SRCS:.cpp=.o}
 
