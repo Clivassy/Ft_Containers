@@ -95,9 +95,6 @@ namespace ft {
 			// Default constructor
 			// Construct an empty map container object. 
 			// Initialize the internal RB Tree.
-			/*map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
-			: RB_Tree(comp, alloc)
-			{ }*/
 			map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
 			: RB_Tree(value_compare(comp), alloc)
 			{ }
@@ -114,28 +111,11 @@ namespace ft {
 				RB_Tree.insert(first, last);
 			}
 
-			// SAVE 
-			/*template <class InputIterator>
-			map(InputIterator first, InputIterator last,
-				const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
-			: RB_Tree(comp, alloc)
-			{
-				RB_Tree.insert(first, last);
-			}*/
-
 			// Copy constructor
 			map(const map<Key, T, Compare, allocator_type> &rhs)
 			:RB_Tree(rhs.begin(), rhs.end(), value_compare(rhs.value_comp()), rhs.RB_Tree.get_allocator())
 			{ 
 			}
-
-			
-			//SAVE
-			/*map(const map<Key, T, Compare, allocator_type> &rhs)
-			{	
-				clear();
-				RB_Tree.insert(rhs.begin(), rhs.end());
-			}*/
 
 			// DESTRUCTOR
 			//-- No need to destroy anything because all is destroyed in Red Black Tree
@@ -183,21 +163,6 @@ namespace ft {
 			//-------------------------------------------------------------
         	//-------------- ITERATORS  ------------------------------------
         	//-------------------------------------------------------------
-			/*iterator begin() { return RB_Tree.begin(); }
-
-			const_iterator begin() const { return RB_Tree.begin(); }
-
-			iterator end() { return RB_Tree.end(); }
-
-			const_iterator end() const { return RB_Tree.end(); }
-
-			reverse_iterator rbegin() { return reverse_iterator(RB_Tree.end()); }
-
-			const_reverse_iterator  rbegin() const { return const_reverse_iterator(RB_Tree.end()); }
-
-			reverse_iterator rend() { return reverse_iterator(RB_Tree.begin()); }
-
-			const_reverse_iterator rend() const { return const_reverse_iterator(RB_Tree.begin()); }*/
 
 			iterator begin() { return RB_Tree.begin(); }
 
@@ -338,9 +303,22 @@ namespace ft {
 			{
 				return value_compare(RB_Tree.key_comp());
 			}
-			//-------------------------------------------------------------
+			//-----------------------------------------------------------
         	//-------------- DEBEUG  ------------------------------------
-        	//-------------------------------------------------------------
+        	//-----------------------------------------------------------
+
+			template <class _Key, class _T, class _Compare, class _Allocator>
+			friend
+			bool
+			operator==(const map<_Key, _T, _Compare, _Allocator>& lhs,
+					   const map<_Key, _T, _Compare, _Allocator>& rhs);
+		
+			template <class _Key, class _T, class _Compare, class _Allocator>
+			friend
+			bool
+			operator<(const map<_Key, _T, _Compare, _Allocator>& lhs,
+			  const map<_Key, _T, _Compare, _Allocator>& rhs);
+
 		private:
 			void	prinTree()
 			{

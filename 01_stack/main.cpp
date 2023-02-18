@@ -100,7 +100,7 @@ int main()
 
         //-------------------------------------------------------
         //-- TESTING STACK CANNOT BE ITERATE 
-            stack<int>::iterator;
+        //    stack<int>::iterator;
 
     return (0);
     }

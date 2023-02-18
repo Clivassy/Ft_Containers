@@ -544,7 +544,7 @@ namespace ft
     template <class T, class Alloc>  
     bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-      if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
+        if (lhs.size() != rhs.size()) // if size in not equal, for sure there are not equal
             return( false );
         return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
     }

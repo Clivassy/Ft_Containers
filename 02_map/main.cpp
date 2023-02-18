@@ -83,6 +83,8 @@ int main()
         map<char,int>::reverse_iterator rit;
         for (rit=reverseIteratorTest.rbegin(); rit!=reverseIteratorTest.rend(); ++rit)
             std::cout << rit->first << " => " << rit->second << '\n';
+        
+
     }
     
     //-----------------------------------------------------------
@@ -394,22 +396,14 @@ int main()
         redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
         redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
    //     redBlackTreeTest.prinTree();
-   //     map<const int, std::string>::iterator it;
-   //     it = redBlackTreeTest.end();
-   //     std::cout << "end" << it->second << std::endl;
-   //     it--;
-   //     std::cout << it->second << std::endl;
-   //     it--;
-   //     std::cout << it->second << std::endl;
-        //-- Print Red Black Tree for debeug
-        // redBlackTreeTest.prinTree();
-   } 
 
+   } 
     //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
-    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+   /* RedBlackTree<int, ft::pair <int, int> > rbt2();
+    RedBlackTree<int, ft::pair <int, int> >::iterator testA(rbt2.base());
+    ft::map<int, int>::iterator                                 testB;
+    ft::map<int, int>::iterator                                 testC(rbt2.base());*/
 }
 
 

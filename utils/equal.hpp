@@ -7,7 +7,6 @@
 ** false otherwise.
 */
 # include <cstring>
-
 namespace ft{
 
 	template <typename T>

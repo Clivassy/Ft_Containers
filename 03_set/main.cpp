@@ -2,7 +2,7 @@
 #include "../utils/testeur.hpp"
 #include <time.h>
 
-#if  0// create a real STL example
+#if 1 // create a real STL example
     #include <set>
     namespace ft = std;
 #else
@@ -80,7 +80,6 @@ int main()
     //-----------------------------------------------------------
     //-- CAPACITY
     printTitle("CAPACITY TESTS");
-
     //-----------------------------------------------------------
     {
         printFunctionTest("empty");
@@ -125,6 +124,7 @@ int main()
         }
         else std::cout << "The set could not hold 1000 elements.\n";
     }
+
     //-----------------------------------------------------------
     //-- MODIFIERS
     printTitle("MODIFIERS TESTS");
@@ -220,26 +220,121 @@ int main()
     //-- OBSERVERS
     {
         printTitle("OBSERVERS TESTS");
+        {
+            printFunctionTest("Key_comp");
+            set<int> myset;
+            int highest;
 
+            set<int>::key_compare mycomp = myset.key_comp();
+
+            for (int i=0; i<=5; i++) myset.insert(i);
+
+            std::cout << "myset contains:";
+
+            highest=*myset.rbegin();
+            set<int>::iterator it=myset.begin();
+            do {
+              std::cout << ' ' << *it;
+            } while ( mycomp(*(++it),highest) );
+
+            std::cout << '\n';
+        }
+        {
+            printFunctionTest("value_comp");
+            set<int> myset;
+
+            set<int>::value_compare mycomp = myset.value_comp();
+
+            for (int i=0; i<=5; i++) myset.insert(i);
+
+            std::cout << "myset contains:";
+
+            int highest=*myset.rbegin();
+            set<int>::iterator it=myset.begin();
+            do {
+              std::cout << ' ' << *it;
+            } while ( mycomp(*(++it),highest) );
+
+            std::cout << '\n';
+        }
     }
-
 
     //-----------------------------------------------------------
     //-- OPERATIONS
     printTitle("OPERATIONS TESTS");
+    {
+        printFunctionTest("Find");
+        set<int> myset;
+        set<int>::iterator it;
 
-    //-----------------------------------------------------------
+        // set some initial values:
+        for (int i=1; i<=5; i++) myset.insert(i*10);    // set: 10 20 30 40 50
+
+        it=myset.find(20);
+        myset.erase (it);
+        myset.erase (myset.find(40));
+
+        std::cout << "myset contains:";
+        for (it=myset.begin(); it!=myset.end(); ++it)
+            std::cout << ' ' << *it;
+        std::cout << '\n';
+    }
+    {
+        printFunctionTest("count");
+        set<int> myset;
+        // set some initial values:
+        for (int i=1; i<5; ++i) myset.insert(i*3);    // set: 3 6 9 12
+
+        for (int i=0; i<10; ++i)
+        {
+          std::cout << i;
+          if (myset.count(i)!=0)
+            std::cout << " is an element of myset.\n";
+          else
+            std::cout << " is not an element of myset.\n";
+        }
+    }
+    {
+        printFunctionTest("lower_bound | upper_bound | equal range");
+        set<int> myset;
+        set<int>::iterator itlow,itup;
+
+        for (int i=1; i<10; i++) myset.insert(i*10);
+
+        itlow=myset.lower_bound (30); 
+        itup=myset.upper_bound (60);
+
+        myset.erase(itlow,itup);
+
+        std::cout << "myset contains:";
+        for (set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+            std::cout << ' ' << *it;
+        std::cout << '\n';
+    }
+    //----------------------------------------------------------
     //-- ALLOCATOR
     printTitle("ALLOCATOR TESTS");
+    {
+        printFunctionTest("get_allocator");
+        set<int> myset;
+        int * p;
+        unsigned int i;
     
-    
-    
+        p=myset.get_allocator().allocate(5);
+        
+        for (i=0; i<5; i++) p[i]=(i+1)*10;
+        
+        std::cout << "The allocated array contains:";
+        for (i=0; i<5; i++) std::cout << ' ' << p[i];
+        std::cout << '\n';
+        
+        myset.get_allocator().deallocate(p,5);
+    }
     //-----------------------------------------------------------
     //-- COMPLEXITY
-
-    //t = clock() - t;
-    //double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
-    //printTitle("COMPLEXITY TESTS");
-    //std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
+    t = clock() - t;
+    double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+    printTitle("COMPLEXITY TESTS");
+    std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
     return (0);
 }
