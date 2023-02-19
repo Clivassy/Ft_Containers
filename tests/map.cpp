@@ -1,20 +1,22 @@
 #include <iostream>
 #include "../utils/testeur.hpp"
-#include "../utils/RedBlackTree.hpp"
+#include <time.h>
 
-#if 0 // create a real STL example
+#if 1 // create a real STL example
     #include <map>
     namespace ft = std;
 #else
-    #include "../02_map/map.hpp" // create an example with my own vectp 
+    #include "../map.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;
 
+
 int main() 
 {
     //-- PERFORMANCE TEST
-
+    //    clock_t t;
+    //    t = clock();
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
     {
@@ -25,6 +27,8 @@ int main()
         defaultConstructor.insert(pair<const int, int>('A', 12));
         defaultConstructor.insert(pair<const int, int>('B', 696));
         defaultConstructor.insert(pair<const int, int>('C', 30));
+        defaultConstructor.insert(pair<const int, int>('D', 256));
+        // same key => should not be inserted
         defaultConstructor.insert(pair<const int, int>('D', 256));
         defaultConstructor.insert(pair<const int, int>('E', 30));
         defaultConstructor.insert(pair<const int, int>('B', 6));
@@ -396,11 +400,18 @@ int main()
         redBlackTreeTest.insert(pair<const char, std::string>(22, "Gabriel"));
         redBlackTreeTest.insert(pair<const char, std::string>(31, "Alix"));
         redBlackTreeTest.insert(pair<const char, std::string>(11, "Sarah"));
-   //     redBlackTreeTest.prinTree();
+        if (redBlackTreeTest.size() == 7)
+            std::cout << GREEN << "<<<<<<<<<< SUCCESSFUL INSERTION >>>>>>>>>" << CLEAR  << std::endl;
 
    }
     //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
+    //t = clock() - t;
+    //double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+    //printTitle("COMPLEXITY TESTS");
+    //std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
+    
+    //-----------------------------------------------------------*/
     //    ft::RedBlackTree<int, ft::pair <int, int> > test() ;
     //  RedBlackTree<int, ft::pair <int, int> >::iterator testA(rbt2.base());
      //   ft::map<int, int>::iterator                                 testB;

@@ -5,7 +5,7 @@
     #include <stack>
     namespace ft = std;
 #else
-    #include "../01_stack/stack.hpp" // create an example with my own vectp 
+    #include "../stack.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;

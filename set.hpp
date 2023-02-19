@@ -1,12 +1,12 @@
 #ifndef SET_HPP
 #define SET_HPP
 
-#include "../02_map/map.hpp"
-#include "../utils/random_access_iterator.hpp"
-#include "../utils/reverse_iterator.hpp"
-#include "../utils/RedBlackTree.hpp"
-#include "../utils/enable_if.hpp"
-#include "../utils/is_integral.hpp"
+#include "./map.hpp"
+#include "./utils/random_access_iterator.hpp"
+#include "./utils/reverse_iterator.hpp"
+#include "./utils/RedBlackTree.hpp"
+#include "./utils/enable_if.hpp"
+#include "./utils/is_integral.hpp"
 
 namespace ft {
     

@@ -41,7 +41,7 @@ namespace ft {
             //   memory ressource as the original 'allocator_type'.
             typedef typename Allocator::template rebind<Node<Val> >::other   node_allocator;
 
-        public:
+        public:  
         //-- NB: Need all types used in map since map is contructed on this Red Black Tree
         	typedef Key					                                    key_type;
             typedef Compare											        key_compare;
@@ -596,30 +596,10 @@ namespace ft {
 		    		nodePtr = nodePtr->right;
 		    }
 		    return iterator(ret);
-		/*	iterator it = begin();
-			iterator ite = end();
-			
-			while ( it != ite )
-			{
-				if (!(_compare(it->first, key)))
-					return it;
-                it++;
-			}
-			return it;*/
 		}
 
 		const_iterator lower_bound(const key_type& key) const
 		{
-			/*const_iterator it = begin();
-			const_iterator ite = end();
-			
-			while (it != ite)
-			{
-				if (!(_compare(it->first, key)))
-					return it;
-                it++;
-			}
-			return it;*/
             node nodePtr = _root->parent, ret = _root;
 		    while (nodePtr != 0 and nodePtr != _root)
 		    {
@@ -649,17 +629,7 @@ namespace ft {
 			else
 				nodePtr = nodePtr->right;
 		}
-		return iterator(ret);
-			/*iterator it = begin();
-			iterator ite = end();
-			
-            while ( it != ite )
-			{
-				if (_compare(key, it->first))
-					return (it);
-                it++;
-			}
-			return (it);*/
+		    return iterator(ret);
 		}
 
 		const_iterator upper_bound(const key_type& key) const
@@ -676,17 +646,6 @@ namespace ft {
 		    		nodePtr = nodePtr->right;
 		    }
 		    return const_iterator(ret);
-
-			/*const_iterator it = begin();
-			const_iterator ite = end();
-
-			while ( it != ite )
-			{
-				if (_compare(key, it->first))
-					return (it);
-                it++;
-			}
-			return (it);*/
 		}
 
         //-- Equal_range
@@ -783,34 +742,7 @@ namespace ft {
                 }
 	        }
 
-            /*void   inOrderSearch( node traversal)
-            {
-                if (traversal == NULL)
-                    return;
-                inOrderSearch(traversal->left);
-                std::cout << traversal->value.first << " " << std::endl;
-                inOrderSearch(traversal->right);
-            }
-
-            void   preOrderSearch( node traversal)
-            {
-                if (traversal == NULL)
-                    return;
-                std::cout << traversal->value.first << " " << std::endl;
-                inOrderSearch(traversal->left);
-                inOrderSearch(traversal->right);
-            }
-
-            void   postOrderSearch( node traversal)
-            {
-                if (traversal == NULL)
-                    return;
-                inOrderSearch(traversal->left);
-                inOrderSearch(traversal->right);
-                std::cout << traversal->value.first << " " << std::endl;
-            }*/
-        private:
-           /* void    printOneNode( node oneNode)
+           void    printOneNode( node oneNode)
             {
                 std::cout << std::endl;
                 std::cout << "| ------------------------------------ |"<< std::endl;
@@ -820,9 +752,6 @@ namespace ft {
                 else
                     std::cout << " Red" << std::endl;
                 std::cout << "   Node value : " << oneNode->value.first << std::endl;
-                std::cout << "   Node parent value : " << oneNode->parent->value.first << std::endl;
-                std::cout << "   Node left value : " << oneNode->left->value.first << std::endl;
-                std::cout << "   Node right value : " << oneNode->right->value.first << std::endl;
                 std::cout << "| ------------------------------------ |"<< std::endl;
             }
 
@@ -866,9 +795,10 @@ namespace ft {
             void printTree()
 	        { 
                 printTreeHelper(_root->parent, "", true);
-            }*/
+            }
 
 };
+    //----------- SWAP
     template <typename _Key, typename _Val, class _Compare, class _Allocator>
     void
     swap(ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &lhs, ft::RedBlackTree<_Key, _Val, _Compare, _Allocator> &rhs)

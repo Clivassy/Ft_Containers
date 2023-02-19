@@ -2,11 +2,11 @@
 #include "../utils/testeur.hpp"
 #include <time.h>
 
-#if 1 // create a real STL example
+#if 0 // create a real STL example
     #include <set>
     namespace ft = std;
 #else
-    #include "set.hpp" // create an example with my own vectp 
+    #include "../set.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;
@@ -19,8 +19,8 @@ struct classcomp {
 
 int main() 
 {
-    clock_t t;
-    t = clock();
+    //clock_t t;
+    //t = clock();
     //-----------------------------------------------------------
     //-- CONSTRUCTORS
     {
@@ -332,9 +332,9 @@ int main()
     }
     //-----------------------------------------------------------
     //-- COMPLEXITY
-    t = clock() - t;
-    double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
-    printTitle("COMPLEXITY TESTS");
-    std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
+    //t = clock() - t;
+    //double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+    //printTitle("COMPLEXITY TESTS");
+    //std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
     return (0);
 }

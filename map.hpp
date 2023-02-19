@@ -5,13 +5,12 @@
 #include <iostream>
 
 // Personnal librairies
-#include "../utils/pair.hpp"
-#include "../utils/random_access_iterator.hpp"
-#include "../utils/reverse_iterator.hpp"
-#include "../utils/RedBlackTree.hpp"
-#include "../utils/enable_if.hpp"
-#include "../utils/is_integral.hpp"
-//#include "./RedBlackTree.hpp"
+#include "./utils/pair.hpp"
+#include "./utils/random_access_iterator.hpp"
+#include "./utils/reverse_iterator.hpp"
+#include "./utils/RedBlackTree.hpp"
+#include "./utils/enable_if.hpp"
+#include "./utils/is_integral.hpp"
 
 namespace ft {
 	/*------------------------------------------------------------------------------------
@@ -66,8 +65,7 @@ namespace ft {
 					value_compare(Compare c): comp(c) { }
 			};
 
-			public: 
-					typedef typename ft::RedBlackTree< key_type, value_type, value_compare, allocator_type>	tree_type;
+			typedef typename ft::RedBlackTree< key_type, value_type, value_compare, allocator_type>	tree_type;
 			//-- Define RBT type ------------------------------------------------------
 			//-- `key_type`: Key
 			//-- `value_type`: pair of key and value
@@ -77,18 +75,18 @@ namespace ft {
 
 
 			//-- Define iterators ------------------------------------------------------
-				typedef typename tree_type::iterator													iterator;
-				typedef typename tree_type::const_iterator												const_iterator;
-				typedef typename tree_type::reverse_iterator											reverse_iterator;
-				typedef typename tree_type::const_reverse_iterator										const_reverse_iterator;	
+			typedef typename tree_type::iterator													iterator;
+			typedef typename tree_type::const_iterator												const_iterator;
+			typedef typename tree_type::reverse_iterator											reverse_iterator;
+			typedef typename tree_type::const_reverse_iterator										const_reverse_iterator;	
 
 			//-- Define other types ------------------------------------------------------
-				typedef typename tree_type::size_type													size_type;
-				typedef typename tree_type::difference_type												difference_type;
-				typedef typename tree_type::reference													reference;
-				typedef typename tree_type::const_reference												const_reference;
-				typedef typename tree_type::pointer														pointer;
-				typedef typename tree_type::const_pointer												const_pointer;
+			typedef typename tree_type::size_type													size_type;
+			typedef typename tree_type::difference_type												difference_type;
+			typedef typename tree_type::reference													reference;
+			typedef typename tree_type::const_reference												const_reference;
+			typedef typename tree_type::pointer														pointer;
+			typedef typename tree_type::const_pointer												const_pointer;
 
 			// CONSTRUCTORS 
 
@@ -207,7 +205,6 @@ namespace ft {
 
 			template< class InputIterator >
 			void insert(InputIterator first, InputIterator last)
-			//void insert(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
 			{
 				RB_Tree.insert(first, last);
 			}
@@ -307,6 +304,7 @@ namespace ft {
         	//-------------- DEBEUG  ------------------------------------
         	//-----------------------------------------------------------
 
+			//----- RELATIONAL OPERATORS
 			template <class _Key, class _T, class _Compare, class _Allocator>
 			friend
 			bool
@@ -324,6 +322,7 @@ namespace ft {
 			{
 				RB_Tree.printTree();
 			}
+		
 		protected:
 			tree_type	RB_Tree;
 	};

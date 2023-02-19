@@ -6,14 +6,17 @@
     #include <vector>
     namespace ft = std;
 #else
-    #include "../00_vector/vector.hpp" // create an example with my own vectp 
+    #include "../vector.hpp" // create an example with my own vectp 
 #endif
 
 using namespace ft;
 
 int main() {
-  clock_t t;
-  t = clock();
+  //-----------------------------------------------------------
+  //-- PERFORMANCE TESTS
+
+   //clock_t t;
+   //t = clock();
   //-----------------------------------------------------------
   //-- CONSTRUCTORS
 
@@ -360,7 +363,7 @@ int main() {
   vector<int> foo1 (3,100);
   vector<int> bar1 (5,200);
 
-  std::cout << REDCOLOR << " <<< BEFORE SWAP >>>>>>" << CLEAR << std::endl;
+  std::cout << YELLOW << " <<< BEFORE SWAP >>>>>>" << CLEAR << std::endl;
   std::cout << "foo contains:";
   for (unsigned i=0; i<foo1.size(); i++)
     std::cout << ' ' << foo1[i];
