@@ -423,6 +423,29 @@ int main()
             std::cout << GREEN << "<<<<<<<<<< SUCCESSFUL INSERTION >>>>>>>>>" << CLEAR  << std::endl;
 
    }
+    {
+        printTitle("BONUS : TESTS YANN");
+        ft::map<int, int> map_;
+        map_.insert(ft::make_pair(1,42));
+        int i = 0;
+        int number;
+
+        while (i < 5000)
+        {
+            number = rand() % 1000;
+            map_.insert(ft::make_pair(number,42));
+
+            number = rand() % 1000;
+            map_.insert(ft::make_pair(number,42));
+
+            number = rand() % 1000; 
+            map_.erase(number);
+
+            i++;
+        }
+        for (map<int,int>::iterator it= map_.begin(); it != map_.end(); ++it)
+            std::cout << it->first << " => " << it->second << '\n';
+   }
     //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
     //t = clock() - t;
