@@ -360,51 +360,31 @@ int main() {
   
 //----------- Swap() 
   printFunctionTest("Swap");
-  vector<int> foo1 (3,100);
-  vector<int> bar1 (5,200);
+  vector<int> v1;
+  v1.push_back(1);
+  v1.push_back(10);
+  v1.push_back(100);
 
-  std::cout << YELLOW << " <<< BEFORE SWAP >>>>>>" << CLEAR << std::endl;
-  std::cout << "foo contains:";
-  for (unsigned i=0; i<foo1.size(); i++)
-    std::cout << ' ' << foo1[i];
-  std::cout << '\n';
+  vector<int> v2;
+  v2.push_back(2);
+  v2.push_back(20);
+  v2.push_back(200);
 
-  std::cout << "bar contains:";
-  for (unsigned i=0; i<bar1.size(); i++)
-    std::cout << ' ' << bar1[i];
-  std::cout << '\n';
-  foo.swap(bar1);
+  //-- Save pointer v1[1]
+  vector<int>::iterator itv1 = v1.begin() + 1;
+  vector<int>::pointer ptrv1 = &v1[1];
+  vector<int>::reference refv1 = v1[1];
 
-  std::cout << "foo contains:";
-  for (unsigned i=0; i<foo1.size(); i++)
-    std::cout << ' ' << foo1[i];
-  std::cout << '\n';
+  swap(v1, v2);
 
-  std::cout << "bar contains:";
-  for (unsigned i=0; i<bar1.size(); i++)
-    std::cout << ' ' << bar1[i];
-  std::cout << '\n';
-
-  std::cout << std::endl;
-  printFunctionTest("Clear");
-  myvector.push_back (100);
-  myvector.push_back (200);
-  myvector.push_back (300);
-
-  std::cout << "myvector contains:";
-  for (unsigned i=0; i<myvector.size(); i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
-
-  myvector.clear();
-  myvector.push_back (1101);
-  myvector.push_back (2202);
-
-  std::cout << "myvector contains:";
-  for (unsigned i=0; i<myvector.size(); i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
-  myvector.clear();
+  //-- Check if pointer, ref and iterators are still valid 
+  vector<int>::iterator itv2 = v2.begin() + 1;
+  vector<int>::pointer ptrv2 = &v2[1];
+  vector<int>::reference refv2 = v2[1];
+  if (itv1 == itv2 && ptrv1 == ptrv2 && refv1 == refv2)
+    std::cout << GREEN << " <<< SUCCESS >>> " << CLEAR  << std::endl;
+  else 
+    std::cout << REDCOLOR << " <<< FAILURE >>> " << CLEAR  << std::endl;
 
   //-----------------------------------------------------------
   //-- GET ALLOCATOR 

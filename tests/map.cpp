@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../utils/testeur.hpp"
 #include <time.h>
-
+#include <stdlib.h> 
 #if 1 // create a real STL example
     #include <map>
     namespace ft = std;
@@ -214,6 +214,25 @@ int main()
         //-- swap()
         printFunctionTest("Swap()");
         map<char,int> testSwap1,testSwap2;
+        testSwap1['a']= 100;
+        testSwap1['b']= 200;
+        testSwap1['c']= 300;
+
+        testSwap2['z']=300;
+        testSwap2['x']=200;
+        testSwap2['y']=100;
+
+        map<char,int>::iterator itmap1 = testSwap1.begin()++;
+
+        swap(testSwap1, testSwap2);
+
+        //-- Check if pointer, ref and iterators are still valid 
+        map<char,int>::iterator itmap2 = testSwap2.begin()++;
+        if (itmap1 == itmap2)
+            std::cout << GREEN << " <<< SUCCESS >>> " << CLEAR  << std::endl;
+        else 
+          std::cout << REDCOLOR << " <<< FAILURE >>> " << CLEAR  << std::endl;
+        /*map<char,int> testSwap1,testSwap2;
         
         std::cout << "BEFORE SWAP " << std::endl;
         testSwap1['x']=100;
@@ -247,7 +266,7 @@ int main()
         std::cout << "MAP (2) contains:\n";
         for (map<char,int>::iterator it=testSwap2.begin(); it!=testSwap2.end(); ++it)
           std::cout << it->first << " => " << it->second << '\n';
-        std::cout <<"SIZE 2 = " << testSwap1.size() <<std::endl;
+        std::cout <<"SIZE 2 = " << testSwap1.size() <<std::endl;*/
 
         //-- clear()
         printFunctionTest("Clear()");
