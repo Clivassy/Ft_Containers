@@ -13,10 +13,10 @@ class random_access_iterator
 
     public:	
     //-- Iterators defined here -> iterators_traits -------------------------------------------------
-        typedef typename ft::iterator<iterator_traits<T>, T >::iterator_category            iterator_category;
-        typedef typename ft::iterator<iterator_traits<T>, T>::value_type                    value_type;
-        typedef typename ft::iterator<iterator_traits<T>, T>::difference_type		        difference_type;
-        typedef T *																		    pointer;
+        typedef typename ft::iterator<iterator_traits<T>, T >::iterator_category			iterator_category;
+        typedef typename ft::iterator<iterator_traits<T>, T>::value_type					value_type;
+        typedef typename ft::iterator<iterator_traits<T>, T>::difference_type				difference_type;
+        typedef T *																			pointer;
         typedef T &																			reference;
 
         //-- Default constructor 

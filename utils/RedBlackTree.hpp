@@ -43,32 +43,32 @@ namespace ft {
 
         public:  
         //-- NB: Need all types used in map since map is contructed on this Red Black Tree
-        	typedef Key					                                    key_type;
-            typedef Compare											        key_compare;
-            typedef Val												        value_type;
-            typedef Val*			                                        pointer;
-            typedef const value_type *								        const_pointer;
-            typedef value_type &									        reference;
-	        typedef const value_type &								        const_reference;    
-            typedef size_t				                                    size_type;
-			typedef Allocator				                                allocator_type;
-			typedef const Node<Val>*			                            const_node_pointer;
-            typedef std::ptrdiff_t									        difference_type;
+        	typedef Key										key_type;
+            typedef Compare									key_compare;
+            typedef Val										value_type;
+            typedef Val*									pointer;
+            typedef const value_type *						const_pointer;
+            typedef value_type &							reference;
+	        typedef const value_type &						const_reference;    
+            typedef size_t									size_type;
+			typedef Allocator								allocator_type;
+			typedef const Node<Val>*						const_node_pointer;
+            typedef std::ptrdiff_t							difference_type;
 
         protected:
-            typedef Node<Val>*  node;
+            typedef Node<Val>*	node;
 
-            node            _root;
+            node			_root;
 	        size_type		_size;
-            Compare         _compare;
+            Compare			_compare;
 	        node_allocator	_node_alloc;
         
         public:
             //-- Define iterators
-            typedef ft::RBT_iterator<Val, node, Compare>                iterator;
-            typedef ft::RBT_iterator<const Val, node, Compare>          const_iterator;
-            typedef ft::reverse_Iterator<iterator>			            reverse_iterator;
-	        typedef ft::reverse_Iterator<const_iterator>	            const_reverse_iterator;
+            typedef ft::RBT_iterator<Val, node, Compare>				iterator;
+            typedef ft::RBT_iterator<const Val, node, Compare>			const_iterator;
+            typedef ft::reverse_Iterator<iterator>						reverse_iterator;
+	        typedef ft::reverse_Iterator<const_iterator>				const_reverse_iterator;
 
             //-- RED BLACK TREE CONSTRUCTORS
             //--------------------------------
