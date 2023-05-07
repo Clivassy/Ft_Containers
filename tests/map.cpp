@@ -2,7 +2,7 @@
 #include "../utils/testeur.hpp"
 #include <time.h>
 #include <stdlib.h> 
-#if 1 // create a real STL example
+#if 0 // create a real STL example
     #include <map>
     namespace ft = std;
 #else
@@ -423,29 +423,6 @@ int main()
             std::cout << GREEN << "<<<<<<<<<< SUCCESSFUL INSERTION >>>>>>>>>" << CLEAR  << std::endl;
 
    }
-    {
-        printTitle("BONUS : TESTS YANN");
-        ft::map<int, int> map_;
-        map_.insert(ft::make_pair(1,42));
-        int i = 0;
-        int number;
-
-        while (i < 5000)
-        {
-            number = rand() % 1000;
-            map_.insert(ft::make_pair(number,42));
-
-            number = rand() % 1000;
-            map_.insert(ft::make_pair(number,42));
-
-            number = rand() % 1000; 
-            map_.erase(number);
-
-            i++;
-        }
-        for (map<int,int>::iterator it= map_.begin(); it != map_.end(); ++it)
-            std::cout << it->first << " => " << it->second << '\n';
-   }
     //-----------------------------------------------------------*/
     //-- PERFORMANCE TESTS
     //t = clock() - t;
@@ -453,12 +430,6 @@ int main()
     //printTitle("COMPLEXITY TESTS");
     //std::cout << YELLOW <<  "Programm took  = " << time_taken << " seconds to execute \n" << CLEAR << std::endl;
     
-    //-----------------------------------------------------------*/
-    //    ft::RedBlackTree<int, ft::pair <int, int> > test() ;
-    //  RedBlackTree<int, ft::pair <int, int> >::iterator testA(rbt2.base());
-     //   ft::map<int, int>::iterator                                 testB;
-
-    //  ft::map<int, int>::iterator                                 testC(rbt2.base());
 }
 
 

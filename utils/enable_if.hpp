@@ -3,9 +3,9 @@
 
 namespace ft 
 {
-	// 'B': bolean value that determines whether specialization should be 
-	// enable or not.
-	// 'T' : type used if specialization is enabled
+	//-- 'B': bolean value that determines whether specialization should be 
+	//-- enable or not.
+	//-- 'T' : type used if specialization is enabled
 	template<bool B, typename T = void> 
 	struct enable_if { };
 	
