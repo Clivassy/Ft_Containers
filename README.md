@@ -73,9 +73,12 @@ Have a look to this schemas to have a better understanding : <br><br>
 <img width="726" alt="Capture d’écran 2023-05-11 à 13 47 45" src="https://github.com/Clivassy/ft_containers/assets/76965602/373ff567-3b8c-4591-9d06-aa9ed30f115f"> <br><br>
 <img width="675" alt="Capture d’écran 2023-05-11 à 13 48 23" src="https://github.com/Clivassy/ft_containers/assets/76965602/6e57b09d-91a8-4a63-9ee1-786ddeb12d2c">
 <br> 
-# Binary Trees <br> 
 
+# Binary Trees <br>
+ 
+A binary tree is a type of tree data structure in which each node can have at most two children. The two children are commonly referred to as the left child and the right child. The structure of a binary tree is hierarchical, where each node is connected to its children nodes.
 
+<img width="728" alt="Capture d’écran 2023-05-15 à 22 26 09" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/04249676-c995-4bde-9358-08a50acb74f7">
 
 
 
