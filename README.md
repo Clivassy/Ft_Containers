@@ -75,12 +75,14 @@ Have a look to this schemas to have a better understanding : <br><br>
 <br> 
 
 # Binary Trees <br>
- 
+
+
 A binary tree is a type of tree data structure in which each node can have at most two children. The two children are commonly referred to as the left child and the right child. The structure of a binary tree is hierarchical, where each node is connected to its children nodes.
 
 <img width="728" alt="Capture d’écran 2023-05-15 à 22 26 09" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/04249676-c995-4bde-9358-08a50acb74f7"><br>
 
-# Binary Search Tree (BST) <br><br>
+# Binary Search Tree (BST) <br><br>![Capture d’écran 2023-05-16 à 22 32 36](https://github.com/Clivassy/Ft_Containers/assets/76965602/700e6dee-6b41-45b6-857c-f5714d857ea6) <br>
+
 → Each node can have at most 2 children <br>
 → The left **subtree** of any node will have at least less than the parent and root. <br>
 → The right **subtree** of any node will have at least more than the parent.<br><br>
