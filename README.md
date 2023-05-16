@@ -78,9 +78,27 @@ Have a look to this schemas to have a better understanding : <br><br>
  
 A binary tree is a type of tree data structure in which each node can have at most two children. The two children are commonly referred to as the left child and the right child. The structure of a binary tree is hierarchical, where each node is connected to its children nodes.
 
-<img width="728" alt="Capture d’écran 2023-05-15 à 22 26 09" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/04249676-c995-4bde-9358-08a50acb74f7">
+<img width="728" alt="Capture d’écran 2023-05-15 à 22 26 09" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/04249676-c995-4bde-9358-08a50acb74f7"><br>
 
+# Binary Search Tree (BST) <br><br>
+→ Each node can have at most 2 children <br>
+→ The left **subtree** of any node will have at least less than the parent and root. <br>
+→ The right **subtree** of any node will have at least more than the parent.<br><br>
 
+Deletion (3 cases):<br>
+**1) Node has 0 child** : <br>
+→ Simply delete the node.<br><br>
+
+**2) Node has 1 child:** <br>
+→ Simply link the parent to the child of the node we delete. <br><br>
+
+**3) Node has 2 children (two choices):** <br>
+→ Replace the node being deleted with its in-order predecessor.<br><br>
+
+ **In-order predecessor** = largest element from the left subtree of the node we want to delete.<br>
+→ Replace the node being deleted with its in-order successor.<br><br>
+
+**In-order successor** = smallest element from the right subtree of the node we want to delete.<br>
 
 
 
