@@ -100,8 +100,10 @@ Deletion (3 cases):<br>
  **In-order predecessor** = largest element from the left subtree of the node we want to delete.<br>
 → Replace the node being deleted with its in-order successor.<br><br>
 
-**In-order successor** = smallest element from the right subtree of the node we want to delete.<br>
+**In-order successor** = smallest element from the right subtree of the node we want to delete.<br><br>
 
+## AVL Trees <br>
+<img width="698" alt="Capture d’écran 2023-05-18 à 22 48 21" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/6ba6eb3b-5673-482d-93ca-7c142d620d2f"><br>
 
 
 
