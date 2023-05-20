@@ -105,5 +105,8 @@ Deletion (3 cases):<br>
 ## AVL Trees <br>
 <img width="698" alt="Capture d’écran 2023-05-18 à 22 48 21" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/6ba6eb3b-5673-482d-93ca-7c142d620d2f"><br>
 
-
+An AVL tree is a self-balancing binary search tree that maintains balance by performing rotations.<br>
+ It ensures that the heights of the left and right subtrees of each node differ by at most one. <br>
+When balance is violated, rotations are used to restore it. <br>
+This guarantees efficient operations with a worst-case time complexity of O(log n).<br>
 
