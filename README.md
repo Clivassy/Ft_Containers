@@ -110,3 +110,9 @@ An AVL tree is a self-balancing binary search tree that maintains balance by per
 When balance is violated, rotations are used to restore it. <br>
 This guarantees efficient operations with a worst-case time complexity of O(log n).<br>
 
+## Red Black Tree <br>
+<img width="710" alt="Capture d’écran 2023-05-21 à 23 30 27" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/81d3bca6-48a5-4465-83c8-82231a34ae44">
+ <br>
+
+
+
