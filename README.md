@@ -114,5 +114,23 @@ This guarantees efficient operations with a worst-case time complexity of O(log 
 <img width="710" alt="Capture d’écran 2023-05-21 à 23 30 27" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/81d3bca6-48a5-4465-83c8-82231a34ae44">
  <br>
 
+**Why Red Black Trees?** <br> <br>
 
+→ Guarantees the time complexity will be log(n^2) since it is a balanced tree.  <br>
+
+→ Maximum 2 rotations would be required for the tree to be balanced (sometimes we will have no rotation and we will change node colors instead). <br> <br>
+
+**Properties of Red Black Trees:** <br> <br>
+
+→ It is a self balancing BST.  <br>
+
+→ Every node is either Black or Red.  <br>
+
+→ Root is always Black.  <br>
+
+→ Every leaf which is nil is Black. <br>
+
+→ If node is Red, then its children are Black.  <br>
+
+→ Every path from a node to any of its descendent NIL node hase same number of Black nodes. <br>
 
