@@ -44,7 +44,7 @@ The code is organized in the following directory structure: <br>
 └── Makefile <br>
 
 Each header file contains the implementation of a specific container. <br>
-The implementation is split into two main sections: the container class definition and the container iterator definition.<br>
+The implementation is splited into two main sections: the container class definition and the container iterator definition.<br>
 
 ## General advices 
 - here talk about how to begin the project 
