@@ -54,9 +54,9 @@ The implementation is splited into two main sections: the container class defini
 
 ## The Red Black Tree (Map and Set)
 To my mind, the important part of this project, and the real capital gain, is the implementation of the Red black Tree. <br>
-So I won't go into detail about vector and stack implementation and I will focus my advices on map et set. <br> 
+So I won't go into detail about vector and stack implementation and I will focus my advices on map and set. <br> 
 
-Here is the steps I followed to understand step by step Red Black Trees. At the end, I will provide you THE ONE AND ONLY youtube perfect teacher who helped me so much in understanding Red Black Trees and Data Structure in general. <br>
+Here are the steps I followed to understand step by step Red Black Trees. At the end, I will provide you THE ONE AND ONLY youtube perfect teacher who helped me so much in understanding Red Black Trees and Data Structure in general. <br>
 
 <iframe src="https://giphy.com/embed/vgUFOWBwBkziE" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/the-office-yes-nod-vgUFOWBwBkziE">via GIPHY</a></p>
 
