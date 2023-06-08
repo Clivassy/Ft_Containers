@@ -58,8 +58,6 @@ So I won't go into detail about vector and stack implementation and I will focus
 
 Here are the steps I followed to understand step by step Red Black Trees. At the end, I will provide you THE ONE AND ONLY youtube perfect teacher who helped me so much in understanding Red Black Trees and Data Structure in general. <br>
 
-<iframe src="https://giphy.com/embed/vgUFOWBwBkziE" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/the-office-yes-nod-vgUFOWBwBkziE">via GIPHY</a></p>
-
 # Trees <br> 
 First of all, you need to understand the basic structure of a tree. 
 A tree is a widely used data structure that resembles a hierarchical tree structure with a set of nodes connected by edges or branches.<br>Each node in the tree can have zero or more child nodes, except for the root node, which has no parent.<br>
