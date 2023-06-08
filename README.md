@@ -89,7 +89,7 @@ Deletion in a binary search tree is crucial for maintaining the integrity and ef
 When a node is deleted from a binary search tree, the tree structure needs to be adjusted to preserve the binary search tree property. <br>
 The binary search tree property states that for every node, all nodes in its left subtree have values less than the node's value, and all nodes in its right subtree have values greater than the node's value.<br>
 
-Deletion(3 cases):<br>
+WHen you delete a node, you can face 3 cases:<br>
 **1) Node has 0 child** : <br>
 → Simply delete the node.<br><br>
 
@@ -109,31 +109,21 @@ Note that :
 <img width="698" alt="Capture d’écran 2023-05-18 à 22 48 21" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/6ba6eb3b-5673-482d-93ca-7c142d620d2f"><br>
 
 An AVL tree is a self-balancing binary search tree that maintains balance by performing rotations.<br>
- It ensures that the heights of the left and right subtrees of each node differ by at most one. <br>
+It ensures that the heights of the left and right subtrees of each node differ by at most one. <br>
 When balance is violated, rotations are used to restore it. <br>
 This guarantees efficient operations with a worst-case time complexity of O(log n).<br>
 
 ## Red Black Tree <br>
-<img width="710" alt="Capture d’écran 2023-05-21 à 23 30 27" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/81d3bca6-48a5-4465-83c8-82231a34ae44">
- <br>
-
-**Why Red Black Trees?** <br> <br>
-
-→ Guarantees the time complexity will be log(n^2) since it is a balanced tree.  <br>
-
-→ Maximum 2 rotations would be required for the tree to be balanced (sometimes we will have no rotation and we will change node colors instead). <br> <br>
+<img width="710" alt="Capture d’écran 2023-05-21 à 23 30 27" src="https://github.com/Clivassy/Ft_Containers/assets/76965602/81d3bca6-48a5-4465-83c8-82231a34ae44"> <br>
+Red Black Tree guarantees the time complexity will be log(n^2) since it is a balanced tree. <br>
 
 **Properties of Red Black Trees:** <br> <br>
 
 → It is a self balancing BST.  <br>
-
 → Every node is either Black or Red.  <br>
-
 → Root is always Black.  <br>
-
 → Every leaf which is nil is Black. <br>
-
 → If node is Red, then its children are Black.  <br>
-
 → Every path from a node to any of its descendent NIL node hase same number of Black nodes. <br>
+
 
